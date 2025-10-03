@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Removed font variables as they were not used in the original HTML and might conflict */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.1rem; /* From style.css */
+}
+
+header {
+    padding-top: 1rem; /* From style.css */
+    padding-bottom: 1rem; /* From style.css */
+}
+
+.sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+
+
+/* CSS for animations from the second section */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.icon-hover:hover {
+    animation: pulse 1s infinite;
+}
+
+.card-hover:hover {
+    transform: translateY(-8px);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Custom style for the slanted divider in the workflow section */
+.divider-slant::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -25px; /* Adjust this value to change the slant width */
+    width: 50px;
+    height: 100%;
+    background: linear-gradient(to top right, transparent 50%, #f3f4f6 50%);
+    z-index: 10;
+}
+
+.divider-slant.last-child::after {
+    display: none;
+}
+
+/* Custom styles for the gradient background for blog post */
+/* This rule is duplicated and will be handled by the component itself */
+/* .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x600/1e293b/FFFFFF?text=Product+Review+Header') center/cover no-repeat;
+} */
+
+.category-item:hover .category-icon {
+    transform: scale(1.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.blog-post-card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease-in-out;
+}
+
+
+
+.contact-card {
+    background-color: #fff;
+    padding: 3rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Custom styles for the gradient background products */
+/* This rule is duplicated and will be handled by the component itself */
+/* .hero-section {
+    background: linear-gradient(to right, #e57373, #ff8a65);
+} */
+
+.tab-button.active {
+    color: #fff;
+    background-color: #ef4444; /* red-500 */
+}

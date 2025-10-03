@@ -1,0 +1,197 @@
+ .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+body {
+    font-size: 1.1rem;
+}
+
+header {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+ /* Custom styles for the gradient background */
+        .hero-section {
+            background: linear-gradient(to right, #e57373, #ff8a65);
+        }
+        
+        /* CSS for animations from the second section */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .icon-hover:hover {
+            animation: pulse 1s infinite;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Custom style for the slanted divider in the workflow section */
+        .divider-slant::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -25px; /* Adjust this value to change the slant width */
+            width: 50px;
+            height: 100%;
+            background: linear-gradient(to top right, transparent 50%, #f3f4f6 50%);
+            z-index: 10;
+        }
+
+        .divider-slant.last-child::after {
+            display: none;
+        }
+        /* Custom styles for the gradient background for blog post */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x600/1e293b/FFFFFF?text=Product+Review+Header') center/cover no-repeat;
+        }
+
+        .category-item:hover .category-icon {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .blog-post-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease-in-out;
+        }
+         /* Custom styles for the gradient background contacts section */
+        .hero-section-product {
+            background: linear-gradient(rgba(240, 117, 72, 0.8), rgba(240, 117, 72, 0.8)), url('https://placehold.co/1920x600/1e293b/FFFFFF?text=Contact+Us+Header') center/cover no-repeat;
+        }
+        .contact-card {
+            background-color: #fff;
+            padding: 3rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        /* Custom styles for the gradient background products */
+        .hero-section {
+            background: linear-gradient(to right, #e57373, #ff8a65);
+        }
+        
+        /* CSS for animations from the second section */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .icon-hover:hover {
+            animation: pulse 1s infinite;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Custom style for the slanted divider in the workflow section */
+        .divider-slant::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -25px; /* Adjust this value to change the slant width */
+            width: 50px;
+            height: 100%;
+            background: linear-gradient(to top right, transparent 50%, #f3f4f6 50%);
+            z-index: 10;
+        }
+
+        .divider-slant.last-child::after {
+            display: none;
+        }
+        /* Custom styles for the gradient background */
+        .hero-section-product {
+            background: linear-gradient(rgba(240, 117, 72, 0.8), rgba(240, 117, 72, 0.8)), url('https://placehold.co/1920x600/1e293b/FFFFFF?text=Product+Details+Header') center/cover no-repeat;
+        }
+        .tab-button.active {
+            color: #fff;
+            background-color: #ef4444; /* red-500 */
+        }
+        /* Custom styles for the gradient background */
+        .hero-section {
+            background: linear-gradient(to right, #e57373, #ff8a65);
+        }
+        
+        /* CSS for animations from the second section */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .icon-hover:hover {
+            animation: pulse 1s infinite;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Custom style for the slanted divider in the workflow section */
+        .divider-slant::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -25px; /* Adjust this value to change the slant width */
+            width: 50px;
+            height: 100%;
+            background: linear-gradient(to top right, transparent 50%, #f3f4f6 50%);
+            z-index: 10;
+        }
+
+        .divider-slant.last-child::after {
+            display: none;
+        }
+
+        /* Custom styles for the gradient background */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://placehold.co/1920x600/1e293b/FFFFFF?text=Product+Review+Header') center/cover no-repeat;
+        }
+
+        .category-item:hover .category-icon {
+            transform: scale(1.1);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .blog-post-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease-in-out;
+        }
