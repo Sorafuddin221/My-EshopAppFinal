@@ -35,6 +35,18 @@ const blogPostSchema = new mongoose.Schema({
   },
   metaDescription: { type: String, default: '' },
   metaKeywords: { type: String, default: '' },
+  slug: {
+    type: String,
+    unique: true,
+    lowercase: true,
+  },
+});
+
+blogPostSchema.pre('save', function(next) {
+  if (this.isModified('title') || !this.slug) {
+    this.slug = this.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '');
+  }
+  next();
 });
 
 module.exports = mongoose.model('BlogPost', blogPostSchema);
