@@ -9,7 +9,7 @@ const mongoose = require('mongoose'); // Import mongoose for ObjectId validation
 // Set up multer for file storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '..', '..', 'public', 'uploads')); // Correct path to project root's public/uploads
+    cb(null, '/tmp');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname); // Unique filename
@@ -20,19 +20,12 @@ const upload = multer({ storage: storage });
 // @route   POST /api/products
 // @desc    Create a new product
 // @access  Private (Admin only)
-router.post('/', auth, upload.fields([
-  { name: 'productImage', maxCount: 1 },
-  { name: 'thumbnailImage1', maxCount: 1 },
-  { name: 'thumbnailImage2', maxCount: 1 }
-]), async (req, res) => {
+router.post('/', auth, async (req, res) => {
   console.log('Inside POST /products route.');
   console.log('Request body:', req.body);
   console.log('Request file:', req.file);
   try {
-    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords } = req.body;
-    const imageUrl = req.files && req.files['productImage'] ? `/uploads/${req.files['productImage'][0].filename}` : '';
-    const thumbnailImage1Url = req.files && req.files['thumbnailImage1'] ? `/uploads/${req.files['thumbnailImage1'][0].filename}` : '';
-    const thumbnailImage2Url = req.files && req.files['thumbnailImage2'] ? `/uploads/${req.files['thumbnailImage2'][0].filename}` : '';
+    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords, imageUrl, thumbnailImage1Url, thumbnailImage2Url } = req.body;
 
     // Validate Category and Brand IDs
     if (!mongoose.Types.ObjectId.isValid(category)) {
@@ -126,11 +119,7 @@ router.put('/:id/view', async (req, res) => {
 // @route   PUT /api/products/:id
 // @desc    Update a product by ID
 // @access  Private (Admin only)
-router.put('/:id', auth, upload.fields([
-  { name: 'productImage', maxCount: 1 },
-  { name: 'thumbnailImage1', maxCount: 1 },
-  { name: 'thumbnailImage2', maxCount: 1 }
-]), async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
     const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords } = req.body;
     let product = await Product.findById(req.params.id);
@@ -150,16 +139,9 @@ router.put('/:id', auth, upload.fields([
     if (rating) updateFields.rating = parseFloat(rating);
     if (metaDescription) updateFields.metaDescription = metaDescription;
     if (metaKeywords) updateFields.metaKeywords = metaKeywords;
-
-    if (req.files && req.files['productImage']) {
-      updateFields.imageUrl = `/uploads/${req.files['productImage'][0].filename}`;
-    }
-    if (req.files && req.files['thumbnailImage1']) {
-      updateFields.thumbnailImage1Url = `/uploads/${req.files['thumbnailImage1'][0].filename}`;
-    }
-    if (req.files && req.files['thumbnailImage2']) {
-      updateFields.thumbnailImage2Url = `/uploads/${req.files['thumbnailImage2'][0].filename}`;
-    }
+    if (imageUrl) updateFields.imageUrl = imageUrl;
+    if (thumbnailImage1Url) updateFields.thumbnailImage1Url = thumbnailImage1Url;
+    if (thumbnailImage2Url) updateFields.thumbnailImage2Url = thumbnailImage2Url;
 
     product = await Product.findByIdAndUpdate(
       req.params.id,

@@ -147,6 +147,13 @@ export default function AddProductSection() {
     setMessage(''); // Clear any previous messages
   };
 
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await api.post('/uploads', formData, token, true);
+    return res.imageUrl;
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setMessage('');
@@ -162,34 +169,43 @@ export default function AddProductSection() {
     }
 
     try {
-      const formData = new FormData();
-      formData.append('name', productName);
-      formData.append('description', productDescription);
-      formData.append('price', productPrice);
-      formData.append('stock', productStock);
-      formData.append('category', selectedCategory);
-      formData.append('brand', selectedBrand);
-      formData.append('buyNowUrl', buyNowUrl);
-      formData.append('rating', productRating);
-      formData.append('metaDescription', metaDescription);
-      formData.append('metaKeywords', metaKeywords);
+      let imageUrl = editingProduct ? editingProduct.imageUrl : '';
+      let thumbnail1Url = editingProduct ? editingProduct.thumbnailImage1Url : '';
+      let thumbnail2Url = editingProduct ? editingProduct.thumbnailImage2Url : '';
+
       if (productImage) {
-        formData.append('productImage', productImage);
+        imageUrl = await uploadImage(productImage);
       }
       if (thumbnailImage1) {
-        formData.append('thumbnailImage1', thumbnailImage1);
+        thumbnail1Url = await uploadImage(thumbnailImage1);
       }
       if (thumbnailImage2) {
-        formData.append('thumbnailImage2', thumbnailImage2);
+        thumbnail2Url = await uploadImage(thumbnailImage2);
       }
+
+      const productData = {
+        name: productName,
+        description: productDescription,
+        price: productPrice,
+        stock: productStock,
+        category: selectedCategory,
+        brand: selectedBrand,
+        buyNowUrl,
+        rating: productRating,
+        metaDescription,
+        metaKeywords,
+        imageUrl,
+        thumbnailImage1Url: thumbnail1Url,
+        thumbnailImage2Url: thumbnail2Url,
+      };
 
       let response;
       if (editingProduct) {
         // Update existing product
-        response = await api.put(`/products/${editingProduct._id}`, formData, token, true);
+        response = await api.put(`/products/${editingProduct._id}`, productData, token);
       } else {
         // Add new product
-        response = await api.post('/products', formData, token, true);
+        response = await api.post('/products', productData, token);
       }
 
       if (response._id) {
@@ -202,6 +218,8 @@ export default function AddProductSection() {
         setSelectedCategory('');
         setSelectedBrand('');
         setProductImage(null);
+        setThumbnailImage1(null);
+        setThumbnailImage2(null);
         setBuyNowUrl('');
         setMetaDescription('');
         setMetaKeywords('');
@@ -213,8 +231,7 @@ export default function AddProductSection() {
     } catch (error) {
       console.error(`Error ${editingProduct ? 'updating' : 'adding'} product:`, error);
       setMessage(`Server error. Could not ${editingProduct ? 'update' : 'add'} product.`);
-    }
-  };
+    }  };
 
   return (
     <div id="add-product-section">
