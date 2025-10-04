@@ -100,6 +100,7 @@ export default function SettingsSection() {
         const formData = new FormData();
         formData.append('image', logoFile);
         const uploadResponse = await api.post('/uploads', formData, token, true);
+        console.log('Upload Response for Navbar Logo:', uploadResponse);
         newNavbarLogoUrl = uploadResponse.imageUrl;
       }
 
@@ -107,6 +108,7 @@ export default function SettingsSection() {
         const formData = new FormData();
         formData.append('image', metaLogoFile);
         const uploadResponse = await api.post('/uploads', formData, token, true);
+        console.log('Upload Response for Meta Logo:', uploadResponse);
         newMetaLogoUrl = `http://localhost:3001${uploadResponse.imageUrl}`;
         console.log('Constructed newMetaLogoUrl:', newMetaLogoUrl);
       }
