@@ -42,9 +42,19 @@ const blogPostSchema = new mongoose.Schema({
   },
 });
 
-blogPostSchema.pre('save', function(next) {
+blogPostSchema.pre('save', async function(next) {
   if (this.isModified('title') || !this.slug) {
-    this.slug = this.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '');
+    let baseSlug = this.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-*|-*$/g, '');
+    if (!baseSlug) {
+      baseSlug = 'blog-post';
+    }
+    this.slug = baseSlug;
+
+    let counter = 1;
+    while (await this.constructor.findOne({ slug: this.slug })) {
+      this.slug = `${baseSlug}-${counter}`;
+      counter++;
+    }
   }
   next();
 });
