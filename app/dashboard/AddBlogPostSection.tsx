@@ -5,20 +5,36 @@ import { Editor } from '@tinymce/tinymce-react';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 
+interface Category {
+  _id: string;
+  name: string;
+}
+
+interface BlogPost {
+  _id: string;
+  title: string;
+  content: string;
+  author: string;
+  category: Category;
+  imageUrl: string;
+  metaDescription: string;
+  metaKeywords: string;
+}
+
 export default function AddBlogPostSection() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
-  const [categories, setCategories] = useState<any[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [showNewCategoryInput, setShowNewCategoryInput] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState('');
   const [message, setMessage] = useState('');
-  const [blogPosts, setBlogPosts] = useState<any[]>([]);
-  const [editingPost, setEditingPost] = useState<any | null>(null);
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [metaDescription, setMetaDescription] = useState('');
   const [metaKeywords, setMetaKeywords] = useState('');
 
@@ -88,7 +104,7 @@ export default function AddBlogPostSection() {
     }
   };
 
-  const handleEdit = (post: any) => {
+  const handleEdit = (post: BlogPost) => {
     setEditingPost(post);
     setTitle(post.title || '');
     setContent(post.content || '');
@@ -376,7 +392,7 @@ export default function AddBlogPostSection() {
                       )}
                     </td>
                     <td className="py-2 px-4 border-b border-gray-200 text-sm text-gray-900">{post.title}</td>
-                    <td className="py-2 px-4 border-b border-gray-200 text-sm text-gray-900">{post.category}</td>
+                    <td className="py-2 px-4 border-b border-gray-200 text-sm text-gray-900">{post.category ? post.category.name : 'N/A'}</td>
                     <td className="py-2 px-4 border-b border-gray-200 text-sm text-gray-900">{post.author}</td>
                     <td className="py-2 px-4 border-b border-gray-200">
                       <button

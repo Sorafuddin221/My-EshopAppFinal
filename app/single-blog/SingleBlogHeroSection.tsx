@@ -3,7 +3,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 interface SingleBlogHeroSectionProps {
     title: string;
-    category?: string;
+    category?: { _id: string; name: string; };
 }
 
 const SingleBlogHeroSection = ({ title, category }: SingleBlogHeroSectionProps) => {
@@ -18,7 +18,7 @@ const SingleBlogHeroSection = ({ title, category }: SingleBlogHeroSectionProps) 
                     {category && (
                         <>
                             <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
-                            <span className="text-gray-300">{category}</span>
+                            <span className="text-gray-300">{category.name}</span>
                         </>
                     )}
                 </div>

@@ -19,7 +19,7 @@ interface SingleBlogPostContentProps {
     title: string;
     content: string;
     author: string;
-    category?: string;
+    category?: { _id: string; name: string; };
     imageUrl?: string;
     createdAt: string;
   };
@@ -104,7 +104,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                     {blogPost.category && (
                         <div className="flex items-center space-x-1">
                             <FontAwesomeIcon icon={faTags} />
-                            <span>{blogPost.category}</span>
+                            <span>{blogPost.category.name}</span>
                         </div>
                     )}
                 </div>
@@ -116,7 +116,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                     <div className="mt-8 pt-4 border-t border-gray-200">
                         <h4 className="font-semibold text-gray-800 mb-2">Category:</h4>
                         <div className="flex flex-wrap space-x-2">
-                            <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-red-500 hover:text-white transition-colors duration-200">{blogPost.category}</span>
+                            <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-red-500 hover:text-white transition-colors duration-200">{blogPost.category.name}</span>
                         </div>
                     </div>
                 )}

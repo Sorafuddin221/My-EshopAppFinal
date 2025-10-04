@@ -9,7 +9,7 @@ interface BlogPost {
   title: string;
   content: string;
   author: string;
-  category?: string;
+  category?: { _id: string; name: string; };
   imageUrl?: string;
   createdAt: string;
 }
@@ -93,7 +93,7 @@ export default function BlogPostListTable() {
                     </td>
                     <td className="py-2 px-4 border-b">{post.title}</td>
                     <td className="py-2 px-4 border-b">{post.author}</td>
-                    <td className="py-2 px-4 border-b">{post.category || 'N/A'}</td>
+                    <td className="py-2 px-4 border-b">{post.category ? post.category.name : 'N/A'}</td>
                     <td className="py-2 px-4 border-b">{new Date(post.createdAt).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">
                       <button
