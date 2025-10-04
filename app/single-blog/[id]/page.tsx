@@ -88,7 +88,7 @@ const SingleBlogPostPage = () => {
         <div className="font-sans bg-gray-100">
             <Header />
             <Navbar />
-            <SingleBlogHeroSection title={blogPost.title} category={blogPost.category} />
+            <SingleBlogHeroSection title={blogPost.title} category={blogPost.category && typeof blogPost.category !== 'string' ? blogPost.category : undefined} />
             <main className="container mx-auto px-4 py-12">
                 <SingleBlogPostContent blogPost={blogPost} />
             </main>
