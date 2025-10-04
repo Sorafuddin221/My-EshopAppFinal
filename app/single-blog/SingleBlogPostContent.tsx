@@ -13,16 +13,10 @@ interface Comment {
 }
 
 
+import { BlogPost } from '@/app/types/BlogPost';
+
 interface SingleBlogPostContentProps {
-  blogPost?: {
-    _id: string;
-    title: string;
-    content: string;
-    author: string;
-    category?: { _id: string; name: string; };
-    imageUrl?: string;
-    createdAt: string;
-  };
+  blogPost?: BlogPost;
 }
 
 const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {

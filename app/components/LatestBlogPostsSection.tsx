@@ -7,16 +7,7 @@ import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 
-interface BlogPost {
-    _id: string;
-    title: string;
-    content: string;
-    author: string;
-    category: { _id: string; name: string; };
-    imageUrl: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { BlogPost } from '@/app/types/BlogPost';
 
 interface LatestBlogPostsSectionProps {
     title?: string;
