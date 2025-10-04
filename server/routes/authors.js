@@ -5,17 +5,7 @@ const { auth } = require('../middleware/auth');
 const multer = require('multer');
 const bcrypt = require('bcryptjs');
 
-// Multer setup for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/uploads/')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-});
 
-const upload = multer({ storage: storage });
 
 // Get all users
 router.get('/', async (req, res) => {
@@ -29,8 +19,8 @@ router.get('/', async (req, res) => {
 });
 
 // Add a new author
-router.post('/', upload.single('profileImage'), async (req, res) => {
-  const { username, email, password, role } = req.body;
+router.post('/', async (req, res) => {
+  const { username, email, password, role, profileImage } = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) {
@@ -49,7 +39,7 @@ router.post('/', upload.single('profileImage'), async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      profileImage: req.file ? req.file.path : null,
+      profileImage,
       role,
       isApproved: true,
     });

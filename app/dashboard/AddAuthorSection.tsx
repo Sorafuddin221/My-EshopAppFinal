@@ -45,6 +45,13 @@ const AddAuthorSection = () => {
     fetchAuthors();
   }, [token]);
 
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const res = await api.post('/uploads', formData, token, true);
+    return res.imageUrl;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) {
@@ -52,17 +59,21 @@ const AddAuthorSection = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('email', email);
-    formData.append('password', password);
-    formData.append('role', role);
+    let profileImageUrl = '';
     if (file) {
-      formData.append('profileImage', file);
+      profileImageUrl = await uploadImage(file);
     }
 
+    const authorData = {
+      username,
+      email,
+      password,
+      role,
+      profileImage: profileImageUrl,
+    };
+
     try {
-      await api.post('/authors', formData, token, true);
+      await api.post('/authors', authorData, token);
       setMessage('Author added successfully!');
       // Clear form
       setUsername('');

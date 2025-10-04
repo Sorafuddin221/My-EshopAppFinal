@@ -88,7 +88,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
         <div className="lg:col-span-2 space-y-8">
             {/* Blog Post Content */}
             <article className="bg-white p-8 rounded-lg shadow-lg">
-                <img src={blogPost.imageUrl && blogPost.imageUrl.startsWith('/uploads/') ? blogPost.imageUrl : "https://via.placeholder.com/800x450?text=Blog+Post+Image"} alt={blogPost.title} className="w-full h-auto object-cover rounded-lg mb-6" />
+                <img src={blogPost.imageUrl && (blogPost.imageUrl.startsWith('http') || blogPost.imageUrl.startsWith('https')) ? blogPost.imageUrl : "https://via.placeholder.com/800x450?text=Blog+Post+Image"} alt={blogPost.title} className="w-full h-auto object-cover rounded-lg mb-6" />
 
                 <h1 className="text-3xl font-bold text-gray-800 mb-4">{blogPost.title}</h1>
 
