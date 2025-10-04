@@ -62,7 +62,7 @@ const LatestBlogPostsSection = ({ title = "Latest Blog Posts", description = "St
                             <article key={post._id} className="bg-white rounded-xl shadow-lg blog-post-card">
                                 <img className="w-full h-48 object-cover rounded-t-xl" src={post.imageUrl && (post.imageUrl.startsWith('http') || post.imageUrl.startsWith('https')) ? post.imageUrl : "https://placehold.co/600x400/1e293b/FFFFFF?text=Blog+Post"} alt={post.title} />
                                 <div className="p-6">
-                                    <p className="text-sm text-gray-500 mb-2">{post.category ? post.category.name : 'Uncategorized'}</p>
+                                    <p className="text-sm text-gray-500 mb-2">{post.category ? (typeof post.category === 'string' ? post.category : post.category.name) : 'Uncategorized'}</p>
                                     <h3 className="text-xl font-semibold text-gray-900 leading-tight">{post.title}</h3>
                                     <div className="flex items-center text-gray-500 text-sm mt-2 mb-4">
                                         <FontAwesomeIcon icon={faUserShield} className="text-red-500 mr-2" />

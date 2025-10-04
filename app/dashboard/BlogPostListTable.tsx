@@ -85,7 +85,7 @@ export default function BlogPostListTable() {
                     </td>
                     <td className="py-2 px-4 border-b">{post.title}</td>
                     <td className="py-2 px-4 border-b">{post.author}</td>
-                    <td className="py-2 px-4 border-b">{post.category ? post.category.name : 'N/A'}</td>
+                    <td className="py-2 px-4 border-b">{post.category ? (typeof post.category === 'string' ? post.category : post.category.name) : 'N/A'}</td>
                     <td className="py-2 px-4 border-b">{new Date(post.createdAt).toLocaleDateString()}</td>
                     <td className="py-2 px-4 border-b">
                       <button
