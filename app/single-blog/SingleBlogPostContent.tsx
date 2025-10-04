@@ -98,7 +98,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                     {blogPost.category && (
                         <div className="flex items-center space-x-1">
                             <FontAwesomeIcon icon={faTags} />
-                            <span>{post.category ? (typeof post.category === 'string' ? post.category : post.category.name) : ''}</span>
+                            <span>{blogPost.category ? (typeof blogPost.category === 'string' ? blogPost.category : blogPost.category.name) : ''}</span>
                         </div>
                     )}
                 </div>
@@ -110,7 +110,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                     <div className="mt-8 pt-4 border-t border-gray-200">
                         <h4 className="font-semibold text-gray-800 mb-2">Category:</h4>
                         <div className="flex flex-wrap space-x-2">
-                            <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-red-500 hover:text-white transition-colors duration-200">{post.category ? (typeof post.category === 'string' ? post.category : post.category.name) : ''}</span>
+                            <span className="bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full hover:bg-red-500 hover:text-white transition-colors duration-200">{blogPost.category ? (typeof blogPost.category === 'string' ? blogPost.category : blogPost.category.name) : ''}</span>
                         </div>
                     </div>
                 )}
