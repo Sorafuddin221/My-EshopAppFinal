@@ -15,6 +15,11 @@ const blogPostSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  },
   
   imageUrl: {
     type: String,

@@ -20,6 +20,7 @@ export default function AddProductSection() {
   const [productName, setProductName] = useState('');
   const [productDescription, setProductDescription] = useState('');
   const [productPrice, setProductPrice] = useState('');
+  const [productStock, setProductStock] = useState('');
   const [productRating, setProductRating] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedBrand, setSelectedBrand] = useState('');
@@ -135,6 +136,7 @@ export default function AddProductSection() {
     setProductName(product.name || '');
     setProductDescription(product.description || '');
     setProductPrice(product.price !== undefined && product.price !== null ? String(product.price) : ''); // Convert to string for input
+    setProductStock(product.stock !== undefined && product.stock !== null ? String(product.stock) : '');
     setProductRating(product.rating !== undefined && product.rating !== null ? String(product.rating) : '');
     setSelectedCategory(product.category ? product.category._id : '');
     setSelectedBrand(product.brand ? product.brand._id : '');
@@ -164,6 +166,7 @@ export default function AddProductSection() {
       formData.append('name', productName);
       formData.append('description', productDescription);
       formData.append('price', productPrice);
+      formData.append('stock', productStock);
       formData.append('category', selectedCategory);
       formData.append('brand', selectedBrand);
       formData.append('buyNowUrl', buyNowUrl);
@@ -195,6 +198,7 @@ export default function AddProductSection() {
         setProductName('');
         setProductDescription('');
         setProductPrice('');
+        setProductStock('');
         setSelectedCategory('');
         setSelectedBrand('');
         setProductImage(null);
@@ -239,6 +243,18 @@ export default function AddProductSection() {
                 placeholder="Enter product price"
                 value={productPrice}
                 onChange={(e) => setProductPrice(e.target.value)}
+                required
+              />
+            </div>
+            <div class="w-full md:w-1/2 px-3">
+              <label htmlFor="product-stock" className="block text-gray-700 text-sm font-bold mb-2">Product Stock</label>
+              <input
+                type="number"
+                id="product-stock"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                placeholder="Enter product stock"
+                value={productStock}
+                onChange={(e) => setProductStock(e.target.value)}
                 required
               />
             </div>
@@ -441,6 +457,7 @@ export default function AddProductSection() {
                 setProductName('');
                 setProductDescription('');
                 setProductPrice('');
+                setProductStock('');
                 setSelectedCategory('');
                 setSelectedBrand('');
                 setProductImage(null);

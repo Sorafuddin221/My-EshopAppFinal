@@ -29,7 +29,7 @@ router.post('/', auth, upload.fields([
   console.log('Request body:', req.body);
   console.log('Request file:', req.file);
   try {
-    const { name, description, price, category, brand, buyNowUrl, rating, metaDescription, metaKeywords } = req.body;
+    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords } = req.body;
     const imageUrl = req.files && req.files['productImage'] ? `/uploads/${req.files['productImage'][0].filename}` : '';
     const thumbnailImage1Url = req.files && req.files['thumbnailImage1'] ? `/uploads/${req.files['thumbnailImage1'][0].filename}` : '';
     const thumbnailImage2Url = req.files && req.files['thumbnailImage2'] ? `/uploads/${req.files['thumbnailImage2'][0].filename}` : '';
@@ -46,6 +46,7 @@ router.post('/', auth, upload.fields([
       name,
       description,
       price: parseFloat(price),
+      stock: parseInt(stock),
       category,
       brand,
       imageUrl,

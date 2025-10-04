@@ -22,7 +22,7 @@ router.post('/', auth, async (req, res) => {
 // @access  Public
 router.get('/', async (req, res) => {
   try {
-    const blogPosts = await BlogPost.find();
+    const blogPosts = await BlogPost.find().populate('category');
     res.json(blogPosts);
   } catch (err) {
     console.error(err.message);
@@ -35,7 +35,7 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
-    const blogPost = await BlogPost.findById(req.params.id);
+    const blogPost = await BlogPost.findById(req.params.id).populate('category');
     if (!blogPost) {
       return res.status(404).json({ msg: 'Blog post not found' });
     }
@@ -60,7 +60,7 @@ router.put('/:id', auth, async (req, res) => {
       req.params.id,
       { $set: req.body },
       { new: true }
-    );
+    ).populate('category');
     res.json(blogPost);
   } catch (err) {
     console.error(err.message);
