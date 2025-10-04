@@ -45,7 +45,7 @@ export default function Footer() {
           { platform: 'google-plus', url: '#' },
         ]);
         setFooterPaymentImages(settings.footerPaymentImages || []);
-        setNavbarLogoUrl(settings.navbarLogoUrl || 'https://via.placeholder.com/40x40?text=Logo'); // Fetch logo URL
+        setNavbarLogoUrl(settings.navbarLogoUrl || 'https://placehold.co/40x40?text=Logo'); // Fetch logo URL
         setNavbarLogoText(settings.navbarLogoText || 'DEAL DIVERSify'); // Fetch logo text
       } catch (err) {
         console.error('Error fetching footer settings:', err);
@@ -58,7 +58,7 @@ export default function Footer() {
           { platform: 'pinterest', url: '#' },
           { platform: 'google-plus', url: '#' },
         ]);
-        setNavbarLogoUrl('https://via.placeholder.com/40x40?text=Logo'); // Fallback logo URL
+        setNavbarLogoUrl('https://placehold.co/40x40?text=Logo'); // Fallback logo URL
         setNavbarLogoText('DEAL DIVERSify'); // Fallback logo text
       } finally {
         setLoading(false);

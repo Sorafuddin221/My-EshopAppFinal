@@ -19,7 +19,7 @@ export default function HeroSection() {
     const fetchSettings = async () => {
       try {
         const settings = await api.get('/settings');
-        setHeroImageUrl(settings.heroImageUrl || 'https://via.placeholder.com/1500x500?text=Hero+Image');
+        setHeroImageUrl(settings.heroImageUrl || 'https://placehold.co/1500x500?text=Hero+Image');
         setHeroMainText(settings.heroMainText || 'Your Awesome Hero Title');
         setHeroButtonText(settings.heroButtonText || 'Shop Now');
         setHeroButtonUrl(settings.heroButtonUrl || '/products');
