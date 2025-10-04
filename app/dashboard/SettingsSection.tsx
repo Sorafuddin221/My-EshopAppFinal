@@ -109,7 +109,7 @@ export default function SettingsSection() {
         formData.append('image', metaLogoFile);
         const uploadResponse = await api.post('/uploads', formData, token, true);
         console.log('Upload Response for Meta Logo:', uploadResponse);
-        newMetaLogoUrl = `http://localhost:3001${uploadResponse.imageUrl}`;
+        newMetaLogoUrl = uploadResponse.imageUrl;
         console.log('Constructed newMetaLogoUrl:', newMetaLogoUrl);
       }
 

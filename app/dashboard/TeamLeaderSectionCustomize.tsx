@@ -83,6 +83,7 @@ export default function TeamLeaderSectionCustomize() {
       };
 
       const response = await api.put('/settings', updatedSettings, token);
+      console.log('Response from settings update:', response);
 
       if (response) {
         setMessage('Settings updated successfully!');
