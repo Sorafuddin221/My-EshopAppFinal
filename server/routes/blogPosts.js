@@ -23,6 +23,9 @@ router.post('/', auth, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const blogPosts = await BlogPost.find().populate('category');
+    res.json(blogPosts);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).json({ msg: 'Server error' });
   }
 });
