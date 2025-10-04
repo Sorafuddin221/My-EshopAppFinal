@@ -75,8 +75,48 @@ export default function AddProductSection() {
   };
 
   useEffect(() => {
+    let isMounted = true; // Flag to track if component is mounted
+
+    const fetchCategoriesAndBrands = async () => {
+      if (!token) return;
+      try {
+        const fetchedCategories = await api.get('/categories', token);
+        if (isMounted) {
+          setCategories(fetchedCategories);
+        }
+        const fetchedBrands = await api.get('/brands', token);
+        if (isMounted) {
+          setBrands(fetchedBrands);
+        }
+      } catch (error) {
+        console.error('Error fetching categories or brands:', error);
+        if (isMounted) {
+          setMessage('Failed to load categories or brands.');
+        }
+      }
+    };
+
+    const fetchProducts = async () => {
+      if (!token) return;
+      try {
+        const fetchedProducts = await api.get('/products', token);
+        if (isMounted) {
+          setProducts(fetchedProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        if (isMounted) {
+          setMessage('Failed to load products.');
+        }
+      }
+    };
+
     fetchCategoriesAndBrands();
-    fetchProducts(); // Fetch products when component mounts
+    fetchProducts();
+
+    return () => {
+      isMounted = false; // Set flag to false when component unmounts
+    };
   }, [token]);
 
   const handleAddCategory = async () => {
