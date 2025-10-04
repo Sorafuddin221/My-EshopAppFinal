@@ -13,6 +13,7 @@ export default function TeamLeaderSectionCustomize() {
   const [teamLeaderRole, setTeamLeaderRole] = useState('');
   const [teamLeaderRating, setTeamLeaderRating] = useState(0);
   const [teamLeaderText, setTeamLeaderText] = useState('');
+  const [teamLeaderVideoUrl, setTeamLeaderVideoUrl] = useState('');
   const [teamLeaderImageFile, setTeamLeaderImageFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
 
@@ -31,6 +32,7 @@ export default function TeamLeaderSectionCustomize() {
           setTeamLeaderRole(settings.teamLeaderRole || '');
           setTeamLeaderRating(settings.teamLeaderRating || 0);
           setTeamLeaderText(settings.teamLeaderText || '');
+          setTeamLeaderVideoUrl(settings.teamLeaderVideoUrl || '');
         }
       } catch (error) {
         console.error('Error fetching settings:', error);
@@ -77,6 +79,7 @@ export default function TeamLeaderSectionCustomize() {
         teamLeaderRole,
         teamLeaderRating,
         teamLeaderText,
+        teamLeaderVideoUrl,
       };
 
       const response = await api.put('/settings', updatedSettings, token);
@@ -91,6 +94,7 @@ export default function TeamLeaderSectionCustomize() {
         setTeamLeaderRole(response.teamLeaderRole || '');
         setTeamLeaderRating(response.teamLeaderRating || 0);
         setTeamLeaderText(response.teamLeaderText || '');
+        setTeamLeaderVideoUrl(response.teamLeaderVideoUrl || '');
         setTeamLeaderImageFile(null);
       } else {
         setMessage(response.msg || 'Failed to update settings.');
@@ -203,6 +207,18 @@ export default function TeamLeaderSectionCustomize() {
               value={teamLeaderText}
               onChange={(e) => setTeamLeaderText(e.target.value)}
             ></textarea>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="team-leader-video-url" className="block text-gray-700 text-sm font-bold mb-2">Team Leader Video URL</label>
+            <input
+              type="text"
+              id="team-leader-video-url"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              placeholder="Enter team leader video URL"
+              value={teamLeaderVideoUrl}
+              onChange={(e) => setTeamLeaderVideoUrl(e.target.value)}
+            />
           </div>
 
           {message && <p className="text-sm mt-4" style={{ color: message.includes('successfully') ? 'green' : 'red' }}>{message}</p>}

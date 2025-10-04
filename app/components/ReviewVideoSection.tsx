@@ -12,6 +12,7 @@ export default function ReviewVideoSection() {
   const [reviewVideoTitle, setReviewVideoTitle] = useState('');
   const [reviewVideoDescription, setReviewVideoDescription] = useState('');
   const [reviewVideoPlaceholderImage, setReviewVideoPlaceholderImage] = useState('');
+  const [teamLeaderVideoUrl, setTeamLeaderVideoUrl] = useState('');
   const [teamLeader, setTeamLeader] = useState({
     image: "",
     title: "",
@@ -28,12 +29,11 @@ export default function ReviewVideoSection() {
     const fetchSettings = async () => {
       try {
         const settings = await api.get('/settings');
-        console.log('Fetched settings in ReviewVideoSection:', settings);
-        console.log('Review Video URL in ReviewVideoSection:', settings.reviewVideoUrl);
         setReviewVideoUrl(settings.reviewVideoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ');
         setReviewVideoTitle(settings.reviewVideoTitle || 'Watch Our Product Review');
         setReviewVideoDescription(settings.reviewVideoDescription || 'See what our customers are saying about our amazing products.');
-        setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || 'https://placehold.co/600x400?text=Video+Placeholder');
+        setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || '');
+        setTeamLeaderVideoUrl(settings.teamLeaderVideoUrl || '');
         setTeamLeader({
           image: settings.teamLeaderImage || "https://placehold.co/300x400?text=Phone+Image",
           title: settings.teamLeaderTitle || "DISCOVER PRO",
@@ -112,11 +112,11 @@ export default function ReviewVideoSection() {
 
         {/* Video Card */}
         <div className="bg-white rounded-xl shadow-lg relative flex items-center justify-center overflow-hidden">
-          {reviewVideoUrl ? (
+          {teamLeaderVideoUrl ? (
             <iframe
               width="100%"
               height="100%"
-              src={reviewVideoUrl}
+              src={teamLeaderVideoUrl}
               title={reviewVideoTitle}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -126,7 +126,7 @@ export default function ReviewVideoSection() {
           ) : (
             <img src={reviewVideoPlaceholderImage} alt="Video Placeholder" className="w-full h-full object-cover" />
           )}
-          {!reviewVideoUrl && (
+          {!teamLeaderVideoUrl && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
               <button className="bg-white text-red-500 p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
                 <FontAwesomeIcon icon={faPlay} className="text-xl" />
