@@ -3,12 +3,14 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3
 const api = {
   get: async (path, token = null) => {
     const headers = token ? { 'x-auth-token': token } : {};
-    const response = await fetch(`${API_BASE_URL}${path}`, {
-      method: 'GET',
-      headers,
-    });
     if (!response.ok) {
-      const errorData = await response.json();
+      let errorData = { msg: 'Something went wrong' };
+      try {
+        errorData = await response.json();
+      } catch (jsonError) {
+        // If response is not JSON, use a generic error message
+        errorData.msg = response.statusText || 'Server error';
+      }
       throw new Error(errorData.msg || 'Something went wrong');
     }
     return response.json();
@@ -28,12 +30,14 @@ const api = {
     }
 
     const response = await fetch(`${API_BASE_URL}${path}`, {
-      method: 'POST',
-      headers,
-      body: body,
-    });
     if (!response.ok) {
-      const errorData = await response.json();
+      let errorData = { msg: 'Something went wrong' };
+      try {
+        errorData = await response.json();
+      } catch (jsonError) {
+        // If response is not JSON, use a generic error message
+        errorData.msg = response.statusText || 'Server error';
+      }
       throw new Error(errorData.msg || 'Something went wrong');
     }
     return response.json();
@@ -58,7 +62,13 @@ const api = {
       body: body,
     });
     if (!response.ok) {
-      const errorData = await response.json();
+      let errorData = { msg: 'Something went wrong' };
+      try {
+        errorData = await response.json();
+      } catch (jsonError) {
+        // If response is not JSON, use a generic error message
+        errorData.msg = response.statusText || 'Server error';
+      }
       throw new Error(errorData.msg || 'Something went wrong');
     }
     return response.json();
@@ -71,7 +81,13 @@ const api = {
       headers,
     });
     if (!response.ok) {
-      const errorData = await response.json();
+      let errorData = { msg: 'Something went wrong' };
+      try {
+        errorData = await response.json();
+      } catch (jsonError) {
+        // If response is not JSON, use a generic error message
+        errorData.msg = response.statusText || 'Server error';
+      }
       throw new Error(errorData.msg || 'Something went wrong');
     }
     return response.json();
