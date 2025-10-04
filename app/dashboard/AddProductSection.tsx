@@ -246,7 +246,7 @@ export default function AddProductSection() {
                 required
               />
             </div>
-            <div class="w-full md:w-1/2 px-3">
+            <div className="w-full md:w-1/2 px-3">
               <label htmlFor="product-stock" className="block text-gray-700 text-sm font-bold mb-2">Product Stock</label>
               <input
                 type="number"
