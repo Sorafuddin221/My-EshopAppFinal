@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import { toast } from 'react-toastify';
@@ -14,43 +14,44 @@ const ReviewVideoSectionCustomize = () => {
   const [loading, setLoading] = useState(true);
   const { token } = useAuth();
 
-  useEffect(() => {
-    const fetchSettings = async () => {
-      if (!token) return;
-      try {
-        const settings = await api.get('/settings', token);
-        setReviewVideoUrl(settings.reviewVideoUrl || '');
-        setReviewVideoTitle(settings.reviewVideoTitle || '');
-        setReviewVideoDescription(settings.reviewVideoDescription || '');
-        setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || '');
-      } catch (err) {
-        console.error('Error fetching review video section settings:', err);
-        toast.error('Failed to fetch review video section settings.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchSettings();
+  const fetchSettings = useCallback(async () => {
+    if (!token) return;
+    setLoading(true);
+    try {
+      const settings = await api.get('/settings', token);
+      setReviewVideoUrl(settings.reviewVideoUrl || '');
+      setReviewVideoTitle(settings.reviewVideoTitle || '');
+      setReviewVideoDescription(settings.reviewVideoDescription || '');
+      setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || '');
+    } catch (err) {
+      console.error('Error fetching review video section settings:', err);
+      toast.error('Failed to fetch review video section settings.');
+    } finally {
+      setLoading(false);
+    }
   }, [token]);
+
+  useEffect(() => {
+    fetchSettings();
+  }, [fetchSettings]);
 
   const handleSaveChanges = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Fetch current settings first
       const currentSettings = await api.get('/settings', token);
 
-      // Merge current settings with changes from this component
       const updatedSettings = {
-        ...currentSettings, // Preserve existing settings
+        ...currentSettings,
         reviewVideoUrl,
         reviewVideoTitle,
         reviewVideoDescription,
         reviewVideoPlaceholderImage,
       };
 
-      await api.put('/settings', updatedSettings, token); // Send merged object
+      await api.put('/settings', updatedSettings, token);
       toast.success('Review video section settings updated successfully!');
+      await fetchSettings(); // Re-fetch settings to update UI with latest data
     } catch (err) {
       console.error('Error updating review video section settings:', err);
       toast.error('Failed to update review video section settings.');
@@ -58,7 +59,6 @@ const ReviewVideoSectionCustomize = () => {
       setLoading(false);
     }
   };
-
   if (loading) {
     return <div className="text-center py-4">Loading review video section settings...</div>;
   }
