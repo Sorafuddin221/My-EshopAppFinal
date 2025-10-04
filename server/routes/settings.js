@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
     res.json(settings);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).json({ msg: 'Server Error' });
   }
 });
 
