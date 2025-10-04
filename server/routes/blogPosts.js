@@ -13,7 +13,7 @@ router.post('/', auth, async (req, res) => {
     res.status(201).json(blogPost);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -23,10 +23,7 @@ router.post('/', auth, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const blogPosts = await BlogPost.find().populate('category');
-    res.json(blogPosts);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -42,7 +39,7 @@ router.get('/:id', async (req, res) => {
     res.json(blogPost);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -64,7 +61,7 @@ router.put('/:id', auth, async (req, res) => {
     res.json(blogPost);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -82,7 +79,7 @@ router.delete('/:id', auth, async (req, res) => {
     res.json({ msg: 'Blog post removed' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json({ msg: 'Server error' });
   }
 });
 
