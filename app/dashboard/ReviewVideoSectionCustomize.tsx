@@ -19,6 +19,8 @@ const ReviewVideoSectionCustomize = () => {
     setLoading(true);
     try {
       const settings = await api.get('/settings', token);
+      console.log('Fetched settings:', settings);
+      console.log('Review Video URL from settings:', settings.reviewVideoUrl);
       setReviewVideoUrl(settings.reviewVideoUrl || '');
       setReviewVideoTitle(settings.reviewVideoTitle || '');
       setReviewVideoDescription(settings.reviewVideoDescription || '');

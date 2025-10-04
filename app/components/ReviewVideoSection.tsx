@@ -28,6 +28,8 @@ export default function ReviewVideoSection() {
     const fetchSettings = async () => {
       try {
         const settings = await api.get('/settings');
+        console.log('Fetched settings in ReviewVideoSection:', settings);
+        console.log('Review Video URL in ReviewVideoSection:', settings.reviewVideoUrl);
         setReviewVideoUrl(settings.reviewVideoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ');
         setReviewVideoTitle(settings.reviewVideoTitle || 'Watch Our Product Review');
         setReviewVideoDescription(settings.reviewVideoDescription || 'See what our customers are saying about our amazing products.');
