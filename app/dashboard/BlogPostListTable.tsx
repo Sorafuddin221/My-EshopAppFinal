@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 
-import { BlogPost } from '@/app/types/BlogPost';
+import { BlogPost } from '../types/BlogPost';
 
 export default function BlogPostListTable() {
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);

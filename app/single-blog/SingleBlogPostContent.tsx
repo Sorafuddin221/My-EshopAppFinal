@@ -13,7 +13,7 @@ interface Comment {
 }
 
 
-import { BlogPost } from '@/app/types/BlogPost';
+import { BlogPost } from '../types/BlogPost';
 
 interface SingleBlogPostContentProps {
   blogPost?: BlogPost;
