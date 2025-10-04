@@ -3,7 +3,7 @@ export interface BlogPost {
     title: string;
     content: string;
     author: string;
-    category?: { _id: string; name: string; };
+    category?: { _id: string; name: string; } | string;
     imageUrl?: string;
     createdAt: string;
 }

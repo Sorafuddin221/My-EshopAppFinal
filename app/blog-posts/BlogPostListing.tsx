@@ -88,7 +88,7 @@ const BlogPostListing = () => {
                         <article key={post._id} className="bg-white rounded-xl shadow-lg blog-post-card ring-1 ring-transparent hover:ring-blue-500 ring-offset-2 ring-offset-white transition-all duration-300 ease-in-out">
                             <img className="w-full h-56 object-cover rounded-t-xl" src={post.imageUrl && (post.imageUrl.startsWith('http') || post.imageUrl.startsWith('https')) ? post.imageUrl : "https://placehold.co/600x400/1e293b/FFFFFF?text=Blog+Post"} alt={post.title} />
                             <div className="p-6">
-                                <p className="text-sm text-gray-500 mb-2">{post.category ? post.category.name : 'Uncategorized'}</p>
+                                <p className="text-sm text-gray-500 mb-2">{post.category ? (typeof post.category === 'string' ? post.category : post.category.name) : 'Uncategorized'}</p>
                                 <h2 className="text-2xl font-semibold text-gray-900 leading-tight">{post.title}</h2>
                                 <div className="flex items-center text-gray-500 text-sm mt-2 mb-4">
                                     <FontAwesomeIcon icon={faUserShield} className="text-red-500 mr-2" />
