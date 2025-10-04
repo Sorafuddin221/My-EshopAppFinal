@@ -88,7 +88,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
         <div className="lg:col-span-2 space-y-8">
             {/* Blog Post Content */}
             <article className="bg-white p-8 rounded-lg shadow-lg">
-                <img src={blogPost.imageUrl && (blogPost.imageUrl.startsWith('http') || blogPost.imageUrl.startsWith('https')) ? blogPost.imageUrl : "https://via.placeholder.com/800x450?text=Blog+Post+Image"} alt={blogPost.title} className="w-full h-auto object-cover rounded-lg mb-6" />
+                <img src={blogPost.imageUrl && (blogPost.imageUrl.startsWith('http') || blogPost.imageUrl.startsWith('https')) ? blogPost.imageUrl : "https://placehold.co/800x450?text=Blog+Post+Image"} alt={blogPost.title} className="w-full h-auto object-cover rounded-lg mb-6" />
 
                 <h1 className="text-3xl font-bold text-gray-800 mb-4">{blogPost.title}</h1>
 
@@ -123,7 +123,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
 
                 {/* Author Box */}
                 <div className="mt-8 p-6 bg-gray-100 rounded-lg flex items-center space-x-4">
-                    <img src="https://via.placeholder.com/100x100?text=Author" alt="Author photo" className="w-20 h-20 rounded-full object-cover" />
+                    <img src="https://placehold.co/100x100?text=Author" alt="Author photo" className="w-20 h-20 rounded-full object-cover" />
                     <div>
                         <h5 className="font-bold text-lg text-gray-800">{blogPost.author}</h5>
                         <p className="text-gray-600 text-sm">Web developer and tech enthusiast. I write about new trends and product reviews.</p>
@@ -137,7 +137,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                         {comments.length > 0 ? (
                             comments.map((comment) => (
                                 <div key={comment._id} className="bg-gray-50 p-4 rounded-lg flex space-x-4">
-                                    <img src="https://via.placeholder.com/60x60?text=User" alt="User photo" className="w-12 h-12 rounded-full object-cover" />
+                                    <img src="https://placehold.co/60x60?text=User" alt="User photo" className="w-12 h-12 rounded-full object-cover" />
                                     <div>
                                         <div className="flex items-center space-x-2">
                                             <h6 className="font-semibold text-gray-800">{comment.author}</h6>

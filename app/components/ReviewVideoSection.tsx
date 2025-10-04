@@ -31,12 +31,12 @@ export default function ReviewVideoSection() {
         setReviewVideoUrl(settings.reviewVideoUrl || 'https://www.youtube.com/embed/dQw4w9WgXcQ');
         setReviewVideoTitle(settings.reviewVideoTitle || 'Watch Our Product Review');
         setReviewVideoDescription(settings.reviewVideoDescription || 'See what our customers are saying about our amazing products.');
-        setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || 'https://via.placeholder.com/600x400?text=Video+Placeholder');
+        setReviewVideoPlaceholderImage(settings.reviewVideoPlaceholderImage || 'https://placehold.co/600x400?text=Video+Placeholder');
         setTeamLeader({
-          image: settings.teamLeaderImage || "https://via.placeholder.com/300x400?text=Phone+Image",
+          image: settings.teamLeaderImage || "https://placehold.co/300x400?text=Phone+Image",
           title: settings.teamLeaderTitle || "DISCOVER PRO",
           subtitle: settings.teamLeaderSubtitle || "ULTIMATE MULTITASKING",
-          avatar: settings.teamLeaderAvatar || "https://via.placeholder.com/60x60?text=Avatar",
+          avatar: settings.teamLeaderAvatar || "https://placehold.co/60x60?text=Avatar",
           author: settings.teamLeaderAuthor || "ThemeIM",
           role: settings.teamLeaderRole || "Team Leader",
           rating: settings.teamLeaderRating || 4,
@@ -48,12 +48,12 @@ export default function ReviewVideoSection() {
         setReviewVideoUrl('https://www.youtube.com/embed/dQw4w9WgXcQ');
         setReviewVideoTitle('Watch Our Product Review');
         setReviewVideoDescription('See what our customers are saying about our amazing products.');
-        setReviewVideoPlaceholderImage('https://via.placeholder.com/600x400?text=Video+Placeholder');
+        setReviewVideoPlaceholderImage('https://placehold.co/600x400?text=Video+Placeholder');
         setTeamLeader({
-          image: "https://via.placeholder.com/300x400?text=Phone+Image",
+          image: "https://placehold.co/300x400?text=Phone+Image",
           title: "DISCOVER PRO",
           subtitle: "ULTIMATE MULTITASKING",
-          avatar: "https://via.placeholder.com/60x60?text=Avatar",
+          avatar: "https://placehold.co/60x60?text=Avatar",
           author: "ThemeIM",
           role: "Team Leader",
           rating: 4,

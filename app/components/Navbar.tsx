@@ -35,7 +35,7 @@ export default function Navbar() {
   const [isExploreMenuOpen, setIsExploreMenuOpen] = useState(false);
   const [brands, setBrands] = useState<Brand[]>([]); // State to store brands
   const [navMenus, setNavMenus] = useState<NavMenu[]>([]);
-  const [navbarLogoUrl, setNavbarLogoUrl] = useState('https://via.placeholder.com/40x40?text=Logo'); // Default
+  const [navbarLogoUrl, setNavbarLogoUrl] = useState('https://placehold.co/40x40?text=Logo'); // Default
   const [navbarLogoText, setNavbarLogoText] = useState('DEAL DIVERSify'); // Default
   const [isLogoTextVisible, setIsLogoTextVisible] = useState(true);
   const [searchQuery, setSearchQuery] = useState(''); // State for search query

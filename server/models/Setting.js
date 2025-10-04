@@ -7,7 +7,7 @@ const settingSchema = new mongoose.Schema({
   },
   navbarLogoUrl: {
     type: String,
-    default: 'https://via.placeholder.com/40x40?text=Logo',
+    default: 'https://placehold.co/40x40?text=Logo',
   },
   navbarLogoText: {
     type: String,
@@ -19,7 +19,7 @@ const settingSchema = new mongoose.Schema({
   },
   heroImageUrl: {
     type: String,
-    default: 'https://via.placeholder.com/1500x500?text=Hero+Image',
+    default: 'https://placehold.co/1500x500?text=Hero+Image',
   },
   heroMainText: {
     type: String,
@@ -67,11 +67,11 @@ const settingSchema = new mongoose.Schema({
   },
   reviewVideoPlaceholderImage: {
     type: String,
-    default: 'https://via.placeholder.com/600x400?text=Video+Placeholder',
+    default: 'https://placehold.co/600x400?text=Video+Placeholder',
   },
   teamLeaderImage: {
     type: String,
-    default: 'https://via.placeholder.com/300x400?text=Phone+Image',
+    default: 'https://placehold.co/300x400?text=Phone+Image',
   },
   teamLeaderTitle: {
     type: String,
@@ -83,7 +83,7 @@ const settingSchema = new mongoose.Schema({
   },
   teamLeaderAvatar: {
     type: String,
-    default: 'https://via.placeholder.com/60x60?text=Avatar',
+    default: 'https://placehold.co/60x60?text=Avatar',
   },
   teamLeaderAuthor: {
     type: String,

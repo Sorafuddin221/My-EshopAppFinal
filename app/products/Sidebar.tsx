@@ -209,7 +209,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
                 <ul className="space-y-4">
                     {recentProducts.map(product => (
                         <li key={product._id} className="flex items-start space-x-4">
-                            <img src={product.imageUrl || "https://via.placeholder.com/80x80?text=Product"} alt={product.name} className="w-16 h-16 rounded-md object-cover" />
+                            <img src={product.imageUrl || "https://placehold.co/80x80?text=Product"} alt={product.name} className="w-16 h-16 rounded-md object-cover" />
                             <div>
                                 <a href={`/single-product/${product._id}`} className="font-semibold text-gray-800 hover:text-red-500">{product.name}</a>
                                 <p className="text-red-500 font-bold text-sm mt-1">{product.price ? `${product.price.toFixed(2)}` : 'Price not available'}</p>

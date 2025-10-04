@@ -31,7 +31,7 @@ export default function HeroSection() {
       } catch (err) {
         console.error('Error fetching hero section settings:', err);
         // Fallback to default values if fetching fails
-        setHeroImageUrl('https://via.placeholder.com/1500x500?text=Hero+Image');
+        setHeroImageUrl('https://placehold.co/1500x500?text=Hero+Image');
         setHeroMainText('Your Awesome Hero Title');
         setHeroButtonText('Shop Now');
         setHeroButtonUrl('/products');
@@ -80,7 +80,7 @@ export default function HeroSection() {
         </div>
         {/* Right Image - Removed as heroImageUrl is for background */}
         {/* <div className="z-10 mt-10 md:mt-0 flex-shrink-0">
-          <img src="https://via.placeholder.com/600x400?text=Tablet+Image" alt="Surface Tablet" className="max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg" />
+          <img src="https://placehold.co/600x400?text=Tablet+Image" alt="Surface Tablet" className="max-w-xs md:max-w-sm lg:max-w-md xl:max-w-lg" />
         </div> */}
       </div>
       {/* Background Overlay */}
