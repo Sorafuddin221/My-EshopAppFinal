@@ -10,10 +10,16 @@ interface Product {
   name: string;
   description: string;
   price: number;
+  stock: number;
   category: { _id: string; name: string; };
   brand: { _id: string; name: string; };
   imageUrl?: string;
   rating?: number;
+  buyNowUrl?: string;
+  metaDescription?: string;
+  metaKeywords?: string;
+  thumbnailImage1Url?: string;
+  thumbnailImage2Url?: string;
 }
 
 export default function AddProductSection() {
@@ -506,7 +512,7 @@ export default function AddProductSection() {
                   <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Price</th>
                   <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Category</th>
                   <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Brand</th>
-                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Brand</th>
+                  <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                   <th className="py-2 px-4 border-b border-gray-200 bg-gray-50 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
