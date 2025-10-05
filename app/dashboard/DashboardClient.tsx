@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import api from '../../utils/api';
 import ProfileSection from './ProfileSection';
 import SettingsSection from './SettingsSection';
 import AppearanceCustomizeSection from './AppearanceCustomizeSection';
@@ -22,8 +23,21 @@ import ShopSection from './ShopSection';
 import WidgetsSection from './WidgetsSection';
 import DashboardLayout from './DashboardLayout';
 
-const DashboardClient = () => {
+export default DashboardClient = () => {
   const [activeSection, setActiveSection] = useState('profile');
+  const [authors, setAuthors] = useState([]);
+
+  useEffect(() => {
+    const fetchAuthors = async () => {
+      try {
+        const fetchedAuthors = await api.get('/authors');
+        setAuthors(fetchedAuthors);
+      } catch (error) {
+        console.error('Error fetching authors:', error);
+      }
+    };
+    fetchAuthors();
+  }, []);
 
   const renderSection = () => {
     switch (activeSection) {
@@ -56,7 +70,7 @@ const DashboardClient = () => {
       case 'add-author':
         return <AddAuthorSection />;
       case 'author-list':
-        return <AuthorListTable />;
+        return <AuthorListTable authors={authors} />;
       case 'user-approval':
         return <UserApprovalTable />;
       case 'charts-tables':
