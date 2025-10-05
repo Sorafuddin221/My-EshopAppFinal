@@ -23,7 +23,7 @@ import ShopSection from './ShopSection';
 import WidgetsSection from './WidgetsSection';
 import DashboardLayout from './DashboardLayout';
 
-export default DashboardClient = () => {
+const DashboardClient = () => {
   const [activeSection, setActiveSection] = useState('profile');
   const [authors, setAuthors] = useState([]);
 
@@ -94,3 +94,5 @@ export default DashboardClient = () => {
     </DashboardLayout>
   );
 };
+
+export default DashboardClient;
