@@ -1,5 +1,4 @@
 import FooterMenuCustomize from './FooterMenuCustomize';
-import FooterMenuCustomize from './FooterMenuCustomize';
 // ... other imports
 
 const DashboardClient = () => {
