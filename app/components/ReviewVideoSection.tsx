@@ -112,11 +112,11 @@ export default function ReviewVideoSection() {
 
         {/* Video Card */}
         <div className="bg-white rounded-xl shadow-lg relative flex items-center justify-center overflow-hidden">
-          {teamLeaderVideoUrl ? (
+          {reviewVideoUrl ? (
             <iframe
               width="100%"
               height="100%"
-              src={teamLeaderVideoUrl}
+              src={`https://www.youtube.com/embed/${reviewVideoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/watch\?v=([^\s&]+)|youtu\.be\/([^\s&]+)|youtube\.com\/embed\/([^\s&]+)/)?.[1] || reviewVideoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/watch\?v=([^\s&]+)|youtu\.be\/([^\s&]+)|youtube\.com\/embed\/([^\s&]+)/)?.[2] || reviewVideoUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/watch\?v=([^\s&]+)|youtu\.be\/([^\s&]+)|youtube\.com\/embed\/([^\s&]+)/)?.[3]}`}
               title={reviewVideoTitle}
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -126,7 +126,7 @@ export default function ReviewVideoSection() {
           ) : (
             <img src={reviewVideoPlaceholderImage} alt="Video Placeholder" className="w-full h-full object-cover" />
           )}
-          {!teamLeaderVideoUrl && (
+          {!reviewVideoUrl && (
             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
               <button className="bg-white text-red-500 p-4 rounded-full shadow-lg hover:scale-110 transition-transform duration-300">
                 <FontAwesomeIcon icon={faPlay} className="text-xl" />

@@ -95,7 +95,7 @@ export default function TeamLeaderSectionCustomize() {
         setTeamLeaderRole(response.teamLeaderRole || '');
         setTeamLeaderRating(response.teamLeaderRating || 0);
         setTeamLeaderText(response.teamLeaderText || '');
-        setTeamLeaderVideoUrl(response.teamLeaderVideoUrl || '');
+        setTeamLeaderVideoUrl(updatedSettings.teamLeaderVideoUrl || '');
         setTeamLeaderImageFile(null);
       } else {
         setMessage(response.msg || 'Failed to update settings.');
