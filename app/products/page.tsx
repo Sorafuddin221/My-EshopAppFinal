@@ -27,46 +27,36 @@ const ProductsPage = () => {
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
-        const fetchProducts = async () => {
+        const fetchData = async () => {
             try {
-                const data = await api.get('/products');
-                if (Array.isArray(data)) {
-                    setProducts(data);
-                    // Apply initial search and category filter
-                    handleSearch(initialSearchQuery, selectedCategory, data);
+                const [productsData, categoriesData, settingsData] = await Promise.all([
+                    api.get('/products'),
+                    api.get('/categories'),
+                    api.get('/settings')
+                ]);
+
+                if (Array.isArray(productsData)) {
+                    setProducts(productsData);
+                    handleSearch(initialSearchQuery, selectedCategory, productsData);
                 } else {
-                    console.error("Failed to fetch products: data is not an array", data);
+                    console.error("Failed to fetch products: data is not an array", productsData);
                 }
-            } catch (error) {
-                console.error("Failed to fetch products", error);
-            }
-        };
 
-        const fetchCategories = async () => {
-            try {
-                const data = await api.get('/categories');
-                if (Array.isArray(data)) {
-                    setCategories(data);
+                if (Array.isArray(categoriesData)) {
+                    const categoriesWithProducts = categoriesData.filter((category: Category) =>
+                        productsData.some((product: Product) => product.category && product.category._id === category._id)
+                    );
+                    setCategories(categoriesWithProducts);
                 } else {
-                    console.error("Failed to fetch categories: data is not an array", data);
+                    console.error("Failed to fetch categories: data is not an array", categoriesData);
                 }
+                setSettings(settingsData);
             } catch (error) {
-                console.error("Failed to fetch categories", error);
+                console.error("Failed to fetch data", error);
             }
         };
 
-        const fetchSettings = async () => {
-            try {
-                const data = await api.get('/settings');
-                setSettings(data);
-            } catch (error) {
-                console.error("Failed to fetch settings", error);
-            }
-        };
-
-        fetchProducts();
-        fetchCategories();
-        fetchSettings();
+        fetchData();
     }, []);
 
     const handleSearch = (query: string, category: string, allProducts: Product[] = products) => {
