@@ -165,23 +165,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
                 </ul>
             </div>
 
-            {/* Recent Comments */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Recent Comments</h3>
-                <ul className="space-y-3">
-                    {recentComments.length > 0 ? (
-                        recentComments.map((comment) => (
-                            <li key={comment._id}>
-                                <a href={`/single-blog/${comment.blogPostId}`} className="block text-gray-600 hover:text-red-500 transition-colors duration-200">
-                                    {comment.author} on {comment.blogPostTitle}
-                                </a>
-                            </li>
-                        ))
-                    ) : (
-                        <p>No recent comments found.</p>
-                    )}
-                </ul>
-            </div>
+            
 
             {/* Archives */}
             <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -219,26 +203,6 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
                 </ul>
             </div>
 
-
-
-            {/* Our Social Link */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Our Social Link</h3>
-                <div className="flex space-x-4">
-                    <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-orange-500 text-white flex items-center justify-center rounded-full transition-colors duration-300">
-                        <FontAwesomeIcon icon={faTwitter} />
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-orange-500 text-white flex items-center justify-center rounded-full transition-colors duration-300">
-                        <FontAwesomeIcon icon={faFacebookF} />
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-orange-500 text-white flex items-center justify-center rounded-full transition-colors duration-300">
-                        <FontAwesomeIcon icon={faPinterestP} />
-                    </a>
-                    <a href="#" className="w-10 h-10 bg-gray-700 hover:bg-orange-500 text-white flex items-center justify-center rounded-full transition-colors duration-300">
-                        <FontAwesomeIcon icon={faGooglePlusG} />
-                    </a>
-                </div>
-            </div>
         </aside>
     );
 };
