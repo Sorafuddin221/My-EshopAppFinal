@@ -77,9 +77,9 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
           </a>
         </li>
         <li className="px-4 py-2">
-          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#customize" onClick={() => onNavigate('customize')}>
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#customize" onClick={() => onNavigate('appearance-customize')}>
             <FontAwesomeIcon icon={faPalette} className="mr-2" />
-            <span>Customize</span>
+            <span>Appearance Customize</span>
           </a>
         </li>
         <li className="px-4 py-2">
