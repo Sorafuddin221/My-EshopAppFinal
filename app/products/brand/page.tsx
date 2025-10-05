@@ -43,7 +43,10 @@ const BrandsPage = () => {
                 }
 
                 if (Array.isArray(brandsData)) {
-                    setBrands(brandsData);
+                    const brandsWithProducts = brandsData.filter((brand: Brand) =>
+                        productsData.some((product: Product) => product.brand && product.brand._id === brand._id)
+                    );
+                    setBrands(brandsWithProducts);
                 } else {
                     console.error("Failed to fetch brands: data is not an array", brandsData);
                 }
