@@ -1,6 +1,26 @@
 import { useState } from 'react';
+import ProfileSection from './ProfileSection';
+import SettingsSection from './SettingsSection';
+import AppearanceCustomizeSection from './AppearanceCustomizeSection';
+import HeroSectionCustomize from './HeroSectionCustomize';
+import ProductHeadingSectionCustomize from './ProductHeadingSectionCustomize';
+import TeamLeaderSectionCustomize from './TeamLeaderSectionCustomize';
+import LatestBlogPostsSectionCustomize from './LatestBlogPostsSectionCustomize';
+import FooterCustomize from './FooterCustomize';
 import FooterMenuCustomize from './FooterMenuCustomize';
-// ... other imports
+import AddProductSection from './AddProductSection';
+import ProductListTable from './ProductListTable';
+import AddBlogPostSection from './AddBlogPostSection';
+import BlogPostListTable from './BlogPostListTable';
+import AddAuthorSection from './AddAuthorSection';
+import AuthorListTable from './AuthorListTable';
+import UserApprovalTable from './UserApprovalTable';
+import ChartsAndTablesSection from './ChartsAndTablesSection';
+import ContactInfoSection from './ContactInfoSection';
+import AddressSettingsSection from './AddressSettingsSection';
+import ShopSection from './ShopSection';
+import WidgetsSection from './WidgetsSection';
+import DashboardLayout from './DashboardLayout';
 
 const DashboardClient = () => {
   const [activeSection, setActiveSection] = useState('profile');
