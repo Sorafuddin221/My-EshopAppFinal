@@ -101,6 +101,12 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
           </a>
         </li>
         <li className="px-4 py-2">
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#footer-menu-customize" onClick={() => onNavigate('footer-menu-customize')}>
+            <FontAwesomeIcon icon={faPalette} className="mr-2" />
+            <span>Footer Menus</span>
+          </a>
+        </li>
+        <li className="px-4 py-2">
           <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#nav-menu-management" onClick={() => onNavigate('nav-menu-management')}>
             <FontAwesomeIcon icon={faPalette} className="mr-2" /> {/* Using faPalette as a placeholder icon */}
             <span>Navigation Menus</span>
