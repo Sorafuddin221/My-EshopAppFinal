@@ -27,9 +27,13 @@ import SingleBlogPostContent from "../SingleBlogPostContent";
 
 
 
-const SingleBlogPostPage = async (props: any) => {
-const postId = props.params.id;
-    let blogPost: BlogPost | null = null;
+type PageProps = {
+  params: Promise<{ id: string }>;
+};
+
+const SingleBlogPostPage = async ({ params }: PageProps) => {
+    const { id } = await params;
+    const postId = id;    let blogPost: BlogPost | null = null;
     let error: string | null = null;
 
     try {
