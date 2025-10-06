@@ -1,7 +1,25 @@
-'use client';
+import { Metadata } from 'next';
+import api from '../../../utils/api'; // Adjust path as needed
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+type Props = {
+  params: { id: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const postId = params.id;
+  try {
+    const blogPost = await api.get(`/blogposts/${postId}`);
+    return {
+      title: blogPost.title,
+    };
+  } catch (error) {
+    console.error('Error fetching blog post for metadata:', error);
+    return {
+      title: 'Blog Post Not Found',
+    };
+  }
+}
+
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -14,46 +32,20 @@ import SingleBlogPostContent from "../SingleBlogPostContent";
 
 
 
-const SingleBlogPostPage = () => {
-    const params = useParams();
+const SingleBlogPostPage = async ({ params }: { params: { id: string } }) => {
     const postId = params.id;
-    const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    let blogPost: BlogPost | null = null;
+    let error: string | null = null;
 
-    useEffect(() => {
-        if (postId) {
-            const fetchBlogPost = async () => {
-                console.log('Fetching blog post with ID:', postId);
-                try {
-                    const data = await api.get(`/blogposts/${postId}`);
-                    if (data._id) {
-                        setBlogPost(data);
-                    } else {
-                        setError(data.msg || 'Blog post not found.');
-                    }
-                } catch (err: any) {
-                    setError(err.message || 'Server error. Could not fetch blog post.');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            fetchBlogPost();
+    try {
+        const data = await api.get(`/blogposts/${postId}`);
+        if (data._id) {
+            blogPost = data;
+        } else {
+            error = data.msg || 'Blog post not found.';
         }
-    }, [postId]);
-
-    if (loading) {
-        return (
-            <div className="font-sans bg-gray-100">
-                <Header />
-                <Navbar />
-                <main className="container mx-auto px-4 py-12 text-center">
-                    Loading blog post details...
-                </main>
-                <Footer />
-                <BackToTopButton />
-            </div>
-        );
+    } catch (err: any) {
+        error = err.message || 'Server error. Could not fetch blog post.';
     }
 
     if (error) {

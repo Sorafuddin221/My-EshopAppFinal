@@ -145,8 +145,8 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
                     {Array.isArray(categories) && categories.map((cat) => (
                         <li key={cat._id}>
                             <button
-                                onClick={() => onSelectCategory(cat._id)}
-                                className={`block text-left w-full ${selectedCategory === cat._id ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
+                                onClick={() => onSelectCategory(cat.name)}
+                                className={`block text-left w-full ${selectedCategory === cat.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
                             >
                                 {cat.name}
                             </button>

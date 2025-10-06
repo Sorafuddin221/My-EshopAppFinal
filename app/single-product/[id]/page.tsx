@@ -1,7 +1,25 @@
-'use client';
+import { Metadata } from 'next';
+import api from '../../../utils/api'; // Adjust path as needed
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+type Props = {
+  params: { id: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const productId = params.id;
+  try {
+    const product = await api.get(`/products/${productId}`);
+    return {
+      title: product.name,
+    };
+  } catch (error) {
+    console.error('Error fetching product for metadata:', error);
+    return {
+      title: 'Product Not Found',
+    };
+  }
+}
+
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
@@ -13,49 +31,22 @@ import RelatedItemsSection from "../RelatedItemsSection";
 import api from '../../../utils/api';
 import { Product } from '@/app/types/Product';
 
-
-const SingleProductpostPage = () => {
-    const params = useParams();
+const SingleProductpostPage = async ({ params }: { params: { id: string } }) => {
     const productId = params.id;
-    const [product, setProduct] = useState<Product | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    let product: Product | null = null;
+    let error: string | null = null;
 
-    useEffect(() => {
-        if (productId) {
-            const fetchProduct = async () => {
-                try {
-                    const data = await api.get(`/products/${productId}`);
-                    if (data._id) {
-                        setProduct(data);
-                        // Increment view count
-                        await api.put(`/products/${productId}/view`);
-                    } else {
-                        setError(data.msg || 'Product not found.');
-                    }
-                } catch (err: any) {
-                    setError(err.message || 'Server error. Could not fetch product.');
-                } finally {
-                    setLoading(false);
-                }
-            };
-            fetchProduct();
+    try {
+        const data = await api.get(`/products/${productId}`);
+        if (data._id) {
+            product = data;
+            // Increment view count
+            await api.put(`/products/${productId}/view`);
+        } else {
+            error = data.msg || 'Product not found.';
         }
-    }, [productId]);
-
-    if (loading) {
-        return (
-            <div className="font-sans bg-gray-100">
-                <Header />
-                <Navbar />
-                <main className="container mx-auto px-4 py-12 text-center">
-                    Loading product details...
-                </main>
-                <Footer />
-                
-                <BackToTopButton />
-            </div>
-        );
+    } catch (err: any) {
+        error = err.message || 'Server error. Could not fetch product.';
     }
 
     if (error) {
@@ -67,7 +58,6 @@ const SingleProductpostPage = () => {
                     Error: {error}
                 </main>
                 <Footer />
-                
                 <BackToTopButton />
             </div>
         );
@@ -82,7 +72,6 @@ const SingleProductpostPage = () => {
                     Product not found.
                 </main>
                 <Footer />
-                
                 <BackToTopButton />
             </div>
         );
@@ -102,7 +91,6 @@ const SingleProductpostPage = () => {
                 />
             </main>
             <Footer />
-            
             <BackToTopButton />
         </div>
     );

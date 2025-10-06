@@ -5,6 +5,10 @@ import api from '../../utils/api';
 interface BlogHeroSectionProps {
     headingText: string;
     subheadingText: string;
+    searchQuery: string;
+    setSearchQuery: (query: string) => void;
+    selectedCategory: string;
+    setSelectedCategory: (category: string) => void;
 }
 
 interface Category {
@@ -12,10 +16,8 @@ interface Category {
     name: string;
 }
 
-const BlogHeroSection = ({ headingText, subheadingText }: BlogHeroSectionProps) => {
+const BlogHeroSection = ({ headingText, subheadingText, searchQuery, setSearchQuery, selectedCategory, setSelectedCategory }: BlogHeroSectionProps) => {
     const [categories, setCategories] = useState<Category[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState('');
-    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         const fetchCategories = async () => {

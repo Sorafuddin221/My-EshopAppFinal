@@ -18,7 +18,12 @@ interface Category {
     name: string;
 }
 
-const BlogSidebar = () => {
+interface BlogSidebarProps {
+    selectedCategory: string;
+    setSelectedCategory: (category: string) => void;
+}
+
+const BlogSidebar = ({ selectedCategory, setSelectedCategory }: BlogSidebarProps) => {
     const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState(true);
@@ -80,10 +85,15 @@ const BlogSidebar = () => {
             <div className="bg-white p-6 rounded-lg shadow-lg">
                 <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Categories</h3>
                 <ul className="space-y-3">
+                    <li key="all-categories">
+                        <a href="#" onClick={(e) => { e.preventDefault(); setSelectedCategory(''); }} className={`flex items-center text-gray-600 hover:text-red-500 transition-colors duration-200 ${selectedCategory === '' ? 'text-red-500' : ''}`}>
+                            <FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />All Categories
+                        </a>
+                    </li>
                     {categories.length > 0 ? (
                         categories.map((category) => (
                             <li key={category._id}>
-                                <a href="#" className="flex items-center text-gray-600 hover:text-red-500 transition-colors duration-200">
+                                <a href="#" onClick={(e) => { e.preventDefault(); setSelectedCategory(category._id); }} className={`flex items-center text-gray-600 hover:text-red-500 transition-colors duration-200 ${selectedCategory === category._id ? 'text-red-500' : ''}`}>
                                     <FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />{category.name}
                                 </a>
                             </li>

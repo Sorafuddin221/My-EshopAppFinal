@@ -9,11 +9,33 @@ import api from '../../utils/api';
 
 import { BlogPost } from '../types/BlogPost';
 
-const BlogPostListing = () => {
+interface BlogPostListingProps {
+    searchQuery: string;
+    selectedCategory: string;
+}
+
+const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps) => {
     const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [sortOrder, setSortOrder] = useState('default');
+    const [filteredBlogPosts, setFilteredBlogPosts] = useState<BlogPost[]>([]);
+
+    useEffect(() => {
+        let filtered = blogPosts;
+
+        if (searchQuery) {
+            filtered = filtered.filter(post =>
+                post.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        }
+
+        if (selectedCategory) {
+            filtered = filtered.filter(post => post.category?._id === selectedCategory);
+        }
+
+        setFilteredBlogPosts(filtered);
+    }, [searchQuery, selectedCategory, blogPosts]);
 
     useEffect(() => {
         const fetchBlogPosts = async () => {
@@ -63,7 +85,7 @@ const BlogPostListing = () => {
             {/* Sort and View Options */}
             <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
                 <div className="text-gray-700">
-                    Showing {blogPosts.length} results
+                    Showing {filteredBlogPosts.length} results
                 </div>
                 <div className="flex items-center space-x-4">
                     <span className="text-gray-700">Sort by</span>
@@ -83,8 +105,8 @@ const BlogPostListing = () => {
 
             {/* Blog Post Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {blogPosts.length > 0 ? (
-                    blogPosts.map((post) => (
+                {filteredBlogPosts.length > 0 ? (
+                    filteredBlogPosts.map((post) => (
                         <article key={post._id} className="bg-white rounded-xl shadow-lg blog-post-card ring-1 ring-transparent hover:ring-blue-500 ring-offset-2 ring-offset-white transition-all duration-300 ease-in-out">
                             <img className="w-full h-56 object-cover rounded-t-xl" src={post.imageUrl && (post.imageUrl.startsWith('http') || post.imageUrl.startsWith('https')) ? post.imageUrl : "https://placehold.co/600x400/1e293b/FFFFFF?text=Blog+Post"} alt={post.title} />
                             <div className="p-6">

@@ -16,6 +16,8 @@ import api from '@/utils/api';
 
 const BlogPostsPage = () => {
     const [settings, setSettings] = useState<any>(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     useEffect(() => {
         const fetchSettings = async () => {
@@ -36,11 +38,21 @@ const BlogPostsPage = () => {
             <BlogHeroSection 
                 headingText={settings?.blogPageHeading || "Search Product Review & Discover"}
                 subheadingText={settings?.blogPageSubheading || "Read reviews. Write reviews. Deal smarter."}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
             />
             <main className="container mx-auto px-4 py-12">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    <BlogPostListing />
-                    <BlogSidebar />
+                    <BlogPostListing
+                        searchQuery={searchQuery}
+                        selectedCategory={selectedCategory}
+                    />
+                    <BlogSidebar
+                        selectedCategory={selectedCategory}
+                        setSelectedCategory={setSelectedCategory}
+                    />
                 </div>
             </main>
             <Footer />
