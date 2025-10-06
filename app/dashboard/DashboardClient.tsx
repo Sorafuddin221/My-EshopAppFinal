@@ -136,6 +136,13 @@ const DashboardClient = () => {
                             </a>
                         </li>
                         <li className="px-4 py-2">
+                            <a className={`flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer ${activeSection === 'footer-menu-customize' ? 'bg-gray-200 text-blue-600' : ''}`}
+                                onClick={() => setActiveSection('footer-menu-customize')}>
+                                <i className="bi bi-palette-fill mr-2"></i>
+                                <span>Footer Menu Customize</span>
+                            </a>
+                        </li>
+                        <li className="px-4 py-2">
                             <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer" onClick={handleLogout}>
                                 <i className="bi bi-box-arrow-left mr-2"></i>
                                 <span>Logout</span>
