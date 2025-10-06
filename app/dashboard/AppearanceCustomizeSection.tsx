@@ -5,7 +5,7 @@ import HeroSectionCustomize from './HeroSectionCustomize';
 import LatestBlogPostsSectionCustomize from './LatestBlogPostsSectionCustomize';
 
 import TeamLeaderSectionCustomize from './TeamLeaderSectionCustomize';
-import FooterCustomize from './FooterCustomize';
+
 import MenuCustomize from './MenuCustomize';
 
 const AppearanceCustomizeSection = () => {
@@ -16,7 +16,6 @@ const AppearanceCustomizeSection = () => {
       <LatestBlogPostsSectionCustomize />
 
       <TeamLeaderSectionCustomize />
-      <FooterCustomize />
       <MenuCustomize />
     </div>
   );

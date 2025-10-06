@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
+import FooterCustomize from './FooterCustomize';
 
 interface FooterMenu {
   _id: string;
@@ -153,6 +154,7 @@ export default function FooterMenuCustomize() {
           ))}
         </div>
       </div>
+      <FooterCustomize />
     </div>
   );
 }

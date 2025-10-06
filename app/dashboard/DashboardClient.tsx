@@ -15,6 +15,7 @@ import AppearanceCustomizeSection from './AppearanceCustomizeSection';
 import ContactInfoSection from './ContactInfoSection';
 import AddressSettingsSection from './AddressSettingsSection';
 import ProductHeadingSectionCustomize from './ProductHeadingSectionCustomize';
+import FooterMenuCustomize from './FooterMenuCustomize';
 
 const DashboardClient = () => {
     const [activeSection, setActiveSection] = useState('dashboard'); // Default active section
@@ -315,6 +316,10 @@ const DashboardClient = () => {
 
                     {activeSection === 'customizeProductHeading' && (
                         <ProductHeadingSectionCustomize />
+                    )}
+
+                    {activeSection === 'footer-menu-customize' && (
+                        <FooterMenuCustomize />
                     )}
 
                     {/* Settings Section (Hidden by default) */}

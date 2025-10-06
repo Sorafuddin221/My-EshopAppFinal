@@ -26,11 +26,11 @@ router.get('/', async (req, res) => {
 // @access  Private (Admin only)
 router.put('/', auth, async (req, res) => {
   try {
-    const { headerPromoText, navbarLogoUrl, navbarLogoText, isLogoTextVisible, heroImageUrl, heroMainText, heroButtonText, heroButtonUrl, heroTextColor, heroOverlayColor, heroButtonBgColor, heroButtonTextColor, heroHeadingFontSize, reviewVideoUrl, reviewVideoTitle, reviewVideoDescription, reviewVideoPlaceholderImage, teamLeaderImage, teamLeaderTitle, teamLeaderSubtitle, teamLeaderAvatar, teamLeaderAuthor, teamLeaderRole, teamLeaderRating, teamLeaderText, teamLeaderVideoUrl, footerAboutText, footerSocialLinks, footerCopyrightText, footerPaymentImages, metaTitle, metaLogoUrl, productsPageHeading, productsPageSubheading, brandsPageHeading, brandsPageSubheading, categoriesPageHeading, categoriesPageSubheading, blogPageHeading, blogPageSubheading, paymentImageUrl } = req.body;
+    const { headerPromoText, navbarLogoUrl, navbarLogoText, isLogoTextVisible, heroImageUrl, heroMainText, heroButtonText, heroButtonUrl, heroTextColor, heroOverlayColor, heroButtonBgColor, heroButtonTextColor, heroHeadingFontSize, reviewVideoUrl, reviewVideoTitle, reviewVideoDescription, reviewVideoPlaceholderImage, teamLeaderImage, teamLeaderTitle, teamLeaderSubtitle, teamLeaderAvatar, teamLeaderAuthor, teamLeaderRole, teamLeaderRating, teamLeaderText, footerAboutText, footerSocialLinks, footerCopyrightText, footerPaymentImages, metaTitle, metaLogoUrl, productsPageHeading, productsPageSubheading, brandsPageHeading, brandsPageSubheading, categoriesPageHeading, categoriesPageSubheading, blogPageHeading, blogPageSubheading } = req.body;
 
     let setting = await Setting.findOne();
     if (!setting) {
-      setting = new Setting({ headerPromoText, navbarLogoUrl, navbarLogoText, isLogoTextVisible, heroImageUrl, heroMainText, heroButtonText, heroButtonUrl, heroTextColor, heroOverlayColor, heroButtonBgColor, heroButtonTextColor, heroHeadingFontSize, reviewVideoUrl, reviewVideoTitle, reviewVideoDescription, reviewVideoPlaceholderImage, teamLeaderImage, teamLeaderTitle, teamLeaderSubtitle, teamLeaderAvatar, teamLeaderAuthor, teamLeaderRole, teamLeaderRating, teamLeaderText, teamLeaderVideoUrl, footerAboutText, footerSocialLinks, footerCopyrightText, footerPaymentImages, metaTitle, metaLogoUrl, productsPageHeading, productsPageSubheading, brandsPageHeading, brandsPageSubheading, categoriesPageHeading, categoriesPageSubheading, blogPageHeading, blogPageSubheading, paymentImageUrl });
+      setting = new Setting({ headerPromoText, navbarLogoUrl, navbarLogoText, isLogoTextVisible, heroImageUrl, heroMainText, heroButtonText, heroButtonUrl, heroTextColor, heroOverlayColor, heroButtonBgColor, heroButtonTextColor, heroHeadingFontSize, reviewVideoUrl, reviewVideoTitle, reviewVideoDescription, reviewVideoPlaceholderImage, teamLeaderImage, teamLeaderTitle, teamLeaderSubtitle, teamLeaderAvatar, teamLeaderAuthor, teamLeaderRole, teamLeaderRating, teamLeaderText, footerAboutText, footerSocialLinks, footerCopyrightText, productsPageHeading, productsPageSubheading, brandsPageHeading, brandsPageSubheading, categoriesPageHeading, categoriesPageSubheading, blogPageHeading, blogPageSubheading });
     } else {
       setting.headerPromoText = headerPromoText;
       setting.navbarLogoUrl = navbarLogoUrl;
@@ -57,7 +57,6 @@ router.put('/', auth, async (req, res) => {
       setting.teamLeaderRole = teamLeaderRole;
       setting.teamLeaderRating = teamLeaderRating;
       setting.teamLeaderText = teamLeaderText;
-      setting.teamLeaderVideoUrl = teamLeaderVideoUrl; // Add this line
       setting.footerAboutText = footerAboutText;
       setting.footerSocialLinks = footerSocialLinks;
       setting.footerCopyrightText = footerCopyrightText;
@@ -72,7 +71,6 @@ router.put('/', auth, async (req, res) => {
       setting.categoriesPageSubheading = categoriesPageSubheading;
       setting.blogPageHeading = blogPageHeading;
       setting.blogPageSubheading = blogPageSubheading;
-      setting.paymentImageUrl = paymentImageUrl; // Add this line
     }
     const updatedSetting = await setting.save();
     res.json(updatedSetting);

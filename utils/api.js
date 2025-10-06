@@ -27,12 +27,6 @@ const api = {
 
     let body;
     if (isFormData) {
-      // Check if the FormData contains a video file
-      if (data.has('video')) {
-        data.append('type', 'video');
-      } else {
-        data.append('type', 'image');
-      }
       body = data; // data is already FormData
     } else {
       headers['Content-Type'] = 'application/json';
@@ -64,12 +58,6 @@ const api = {
 
     let body;
     if (isFormData) {
-      // Check if the FormData contains a video file
-      if (data.has('video')) {
-        data.append('type', 'video');
-      } else {
-        data.append('type', 'image');
-      }
       body = data; // data is already FormData
     } else {
       headers['Content-Type'] = 'application/json';

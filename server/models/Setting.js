@@ -101,10 +101,6 @@ const settingSchema = new mongoose.Schema({
     type: String,
     default: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. The Lorem Ipsum has been the industry.',
   },
-  teamLeaderVideoUrl: {
-    type: String,
-    default: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-  },
   footerAboutText: {
     type: String,
     default: 'Lorem ipsum dolor sit amet, anim id est adipsici vam aliquam qua anim id est laborum laborum. Perspoconsectetur, adipiscici vam aliquam qua anim id est laborum.',
@@ -134,10 +130,6 @@ const settingSchema = new mongoose.Schema({
   footerPaymentImages: { // Changed to array
     type: [String], // Array of strings
     default: [], // Default to empty array
-  },
-  paymentImageUrl: {
-    type: String,
-    default: 'https://placehold.co/300x50?text=Payment+Methods',
   },
   metaTitle: {
     type: String,
