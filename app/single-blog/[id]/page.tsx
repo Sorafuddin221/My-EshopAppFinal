@@ -25,7 +25,6 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import AuthModal from "../../components/AuthModal";
 import BackToTopButton from "../../components/BackToTopButton";
-import api from '../../../utils/api';
 import { BlogPost } from '@/app/types/BlogPost';
 import SingleBlogHeroSection from "../SingleBlogHeroSection";
 import SingleBlogPostContent from "../SingleBlogPostContent";

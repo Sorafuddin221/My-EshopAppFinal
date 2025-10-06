@@ -28,7 +28,6 @@ import BackToTopButton from "../../components/BackToTopButton";
 import SingleProductHeroSection from "../SingleProductHeroSection";
 import ProductDetailsContent from "../ProductDetailsContent";
 import RelatedItemsSection from "../RelatedItemsSection";
-import api from '../../../utils/api';
 import { Product } from '@/app/types/Product';
 
 const SingleProductpostPage = async ({ params }: { params: { id: string } }) => {
