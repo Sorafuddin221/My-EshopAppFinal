@@ -47,8 +47,7 @@ const DashboardClient = () => {
         return <SettingsSection />;
       case 'appearance-customize':
         return <AppearanceCustomizeSection />;
-      case 'hero-section-customize':
-        return <HeroSectionCustomize />;
+
       case 'product-heading-section-customize':
         return <ProductHeadingSectionCustomize />;
       case 'team-leader-section-customize':
@@ -61,12 +60,11 @@ const DashboardClient = () => {
         return <FooterMenuCustomize />;
       case 'add-product':
         return <AddProductSection />;
-      case 'product-list':
-        return <ProductListTable />;
       case 'add-blog-post':
-        return <AddBlogPostSection />;
-      case 'blog-post-list':
-        return <BlogPostListTable />;
+        return <AddBlogPostSection />; 
+
+
+
       case 'add-author':
         return <AddAuthorSection />;
       case 'author-list':
