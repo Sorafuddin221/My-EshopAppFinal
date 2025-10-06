@@ -73,6 +73,13 @@ const DashboardClient = () => {
         return <AuthorListTable authors={authors} />;
       case 'user-approval':
         return <UserApprovalTable />;
+      case 'authors':
+        return (
+          <>
+            <AddAuthorSection />
+            <AuthorListTable authors={authors} />
+          </>
+        );
       case 'charts-tables':
         return <ChartsAndTablesSection />;
       case 'contact-info':
