@@ -101,6 +101,10 @@ const settingSchema = new mongoose.Schema({
     type: String,
     default: 'Lorem Ipsum is simply dummy text of the printing and type setting industry. The Lorem Ipsum has been the industry.',
   },
+  teamLeaderVideoUrl: {
+    type: String,
+    default: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+  },
   footerAboutText: {
     type: String,
     default: 'Lorem ipsum dolor sit amet, anim id est adipsici vam aliquam qua anim id est laborum laborum. Perspoconsectetur, adipiscici vam aliquam qua anim id est laborum.',
