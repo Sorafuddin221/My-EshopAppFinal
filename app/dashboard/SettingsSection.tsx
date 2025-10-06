@@ -20,9 +20,11 @@ export default function SettingsSection() {
     categoriesPageSubheading: '',
     blogPageHeading: '',
     blogPageSubheading: '',
+    paymentImageUrl: '', // New field for payment image URL
   });
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [metaLogoFile, setMetaLogoFile] = useState<File | null>(null);
+  const [paymentImageFile, setPaymentImageFile] = useState<File | null>(null); // New state for payment image file
   const [message, setMessage] = useState('');
 
   const { token } = useAuth();
@@ -43,6 +45,7 @@ export default function SettingsSection() {
             categoriesPageSubheading: fetchedSettings.categoriesPageSubheading || '',
             blogPageHeading: fetchedSettings.blogPageHeading || '',
             blogPageSubheading: fetchedSettings.blogPageSubheading || '',
+            paymentImageUrl: fetchedSettings.paymentImageUrl || '', // Fetch payment image URL
           });
         }
       } catch (error) {
@@ -73,6 +76,8 @@ export default function SettingsSection() {
         setLogoFile(file);
       } else if (fileType === 'metaLogo') {
         setMetaLogoFile(file);
+      } else if (fileType === 'paymentImage') {
+        setPaymentImageFile(file);
       }
       setMessage(''); // Clear previous messages
     }
@@ -92,31 +97,39 @@ export default function SettingsSection() {
       return;
     }
 
-    let newNavbarLogoUrl = settings.navbarLogoUrl;
-    let newMetaLogoUrl = settings.metaLogoUrl;
-
-    try {
-      if (logoFile) {
-        const formData = new FormData();
-        formData.append('image', logoFile);
-        const uploadResponse = await api.post('/uploads', formData, token, true);
-        console.log('Upload Response for Navbar Logo:', uploadResponse);
-        newNavbarLogoUrl = uploadResponse.imageUrl;
-      }
-
-      if (metaLogoFile) {
-        const formData = new FormData();
-        formData.append('image', metaLogoFile);
-        const uploadResponse = await api.post('/uploads', formData, token, true);
-        console.log('Upload Response for Meta Logo:', uploadResponse);
-        newMetaLogoUrl = uploadResponse.imageUrl;
-        console.log('Constructed newMetaLogoUrl:', newMetaLogoUrl);
-      }
-
+          let newNavbarLogoUrl = settings.navbarLogoUrl;
+        let newMetaLogoUrl = settings.metaLogoUrl;
+        let newPaymentImageUrl = settings.paymentImageUrl; // New variable for payment image URL
+    
+        try {
+          if (logoFile) {
+            const formData = new FormData();
+            formData.append('image', logoFile);
+            const uploadResponse = await api.post('/uploads', formData, token, true);
+            console.log('Upload Response for Navbar Logo:', uploadResponse);
+            newNavbarLogoUrl = uploadResponse.imageUrl;
+          }
+    
+          if (metaLogoFile) {
+            const formData = new FormData();
+            formData.append('image', metaLogoFile);
+            const uploadResponse = await api.post('/uploads', formData, token, true);
+            console.log('Upload Response for Meta Logo:', uploadResponse);
+            newMetaLogoUrl = uploadResponse.imageUrl;
+            console.log('Constructed newMetaLogoUrl:', newMetaLogoUrl);
+          }
+    
+          if (paymentImageFile) {
+            const formData = new FormData();
+            formData.append('image', paymentImageFile);
+            const uploadResponse = await api.post('/uploads', formData, token, true);
+            newPaymentImageUrl = uploadResponse.imageUrl;
+          }
       const updatedSettings = {
         ...settings,
         navbarLogoUrl: newNavbarLogoUrl,
         metaLogoUrl: newMetaLogoUrl,
+        paymentImageUrl: newPaymentImageUrl, // Add payment image URL to settings
         isLogoTextVisible: settings.isLogoTextVisible,
         productsPageHeading: settings.productsPageHeading,
         productsPageSubheading: settings.productsPageSubheading,
@@ -137,6 +150,7 @@ export default function SettingsSection() {
         setSettings(response);
         setLogoFile(null);
         setMetaLogoFile(null);
+        setPaymentImageFile(null); // Reset payment image file
       } else {
         setMessage(response.msg || 'Failed to update settings.');
       }
@@ -327,6 +341,24 @@ export default function SettingsSection() {
               value={settings.blogPageSubheading}
               onChange={handleInputChange}
             />
+          </div>
+
+          {/* Payment Image Upload */}
+          <div className="mb-4">
+            <label htmlFor="payment-image-upload" className="block text-gray-700 text-sm font-bold mb-2">Upload Payment Image</label>
+            <input
+              type="file"
+              id="payment-image-upload"
+              onChange={(e) => handleFileChange(e, 'paymentImage')}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+            {settings.paymentImageUrl && (
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">Current Payment Image:</p>
+                <img src={settings.paymentImageUrl} alt="Current Payment Image" className="mt-1 w-24 h-auto object-contain border rounded p-1" />
+                <p className="text-xs text-gray-500">URL: {settings.paymentImageUrl}</p>
+              </div>
+            )}
           </div>
 
           <div className="mb-4">

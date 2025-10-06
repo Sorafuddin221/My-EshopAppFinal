@@ -16,7 +16,7 @@ cloudinary.config({
 const storage = multer.memoryStorage();
 
 // Initialize upload
-const upload = multer({
+const uploadImage = multer({
   storage: storage,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit for Cloudinary uploads
   fileFilter: function (req, file, cb) {
@@ -24,19 +24,28 @@ const upload = multer({
   },
 }).single('image');
 
+// Initialize upload for video
+const uploadVideo = multer({
+  storage: storage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB limit for Cloudinary uploads
+  fileFilter: function (req, file, cb) {
+    checkFileType(file, cb);
+  },
+}).single('video');
+
 // Check file type
 function checkFileType(file, cb) {
   // Allowed ext
-  const filetypes = /jpeg|jpg|png|gif/;
+  const filetypes = /jpeg|jpg|png|gif|mp4|webm|ogg/;
   // Check ext
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   // Check mime
   const mimetype = filetypes.test(file.mimetype);
 
-  if (mimetype && extname) {
+  if (mimetype || extname) {
     return cb(null, true);
   } else {
-    cb('Error: Images Only!');
+    cb('Error: Images or Videos Only!');
   }
 }
 
@@ -44,7 +53,11 @@ function checkFileType(file, cb) {
 // @desc    Upload an image
 // @access  Private (Admin only)
 router.post('/', auth, (req, res) => {
-  upload(req, res, async (err) => { // Added 'async' here
+  // Check if the request is for a video or image upload
+  const isVideoUpload = req.body.type === 'video';
+  const uploadMiddleware = isVideoUpload ? uploadVideo : uploadImage;
+
+  uploadMiddleware(req, res, async (err) => { // Added 'async' here
     if (err) {
       return res.status(400).json({ msg: err });
     }
@@ -60,10 +73,17 @@ router.post('/', auth, (req, res) => {
         resource_type: "auto",
       });
 
-      res.status(200).json({
+      const response = {
         msg: 'File uploaded successfully!',
-        imageUrl: result.secure_url, // Return Cloudinary secure URL
-      });
+      };
+
+      if (isVideoUpload) {
+        response.videoUrl = result.secure_url;
+      } else {
+        response.imageUrl = result.secure_url;
+      }
+
+      res.status(200).json(response);
     } catch (cloudinaryErr) {
       console.error('Cloudinary upload error:', cloudinaryErr);
       res.status(500).json({ msg: 'Cloudinary upload failed.' });
