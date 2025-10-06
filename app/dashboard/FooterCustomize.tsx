@@ -89,7 +89,11 @@ const FooterCustomize = () => {
     e.preventDefault();
     setLoading(true);
     try {
+      // Fetch existing settings
+      const existingSettings = await api.get('/settings', token);
+
       const updatedSettings = {
+        ...existingSettings,
         footerAboutText,
         footerCopyrightText,
         footerPaymentImages,
