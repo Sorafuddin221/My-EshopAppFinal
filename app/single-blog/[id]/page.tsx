@@ -27,13 +27,13 @@ import SingleBlogPostContent from "../SingleBlogPostContent";
 
 
 
-interface SingleBlogPostPageProps {
+type PageProps = {
   params: {
     id: string;
   };
-}
+};
 
-const SingleBlogPostPage = async ({ params }: SingleBlogPostPageProps) => {
+const SingleBlogPostPage = async ({ params }: PageProps) => {
     const postId = params.id;
     let blogPost: BlogPost | null = null;
     let error: string | null = null;
