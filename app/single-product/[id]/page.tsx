@@ -1,9 +1,6 @@
 import { Metadata } from 'next';
 import api from '../../../utils/api'; // Adjust path as needed
 
-import { Metadata } from 'next';
-import api from '../../../utils/api'; // Adjust path as needed
-
 interface PageProps {
   params: { id: string };
 }
