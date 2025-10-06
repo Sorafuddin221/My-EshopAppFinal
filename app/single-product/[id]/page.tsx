@@ -1,11 +1,7 @@
 import { Metadata } from 'next';
 import api from '../../../utils/api'; // Adjust path as needed
 
-interface PageProps {
-  params: { id: string };
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const productId = params.id;
   try {
     const product = await api.get(`/products/${productId}`);
@@ -30,7 +26,7 @@ import ProductDetailsContent from "../ProductDetailsContent";
 import RelatedItemsSection from "../RelatedItemsSection";
 import { Product } from '@/app/types/Product';
 
-const SingleProductpostPage = async ({ params }: PageProps) => {
+const SingleProductpostPage = async ({ params }: { params: { id: string } }) => {
     const productId = params.id;
     let product: Product | null = null;
     let error: string | null = null;
