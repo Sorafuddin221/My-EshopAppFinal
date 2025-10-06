@@ -30,7 +30,11 @@ import ProductDetailsContent from "../ProductDetailsContent";
 import RelatedItemsSection from "../RelatedItemsSection";
 import { Product } from '@/app/types/Product';
 
-const SingleProductpostPage = async ({ params }: { params: { id: string } }) => {
+interface SingleProductpostPageProps {
+  params: { id: string };
+}
+
+const SingleProductpostPage = async ({ params }: SingleProductpostPageProps) => {
     const productId = params.id;
     let product: Product | null = null;
     let error: string | null = null;
