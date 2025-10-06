@@ -16,8 +16,9 @@ import SettingsSection from './SettingsSection';
 import UserApprovalTable from './UserApprovalTable';
 import AuthorListTable from './AuthorListTable';
 
-export default function DashboardLayout({ children, activeSection, setActiveSection }: { children: React.ReactNode; activeSection: string; setActiveSection: (section: string) => void; }) {
+export default function DashboardLayout() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeSection, setActiveSection] = useState('dashboard');
 
   const handleLogin = (success: boolean) => {
     setIsLoggedIn(success);
@@ -26,9 +27,13 @@ export default function DashboardLayout({ children, activeSection, setActiveSect
     }
   };
 
+  const handleNavigation = (section: string) => {
+    setActiveSection(section);
+  };
+
   return (
     <div className="flex min-h-screen">
-      <Sidebar onNavigate={setActiveSection} />
+      <Sidebar onNavigate={handleNavigation} />
 
       <div className="ml-64 flex-grow p-8">
         {!isLoggedIn ? (
@@ -37,7 +42,17 @@ export default function DashboardLayout({ children, activeSection, setActiveSect
           <>
             <DashboardNavbar title={activeSection.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())} />
             <div id="dashboard-content">
-              {children}
+              {activeSection === 'dashboard' && <WidgetsSection />}
+              {activeSection === 'dashboard' && <ChartsAndTablesSection />}
+              {activeSection === 'add-product' && <AddProductSection />}
+              {activeSection === 'products' && <ProductListTable />}
+              {activeSection === 'shop' && <ShopSection />}
+              {activeSection === 'profile' && <ProfileSection />}
+              {activeSection === 'settings' && <SettingsSection />}
+              {activeSection === 'add-blog-post' && <AddBlogPostSection />}
+              {activeSection === 'posts' && <BlogPostListTable />}
+              {activeSection === 'user-approval' && <UserApprovalTable />}
+              {activeSection === 'authors' && <AuthorListTable authors={[]} />}
             </div>
           </>
         )}

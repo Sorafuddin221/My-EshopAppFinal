@@ -15,7 +15,6 @@ export default function TeamLeaderSectionCustomize() {
   const [teamLeaderText, setTeamLeaderText] = useState('');
   const [teamLeaderVideoUrl, setTeamLeaderVideoUrl] = useState('');
   const [teamLeaderImageFile, setTeamLeaderImageFile] = useState<File | null>(null);
-  const [teamLeaderVideoFile, setTeamLeaderVideoFile] = useState<File | null>(null);
   const [message, setMessage] = useState('');
 
   const { token } = useAuth();
@@ -49,12 +48,6 @@ export default function TeamLeaderSectionCustomize() {
     }
   };
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setTeamLeaderVideoFile(e.target.files[0]);
-    }
-  };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setMessage('');
@@ -74,14 +67,6 @@ export default function TeamLeaderSectionCustomize() {
         newTeamLeaderImageUrl = uploadResponse.imageUrl;
       }
 
-      let newTeamLeaderVideoUrl = teamLeaderVideoUrl;
-      if (teamLeaderVideoFile) {
-        const formData = new FormData();
-        formData.append('video', teamLeaderVideoFile);
-        const uploadResponse = await api.post('/uploads', formData, token, true);
-        newTeamLeaderVideoUrl = uploadResponse.videoUrl;
-      }
-
       const currentSettings = await api.get('/settings', token);
 
       const updatedSettings = {
@@ -94,7 +79,7 @@ export default function TeamLeaderSectionCustomize() {
         teamLeaderRole,
         teamLeaderRating,
         teamLeaderText,
-        teamLeaderVideoUrl: newTeamLeaderVideoUrl,
+        teamLeaderVideoUrl,
       };
 
       const response = await api.put('/settings', updatedSettings, token);
@@ -112,7 +97,6 @@ export default function TeamLeaderSectionCustomize() {
         setTeamLeaderText(response.teamLeaderText || '');
         setTeamLeaderVideoUrl(response.teamLeaderVideoUrl || '');
         setTeamLeaderImageFile(null);
-        setTeamLeaderVideoFile(null);
       } else {
         setMessage(response.msg || 'Failed to update settings.');
       }
@@ -235,16 +219,6 @@ export default function TeamLeaderSectionCustomize() {
               placeholder="Enter team leader video URL"
               value={teamLeaderVideoUrl}
               onChange={(e) => setTeamLeaderVideoUrl(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="team-leader-video-file" className="block text-gray-700 text-sm font-bold mb-2">Team Leader Video File</label>
-            <input
-              type="file"
-              id="team-leader-video-file"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              onChange={handleVideoChange}
             />
           </div>
 

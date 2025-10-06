@@ -34,7 +34,12 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
             <span>Contact Info</span>
           </a>
         </li>
-
+        <li className="px-4 py-2">
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#products" onClick={() => onNavigate('products')}>
+            <FontAwesomeIcon icon={faCartShopping} className="mr-2" />
+            <span>Products</span>
+          </a>
+        </li>
         <li className="px-4 py-2">
           <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#add-product" onClick={() => onNavigate('add-product')}>
             <FontAwesomeIcon icon={faCartShopping} className="mr-2" />
@@ -59,7 +64,12 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
             <span>Authors</span>
           </a>
         </li>
-
+        <li className="px-4 py-2">
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#posts" onClick={() => onNavigate('posts')}>
+            <FontAwesomeIcon icon={faPencilSquare} className="mr-2" />
+            <span>Blog Posts</span>
+          </a>
+        </li>
         <li className="px-4 py-2">
           <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#add-blog-post" onClick={() => onNavigate('add-blog-post')}>
             <FontAwesomeIcon icon={faPencilSquare} className="mr-2" />
@@ -67,26 +77,35 @@ export default function Sidebar({ onNavigate }: SidebarProps) {
           </a>
         </li>
         <li className="px-4 py-2">
-          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#customize" onClick={() => onNavigate('appearance-customize')}>
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#customize" onClick={() => onNavigate('customize')}>
             <FontAwesomeIcon icon={faPalette} className="mr-2" />
-            <span>Appearance Customize</span>
+            <span>Customize</span>
           </a>
         </li>
-
+        <li className="px-4 py-2">
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#hero-customize" onClick={() => onNavigate('hero-customize')}>
+            <FontAwesomeIcon icon={faPalette} className="mr-2" />
+            <span>Hero Section Customize</span>
+          </a>
+        </li>
         <li className="px-4 py-2">
           <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#address-settings" onClick={() => onNavigate('address-settings')}>
             <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2" />
             <span>Address Settings</span>
           </a>
         </li>
-
         <li className="px-4 py-2">
-          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#footer-menu-customize" onClick={() => onNavigate('footer-menu-customize')}>
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#menu-customize" onClick={() => onNavigate('menu-customize')}>
             <FontAwesomeIcon icon={faPalette} className="mr-2" />
-            <span>Footer Menus</span>
+            <span>Menu Customize</span>
           </a>
         </li>
-
+        <li className="px-4 py-2">
+          <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#nav-menu-management" onClick={() => onNavigate('nav-menu-management')}>
+            <FontAwesomeIcon icon={faPalette} className="mr-2" /> {/* Using faPalette as a placeholder icon */}
+            <span>Navigation Menus</span>
+          </a>
+        </li>
         <li className="px-4 py-2">
           <a className="flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2" href="#">
             <FontAwesomeIcon icon={faArrowRightFromBracket} className="mr-2" />
