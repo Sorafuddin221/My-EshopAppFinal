@@ -31,7 +31,7 @@ const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps
         }
 
         if (selectedCategory) {
-            filtered = filtered.filter(post => post.category?._id === selectedCategory);
+            filtered = filtered.filter(post => typeof post.category === 'object' && post.category?._id === selectedCategory);
         }
 
         setFilteredBlogPosts(filtered);
