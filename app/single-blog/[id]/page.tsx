@@ -1,11 +1,14 @@
 import { Metadata } from 'next';
 import api from '../../../utils/api'; // Adjust path as needed
 
-type Props = {
-  params: { id: string };
-};
+import { Metadata } from 'next';
+import api from '../../../utils/api'; // Adjust path as needed
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+interface PageProps {
+  params: { id: string };
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const postId = params.id;
   try {
     const blogPost = await api.get(`/blogposts/${postId}`);
@@ -31,11 +34,7 @@ import SingleBlogPostContent from "../SingleBlogPostContent";
 
 
 
-interface SingleBlogPostPageProps {
-  params: { id: string };
-}
-
-const SingleBlogPostPage = async ({ params }: SingleBlogPostPageProps) => {
+const SingleBlogPostPage = async ({ params }: PageProps) => {
     const postId = params.id;
     let blogPost: BlogPost | null = null;
     let error: string | null = null;
