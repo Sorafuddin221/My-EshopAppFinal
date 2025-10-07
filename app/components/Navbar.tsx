@@ -32,6 +32,7 @@ interface Brand {
 
 export default function Navbar() {
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
+  const [activeSubMenu, setActiveSubMenu] = useState<string | null>(null);
   const [isExploreMenuOpen, setIsExploreMenuOpen] = useState(false);
   const [brands, setBrands] = useState<Brand[]>([]); // State to store brands
   const [navMenus, setNavMenus] = useState<NavMenu[]>([]);
@@ -153,7 +154,12 @@ export default function Navbar() {
                       <h3 className="font-bold px-2  text-lg mb-4 border-b-2 border-red-500 pb-2">NAVIGATION</h3>
                       <ul>
                         {navMenus.map((menu) => (
-                          <li key={menu._id} className="relative group my-4 -5 mx-6">
+                          <li 
+                            key={menu._id} 
+                            className="relative my-4 -5 mx-6"
+                            onMouseEnter={() => setActiveSubMenu(menu._id)}
+                            onMouseLeave={() => setActiveSubMenu(null)}
+                          >
                             <Link href={menu.url} className="hover:text-red-500 flex items-center transition-colors duration-200">
                               <FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />
                               {menu.title}
@@ -162,7 +168,7 @@ export default function Navbar() {
                               )}
                             </Link>
                             {menu.subMenus && menu.subMenus.length > 0 && (
-                              <ul className="absolute left-full top-0 mt-0 w-48 bg-white shadow-lg rounded-md py-2 z-50 hidden group-hover:block">
+                              <ul className={`absolute left-full top-0 mt-0 w-48 bg-white shadow-lg rounded-md py-2 z-50 ${activeSubMenu === menu._id ? 'block' : 'hidden'}`}>
                                 {menu.subMenus.map((subMenu) => (
                                   <li key={subMenu._id}>
                                     <Link href={subMenu.url} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
