@@ -7,6 +7,8 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     const blogPost = await api.get(`/blogposts/${postId}`);
     return {
       title: blogPost.title,
+      description: blogPost.metaDescription,
+      keywords: blogPost.metaKeywords,
     };
   } catch (error) {
     console.error('Error fetching blog post for metadata:', error);

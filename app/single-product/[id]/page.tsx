@@ -21,12 +21,30 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import AuthModal from "../../components/AuthModal";
 import BackToTopButton from "../../components/BackToTopButton";
-import SingleProductHeroSection from "../SingleProductHeroSection";
-import ProductDetailsContent from "../ProductDetailsContent";
-import RelatedItemsSection from "../RelatedItemsSection";
-import { Product } from '@/app/types/Product';
+import ProductDetailsContent from '../ProductDetailsContent';
+import RelatedItemsSection from '../RelatedItemsSection';
+import SingleProductHeroSection from '../SingleProductHeroSection';
+import api from '../../../utils/api';
+import { Metadata, ResolvingMetadata } from 'next';
 
-const SingleProductpostPage = async ({ params }: { params: { id: string } }) => {
+type Props = {
+  params: { id: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const product = await api.get(`/products/${params.id}`);
+
+  return {
+    title: product.name,
+    description: product.metaDescription,
+    keywords: product.metaKeywords,
+  }
+}
+
+const SingleProductPage = async ({ params }: { params: { id: string } }) => {
     const productId = params.id;
     let product: Product | null = null;
     let error: string | null = null;
