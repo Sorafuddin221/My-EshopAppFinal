@@ -150,39 +150,46 @@ export default function Navbar() {
               <span>ALL DEPARTMENT</span>
             </button>
             {isMegaMenuOpen && (
-                <div className="absolute   left-0 mt-0 w-max bg-white shadow-lg rounded-b-lg block z-50">
-                      <h3 className="font-bold px-2  text-lg mb-4 border-b-2 border-red-500 pb-2">NAVIGATION</h3>
-                      <ul>
-                        {navMenus.map((menu) => (
-                          <li 
-                            key={menu._id} 
-                            className="relative my-4 -5 mx-6"
-                            onMouseEnter={() => setActiveSubMenu(menu._id)}
-                            onMouseLeave={() => setActiveSubMenu(null)}
-                          >
-                            <Link href={menu.url} className="hover:text-red-500 flex items-center transition-colors duration-200">
-                              <FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />
-                              {menu.title}
-                              {menu.subMenus && menu.subMenus.length > 0 && (
-                                <FontAwesomeIcon icon={faChevronDown} className="text-xs ml-auto" />
-                              )}
-                            </Link>
-                            {menu.subMenus && menu.subMenus.length > 0 && (
-                              <ul className={`absolute left-full top-0 mt-0 w-48 bg-white shadow-lg rounded-md py-2 z-50 ${activeSubMenu === menu._id ? 'block' : 'hidden'}`}>
-                                {menu.subMenus.map((subMenu) => (
-                                  <li key={subMenu._id}>
-                                    <Link href={subMenu.url} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                      {subMenu.title}
-                                    </Link>
-                                  </li>
+                <div className="absolute left-0 mt-0 w-max bg-white shadow-lg rounded-b-lg block z-50">
+                    <div className="flex">
+                        <div className="w-64 border-r border-gray-200">
+                            <h3 className="font-bold px-4 text-lg mb-4 border-b-2 border-red-500 pb-2">NAVIGATION</h3>
+                            <ul>
+                                {navMenus.map((menu) => (
+                                    <li 
+                                        key={menu._id} 
+                                        className="relative px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                                        onMouseEnter={() => setActiveSubMenu(menu._id)}
+                                    >
+                                        <Link href={menu.url} className="flex items-center justify-between">
+                                            <span>{menu.title}</span>
+                                            {menu.subMenus && menu.subMenus.length > 0 && (
+                                                <FontAwesomeIcon icon={faChevronRight} className="text-xs" />
+                                            )}
+                                        </Link>
+                                    </li>
                                 ))}
-                              </ul>
-                            )}
-                          </li>
-                        ))}
-                      </ul>
+                            </ul>
+                        </div>
+                        <div className="w-64 p-4">
+                            {navMenus.map((menu) => (
+                                <div key={menu._id} className={`${activeSubMenu === menu._id ? 'block' : 'hidden'}`}>
+                                    <h3 className="font-bold text-lg mb-4">{menu.title}</h3>
+                                    <ul>
+                                        {menu.subMenus && menu.subMenus.map((subMenu) => (
+                                            <li key={subMenu._id} className="mb-2">
+                                                <Link href={subMenu.url} className="hover:text-red-500">
+                                                    {subMenu.title}
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-              )}
+                </div>
+            )}
           </div>
           <div className="hidden md:flex space-x-8">
             {navMenus.map((menu) => (
