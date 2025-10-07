@@ -29,6 +29,14 @@ const ProductCard = ({ product }: { product: Product }) => {
                 </div>
 
                 <h4 className="font-semibold text-lg text-gray-800 mb-1">{product.name}</h4>
+                <p className="text-gray-500 text-sm mb-2">{product.category.name}</p>
+                <p className="text-gray-400 text-xs mb-2">
+                    {new Date(product.createdAt).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })}
+                </p>
                 <p className="text-red-500 font-bold text-sm mb-4">
                     ${product.price}
                 </p>
