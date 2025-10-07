@@ -1,20 +1,6 @@
-import { Metadata } from 'next';
+import { Metadata, ResolvingMetadata } from 'next';
 import api from '../../../utils/api'; // Adjust path as needed
-
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const productId = params.id;
-  try {
-    const product = await api.get(`/products/${productId}`);
-    return {
-      title: product.name,
-    };
-  } catch (error) {
-    console.error('Error fetching product for metadata:', error);
-    return {
-      title: 'Product Not Found',
-    };
-  }
-}
+import { Product } from '@/app/types/Product'; // Corrected import
 
 import Header from "../../components/Header";
 import Navbar from "../../components/Navbar";
@@ -24,8 +10,7 @@ import BackToTopButton from "../../components/BackToTopButton";
 import ProductDetailsContent from '../ProductDetailsContent';
 import RelatedItemsSection from '../RelatedItemsSection';
 import SingleProductHeroSection from '../SingleProductHeroSection';
-import api from '../../../utils/api';
-import { Metadata, ResolvingMetadata } from 'next';
+
 
 type Props = {
   params: { id: string }
@@ -35,12 +20,19 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const product = await api.get(`/products/${params.id}`);
-
-  return {
-    title: product.name,
-    description: product.metaDescription,
-    keywords: product.metaKeywords,
+  const productId = params.id;
+  try {
+    const product = await api.get(`/products/${productId}`);
+    return {
+      title: product.name,
+      description: product.metaDescription,
+      keywords: product.metaKeywords,
+    };
+  } catch (error) {
+    console.error('Error fetching product for metadata:', error);
+    return {
+      title: 'Product Not Found',
+    };
   }
 }
 
@@ -109,4 +101,4 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
     );
 };
 
-export default SingleProductpostPage;
+export default SingleProductPage;
