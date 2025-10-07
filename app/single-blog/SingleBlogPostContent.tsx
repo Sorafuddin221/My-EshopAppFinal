@@ -105,6 +105,33 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
 
                 <div className="text-gray-700 leading-relaxed mb-4" dangerouslySetInnerHTML={{ __html: blogPost.content }} />
 
+                {blogPost.buttons && blogPost.buttons.length > 0 && (
+                    <div className="mt-8 pt-4 border-t border-gray-200">
+                        <h4 className="font-semibold text-gray-800 mb-2">Product Deals</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {blogPost.buttons.map((button, index) => (
+                                <div key={index} className="border rounded-lg p-4 flex items-center justify-between">
+                                    <div>
+                                        <p className="font-bold text-lg">{button.buttonText}</p>
+                                        <p className="text-gray-500">
+                                            <span className="line-through mr-2">${button.regularPrice}</span>
+                                            <span className="text-red-500 font-bold">${button.salePrice}</span>
+                                        </p>
+                                    </div>
+                                    <a
+                                        href={button.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 transition-colors duration-200"
+                                    >
+                                        Buy Now
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {/* Post Tags */}
                 {blogPost.category && (
                     <div className="mt-8 pt-4 border-t border-gray-200">

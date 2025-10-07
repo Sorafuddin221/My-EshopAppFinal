@@ -21,6 +21,7 @@ interface ProductDetailsContentProps {
     buyNowUrl?: string; // Added buyNowUrl
     views?: number; // Added views count
     rating?: number; // Added rating property
+    buttons?: { url: string; buttonText: string; regularPrice: number; salePrice: number; }[];
   };
 }
 
@@ -180,6 +181,26 @@ const ProductDetailsContent = ({ product }: ProductDetailsContentProps) => {
                             )}
                         </div>
                     </div>
+                    {product.buttons && product.buttons.map((button, index) => (
+                        <div key={index} className="flex items-center justify-between py-4 px-6 border-b border-gray-200">
+                            <span className="w-1/3 font-bold text-lg">{button.buttonText}</span>
+                            <span className="w-1/3 text-center text-gray-800 font-semibold">
+                                <span className="line-through mr-2">${button.regularPrice}</span>
+                                <span className="text-red-500 font-bold">${button.salePrice}</span>
+                            </span>
+                            <div className="w-1/3 flex justify-end items-center space-x-4">
+                                <span className="text-green-500 font-semibold hidden md:block">In Stock</span>
+                                <a
+                                    href={button.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="bg-red-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 transition-colors duration-200"
+                                >
+                                    Buy Now
+                                </a>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

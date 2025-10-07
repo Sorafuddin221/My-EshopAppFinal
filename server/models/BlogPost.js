@@ -25,6 +25,14 @@ const blogPostSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  buttons: [
+    {
+      url: String,
+      buttonText: String,
+      regularPrice: Number,
+      salePrice: Number,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,

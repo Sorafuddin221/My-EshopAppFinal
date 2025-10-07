@@ -55,6 +55,14 @@ const productSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  buttons: [
+    {
+      url: String,
+      buttonText: String,
+      regularPrice: Number,
+      salePrice: Number,
+    },
+  ],
 });
 
 module.exports = mongoose.model('Product', productSchema);

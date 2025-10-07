@@ -10,6 +10,13 @@ interface Category {
   name: string;
 }
 
+interface Button {
+  url: string;
+  buttonText: string;
+  regularPrice: string;
+  salePrice: string;
+}
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -19,6 +26,7 @@ interface BlogPost {
   imageUrl: string;
   metaDescription: string;
   metaKeywords: string;
+  buttons?: Button[];
 }
 
 export default function AddBlogPostSection() {
@@ -37,6 +45,7 @@ export default function AddBlogPostSection() {
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [metaDescription, setMetaDescription] = useState('');
   const [metaKeywords, setMetaKeywords] = useState('');
+  const [buttons, setButtons] = useState<Button[]>([]);
 
   const { token } = useAuth();
 
@@ -113,6 +122,7 @@ export default function AddBlogPostSection() {
     setImageUrl(post.imageUrl || '');
     setMetaDescription(post.metaDescription || '');
     setMetaKeywords(post.metaKeywords || '');
+    setButtons(post.buttons || []);
     setMessage('');
   };
 
@@ -139,6 +149,21 @@ export default function AddBlogPostSection() {
     } else {
       setImage(null);
     }
+  };
+
+  const handleButtonChange = (index: number, field: keyof Button, value: string) => {
+    const newButtons = [...buttons];
+    newButtons[index][field] = value;
+    setButtons(newButtons);
+  };
+
+  const addButton = () => {
+    setButtons([...buttons, { url: '', buttonText: '', regularPrice: '', salePrice: '' }]);
+  };
+
+  const removeButton = (index: number) => {
+    const newButtons = buttons.filter((_, i) => i !== index);
+    setButtons(newButtons);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -183,6 +208,7 @@ export default function AddBlogPostSection() {
             imageUrl: imageUrlToSave,
             metaDescription,
             metaKeywords,
+            buttons,
         };
 
         let response;
@@ -202,6 +228,7 @@ export default function AddBlogPostSection() {
             setImageUrl('');
             setMetaDescription('');
             setMetaKeywords('');
+            setButtons([]);
             setEditingPost(null);
             fetchBlogPosts();
         } else {
@@ -338,6 +365,59 @@ export default function AddBlogPostSection() {
               onChange={(e) => setMetaKeywords(e.target.value)}
             />
           </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Buy Now Buttons</label>
+            {buttons.map((button, index) => (
+              <div key={index} className="p-4 border rounded-lg mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Button Text"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.buttonText}
+                    onChange={(e) => handleButtonChange(index, 'buttonText', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.url}
+                    onChange={(e) => handleButtonChange(index, 'url', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Regular Price"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.regularPrice}
+                    onChange={(e) => handleButtonChange(index, 'regularPrice', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Sale Price"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.salePrice}
+                    onChange={(e) => handleButtonChange(index, 'salePrice', e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeButton(index)}
+                  className="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs focus:outline-none focus:shadow-outline"
+                >
+                  Remove Button
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addButton}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Add Button
+            </button>
+          </div>
+
           {message && <p className="text-sm mt-4" style={{ color: message.includes('successfully') ? 'green' : 'red' }}>{message}</p>}
           <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
             {editingPost ? 'Update Blog Post' : 'Add Blog Post'}
@@ -355,6 +435,7 @@ export default function AddBlogPostSection() {
                 setImageUrl('');
                 setMetaDescription('');
                 setMetaKeywords('');
+                setButtons([]);
                 setMessage('');
               }}
               className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ml-2"

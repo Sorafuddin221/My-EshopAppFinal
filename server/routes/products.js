@@ -25,7 +25,7 @@ router.post('/', auth, async (req, res) => {
   console.log('Request body:', req.body);
   console.log('Request file:', req.file);
   try {
-    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords, imageUrl, thumbnailImage1Url, thumbnailImage2Url } = req.body;
+    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords, imageUrl, thumbnailImage1Url, thumbnailImage2Url, buttons } = req.body;
 
     // Validate Category and Brand IDs
     if (!mongoose.Types.ObjectId.isValid(category)) {
@@ -49,6 +49,7 @@ router.post('/', auth, async (req, res) => {
       rating: parseFloat(rating) || 0,
       metaDescription,
       metaKeywords,
+      buttons,
     });
 
     const product = await newProduct.save();
@@ -121,7 +122,7 @@ router.put('/:id/view', async (req, res) => {
 // @access  Private (Admin only)
 router.put('/:id', auth, async (req, res) => {
   try {
-    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords } = req.body;
+    const { name, description, price, category, brand, stock, buyNowUrl, rating, metaDescription, metaKeywords, buttons } = req.body;
     let product = await Product.findById(req.params.id);
     if (!product) {
       return res.status(404).json({ msg: 'Product not found' });
@@ -139,6 +140,7 @@ router.put('/:id', auth, async (req, res) => {
     if (rating) updateFields.rating = parseFloat(rating);
     if (metaDescription) updateFields.metaDescription = metaDescription;
     if (metaKeywords) updateFields.metaKeywords = metaKeywords;
+    if (buttons) updateFields.buttons = buttons;
     if (imageUrl) updateFields.imageUrl = imageUrl;
     if (thumbnailImage1Url) updateFields.thumbnailImage1Url = thumbnailImage1Url;
     if (thumbnailImage2Url) updateFields.thumbnailImage2Url = thumbnailImage2Url;

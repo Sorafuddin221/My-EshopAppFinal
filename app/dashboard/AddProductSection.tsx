@@ -45,6 +45,7 @@ export default function AddProductSection() {
   const [buyNowUrl, setBuyNowUrl] = useState('');
   const [metaDescription, setMetaDescription] = useState('');
   const [metaKeywords, setMetaKeywords] = useState('');
+  const [buttons, setButtons] = useState<any[]>([]);
 
   const [editingProduct, setEditingProduct] = useState<any | null>(null); // State for product being edited
 
@@ -189,8 +190,24 @@ export default function AddProductSection() {
     setBuyNowUrl(product.buyNowUrl || '');
     setMetaDescription(product.metaDescription || '');
     setMetaKeywords(product.metaKeywords || '');
+    setButtons(product.buttons || []);
     // Note: Image cannot be pre-filled for security reasons, user will re-upload if needed
     setMessage(''); // Clear any previous messages
+  };
+
+  const handleButtonChange = (index: number, field: string, value: string) => {
+    const newButtons = [...buttons];
+    newButtons[index] = { ...newButtons[index], [field]: value };
+    setButtons(newButtons);
+  };
+
+  const addButton = () => {
+    setButtons([...buttons, { url: '', buttonText: '', regularPrice: '', salePrice: '' }]);
+  };
+
+  const removeButton = (index: number) => {
+    const newButtons = buttons.filter((_, i) => i !== index);
+    setButtons(newButtons);
   };
 
   const uploadImage = async (file: File) => {
@@ -243,6 +260,7 @@ export default function AddProductSection() {
         imageUrl,
         thumbnailImage1Url: thumbnail1Url,
         thumbnailImage2Url: thumbnail2Url,
+        buttons: buttons,
       };
 
       let response;
@@ -506,6 +524,58 @@ export default function AddProductSection() {
               value={metaKeywords}
               onChange={(e) => setMetaKeywords(e.target.value)}
             />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">Buy Now Buttons</label>
+            {buttons.map((button, index) => (
+              <div key={index} className="p-4 border rounded-lg mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Button Text"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.buttonText}
+                    onChange={(e) => handleButtonChange(index, 'buttonText', e.target.value)}
+                  />
+                  <input
+                    type="text"
+                    placeholder="URL"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.url}
+                    onChange={(e) => handleButtonChange(index, 'url', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Regular Price"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.regularPrice}
+                    onChange={(e) => handleButtonChange(index, 'regularPrice', e.target.value)}
+                  />
+                  <input
+                    type="number"
+                    placeholder="Sale Price"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    value={button.salePrice}
+                    onChange={(e) => handleButtonChange(index, 'salePrice', e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeButton(index)}
+                  className="mt-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-xs focus:outline-none focus:shadow-outline"
+                >
+                  Remove Button
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addButton}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              Add Button
+            </button>
           </div>
 
           {message && <p className="text-sm mt-4" style={{ color: message.includes('successfully') ? 'green' : 'red' }}>{message}</p>}

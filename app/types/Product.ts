@@ -1,4 +1,11 @@
-export interface Product {
+export interface Button {
+    url: string;
+    buttonText: string;
+    regularPrice: number;
+    salePrice: number;
+  }
+  
+  export interface Product {
     _id: string;
     name: string;
     description: string;
@@ -10,4 +17,5 @@ export interface Product {
     views: number;
     createdAt: string;
     brand: { _id: string; name: string };
-}
+    buttons?: Button[];
+  }
