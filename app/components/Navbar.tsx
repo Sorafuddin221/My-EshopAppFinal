@@ -57,6 +57,7 @@ export default function Navbar() {
           subMenus: fetchedSubMenus.filter((subMenu: SubMenu) => subMenu.parent._id === navMenu._id)
         }));
 
+        console.log('menusWithSubMenus', menusWithSubMenus);
         setNavMenus(menusWithSubMenus);
 
         const fetchedBrands = await api.get('/brands');
@@ -152,7 +153,26 @@ export default function Navbar() {
                       <h3 className="font-bold px-2  text-lg mb-4 border-b-2 border-red-500 pb-2">NAVIGATION</h3>
                       <ul>
                         {navMenus.map((menu) => (
-                          <li key={menu._id} className="my-4 -5 mx-6"><Link href={menu.url} className="hover:text-red-500 flex items-center transition-colors duration-200"><FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />{menu.title}</Link></li>
+                          <li key={menu._id} className="relative group my-4 -5 mx-6">
+                            <Link href={menu.url} className="hover:text-red-500 flex items-center transition-colors duration-200">
+                              <FontAwesomeIcon icon={faChevronRight} className="text-xs mr-2" />
+                              {menu.title}
+                              {menu.subMenus && menu.subMenus.length > 0 && (
+                                <FontAwesomeIcon icon={faChevronDown} className="text-xs ml-auto" />
+                              )}
+                            </Link>
+                            {menu.subMenus && menu.subMenus.length > 0 && (
+                              <ul className="absolute left-full top-0 mt-0 w-48 bg-white shadow-lg rounded-md py-2 z-50 hidden group-hover:block">
+                                {menu.subMenus.map((subMenu) => (
+                                  <li key={subMenu._id}>
+                                    <Link href={subMenu.url} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                      {subMenu.title}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
                         ))}
                       </ul>
                     </div>
