@@ -91,6 +91,10 @@ const BrandProductsPage = () => {
         handleSearch(searchQuery, category);
     }
 
+    const handleSidebarSearch = (query: string) => {
+        handleSearch(query, selectedCategory);
+    }
+
     return (
         <div className="font-sans">
             <Header />
@@ -111,7 +115,7 @@ const BrandProductsPage = () => {
                         selectedCategory={selectedCategory}
                         onSelectCategory={handleCategoryChange}
                         brands={brands}
-                        onSearch={handleSearch}
+                        onSearch={handleSidebarSearch}
                         title="Categories"
                     />
                 </div>
