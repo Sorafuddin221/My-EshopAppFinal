@@ -133,7 +133,7 @@ const CategoriesPage = () => {
                             selectedCategory={selectedCategoryName ?? null}
                             onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
                             brands={brands}
-                            onSearch={(query) => handleFilter(query, selectedCategory, '')}
+                            onSearch={(query) => handleFilter(query, selectedCategory)}
                             title="Categories"
                         />
                     </div>
