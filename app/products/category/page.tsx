@@ -100,7 +100,7 @@ const CategoriesPage = () => {
                 subheadingText={settings?.categoriesPageSubheading || "Browse products across various categories."}
                 category={selectedCategoryName}
                 categories={categories}
-                onSearch={(query, cat) => handleFilter(query, cat, '')}
+                onSearch={(query, cat) => handleFilter(query, cat)}
                 onCategoryChange={handleCategoryChange}
             />
             <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
