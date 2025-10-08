@@ -123,9 +123,13 @@ const BrandsPage = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div className="lg:col-span-1">
                         <Sidebar
-                            categories={brands.map(brand => ({ _id: brand._id, name: brand.name }))} // Pass brands as categories for Sidebar
-                            selectedCategory={selectedBrand}
-                            onSelectCategory={handleBrandChange}
+                            categories={[]} // No categories needed for brand page sidebar
+                            selectedCategory={null} // No categories needed for brand page sidebar
+                            onSelectCategory={() => {}} // No categories needed for brand page sidebar
+                            brands={brands}
+                            selectedBrand={selectedBrand}
+                            onSelectBrand={handleBrandChange}
+                            onSearch={(query) => handleFilter(query, selectedBrand)}
                             title="Brands"
                         />
                     </div>
