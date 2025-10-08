@@ -18,16 +18,19 @@ const CategoriesPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
+    const [brands, setBrands] = useState<Brand[]>([]); // New state for brands
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState(''); // New state for selected brand
     const [searchQuery, setSearchQuery] = useState('');
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [productsData, categoriesData, settingsData] = await Promise.all([
+                const [productsData, categoriesData, brandsData, settingsData] = await Promise.all([
                     api.get('/products'),
                     api.get('/categories'),
+                    api.get('/brands'), // Fetch brands
                     api.get('/settings')
                 ]);
 
@@ -41,6 +44,12 @@ const CategoriesPage = () => {
                 if (Array.isArray(categoriesData)) {
                     setCategories(categoriesData);
                 }
+
+                if (Array.isArray(brandsData)) {
+                    setBrands(brandsData);
+                } else {
+                    console.error("Failed to fetch brands: data is not an array", brandsData);
+                }
                 setSettings(settingsData);
             } catch (error) {
                 console.error("Failed to fetch data", error);
@@ -50,14 +59,19 @@ const CategoriesPage = () => {
         fetchData();
     }, []);
 
-    const handleFilter = (query: string, categoryId: string) => {
+    const handleFilter = (query: string, categoryId: string, brandId: string) => {
         setSearchQuery(query);
         setSelectedCategory(categoryId);
+        setSelectedBrand(brandId);
 
         let currentFilteredProducts = products;
 
         if (categoryId) {
             currentFilteredProducts = currentFilteredProducts.filter(product => product.category._id === categoryId);
+        }
+
+        if (brandId) {
+            currentFilteredProducts = currentFilteredProducts.filter(product => product.brand && product.brand._id === brandId);
         }
 
         if (query) {
@@ -71,10 +85,16 @@ const CategoriesPage = () => {
 
     const handleCategoryChange = (categoryId: string) => {
         setSelectedCategory(categoryId);
-        handleFilter(searchQuery, categoryId);
+        handleFilter(searchQuery, categoryId, selectedBrand);
+    };
+
+    const handleBrandChange = (brandId: string) => {
+        setSelectedBrand(brandId);
+        handleFilter(searchQuery, selectedCategory, brandId);
     };
 
     const selectedCategoryName = selectedCategory ? categories.find(category => category._id === selectedCategory)?.name : '';
+    const selectedBrandName = selectedBrand ? brands.find(brand => brand._id === selectedBrand)?.name : '';
 
     return (
         <div className="font-sans">
@@ -84,17 +104,43 @@ const CategoriesPage = () => {
                 title={settings?.categoriesPageHeading || "Products by Category"}
                 subheadingText={settings?.categoriesPageSubheading || "Browse products across various categories."}
                 category={selectedCategoryName}
-                categories={categories.map(category => ({ _id: category._id, name: category.name }))} // Pass categories for ArchiveHeader
-                onSearch={handleFilter}
+                categories={categories}
+                onSearch={(query, cat) => handleFilter(query, cat, selectedBrand)}
                 onCategoryChange={handleCategoryChange}
             />
+            <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
+                <h2 className="text-2xl font-bold text-gray-800 mb-4">Browse Categories</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <button
+                        onClick={() => handleCategoryChange('')}
+                        className={`p-4 border rounded-lg text-center transition-all duration-200
+                            ${selectedCategory === '' ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                    >
+                        All Products
+                    </button>
+                    {categories.map((category) => (
+                        <button
+                            key={category._id}
+                            onClick={() => handleCategoryChange(category._id)}
+                            className={`p-4 border rounded-lg text-center transition-all duration-200
+                                ${selectedCategory === category._id ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                        >
+                            {category.name}
+                        </button>
+                    ))}
+                </div>
+            </div>
             <main className="container mx-auto px-4 py-16 bg-gray-100">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div className="lg:col-span-1">
                         <Sidebar
-                            categories={categories.map(category => ({ _id: category._id, name: category.name }))} // Pass categories for Sidebar
-                            selectedCategory={selectedCategory}
-                            onSelectCategory={handleCategoryChange}
+                            categories={categories}
+                            selectedCategory={selectedCategoryName}
+                            onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
+                            brands={brands}
+                            selectedBrand={selectedBrandName}
+                            onSelectBrand={handleBrandChange}
+                            onSearch={(query) => handleFilter(query, selectedCategory, selectedBrand)}
                             title="Categories"
                         />
                     </div>
