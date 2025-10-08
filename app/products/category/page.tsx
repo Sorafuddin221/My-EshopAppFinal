@@ -84,7 +84,7 @@ const CategoriesPage = () => {
 
     const handleCategoryChange = (categoryId: string) => {
         setSelectedCategory(categoryId);
-        handleFilter(searchQuery, categoryId, selectedBrand);
+        handleFilter(searchQuery, categoryId);
     };
 
 
