@@ -14,6 +14,11 @@ import Link from "next/link";
 import { Product } from "@/app/types/Product";
 import { Category } from "@/app/types/Category";
 
+interface Brand {
+    _id: string;
+    name: string;
+}
+
 const CategoriesPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
