@@ -22,22 +22,25 @@ const ProductsPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
+    const [brands, setBrands] = useState<any[]>([]); // New state for brands
     const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
     const [selectedCategory, setSelectedCategory] = useState('');
+    const [selectedBrand, setSelectedBrand] = useState(''); // New state for selected brand
     const [settings, setSettings] = useState<any>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [productsData, categoriesData, settingsData] = await Promise.all([
+                const [productsData, categoriesData, brandsData, settingsData] = await Promise.all([
                     api.get('/products'),
                     api.get('/categories'),
+                    api.get('/brands'), // Fetch brands
                     api.get('/settings')
                 ]);
 
                 if (Array.isArray(productsData)) {
                     setProducts(productsData);
-                    handleSearch(initialSearchQuery, selectedCategory, productsData);
+                    handleSearch(initialSearchQuery, selectedCategory, selectedBrand, productsData);
                 } else {
                     console.error("Failed to fetch products: data is not an array", productsData);
                 }
@@ -50,6 +53,13 @@ const ProductsPage = () => {
                 } else {
                     console.error("Failed to fetch categories: data is not an array", categoriesData);
                 }
+
+                if (Array.isArray(brandsData)) {
+                    setBrands(brandsData);
+                } else {
+                    console.error("Failed to fetch brands: data is not an array", brandsData);
+                }
+
                 setSettings(settingsData);
             } catch (error) {
                 console.error("Failed to fetch data", error);
@@ -59,14 +69,19 @@ const ProductsPage = () => {
         fetchData();
     }, []);
 
-    const handleSearch = (query: string, category: string, allProducts: Product[] = products) => {
+    const handleSearch = (query: string, category: string, brand: string, allProducts: Product[] = products) => {
         setSearchQuery(query);
         setSelectedCategory(category);
+        setSelectedBrand(brand);
 
         let filtered = allProducts;
 
         if (category) {
             filtered = filtered.filter(product => product.category.name === category);
+        }
+
+        if (brand) {
+            filtered = filtered.filter(product => product.brand && product.brand.name === brand);
         }
 
         if (query) {
@@ -80,7 +95,12 @@ const ProductsPage = () => {
 
     const handleCategoryChange = (category: string) => {
         setSelectedCategory(category);
-        handleSearch(searchQuery, category);
+        handleSearch(searchQuery, category, selectedBrand);
+    }
+
+    const handleBrandChange = (brand: string) => {
+        setSelectedBrand(brand);
+        handleSearch(searchQuery, selectedCategory, brand);
     }
 
     return (
@@ -92,7 +112,7 @@ const ProductsPage = () => {
                 subheadingText={settings?.productsPageSubheading || "Explore our wide range of high-quality products designed to meet your needs."}
                 category={selectedCategory}
                 categories={categories}
-                onSearch={handleSearch}
+                onSearch={(query: string, category: string) => handleSearch(query, category, selectedBrand)}
                 onCategoryChange={handleCategoryChange}
             />
             <main className="container mx-auto px-4 py-16 bg-gray-100">
@@ -102,6 +122,10 @@ const ProductsPage = () => {
                         categories={categories}
                         selectedCategory={selectedCategory}
                         onSelectCategory={handleCategoryChange}
+                        brands={brands} // Pass brands to Sidebar
+                        selectedBrand={selectedBrand} // Pass selectedBrand to Sidebar
+                        onSelectBrand={handleBrandChange} // Pass onSelectBrand to Sidebar
+                        onSearch={(query: string) => handleSearch(query, selectedCategory, selectedBrand)} // Pass search handler to Sidebar
                         title="Categories"
                     />
                 </div>

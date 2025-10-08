@@ -11,6 +11,10 @@ interface SidebarProps {
   categories: any[];
   selectedCategory: string | null;
   onSelectCategory: (categoryId: string) => void;
+  brands: any[]; // New prop for brands
+  selectedBrand: string | null; // New prop for selected brand
+  onSelectBrand: (brandName: string) => void; // New prop for brand selection handler
+  onSearch: (query: string) => void; // New prop for search handler
   title?: string;
 }
 
@@ -29,7 +33,7 @@ interface Comment {
     blogPostId: string;
 }
 
-const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: SidebarProps) => {
+const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, selectedBrand, onSelectBrand, onSearch, title }: SidebarProps) => {
     console.log('Sidebar title:', title);
     const [recentPosts, setRecentPosts] = useState<any[]>([]);
     const [recentProducts, setRecentProducts] = useState<any[]>([]);
@@ -105,9 +109,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
     }, []);
 
     const handleSearch = () => {
-        // This search is local to the sidebar, we can decide what to do with it.
-        // For now, let's just log it.
-        console.log("Sidebar search:", searchQuery);
+        onSearch(searchQuery);
     }
 
     return (
@@ -149,6 +151,31 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, title }: Side
                                 className={`block text-left w-full ${selectedCategory === cat.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
                             >
                                 {cat.name}
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            {/* Brands */}
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+                <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Brands</h3>
+                <ul className="space-y-3">
+                    <li>
+                        <button
+                            onClick={() => onSelectBrand('')}
+                            className={`block text-left w-full ${selectedBrand === '' ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
+                        >
+                            All Brands
+                        </button>
+                    </li>
+                    {Array.isArray(brands) && brands.map((brand) => (
+                        <li key={brand._id}>
+                            <button
+                                onClick={() => onSelectBrand(brand.name)}
+                                className={`block text-left w-full ${selectedBrand === brand.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
+                            >
+                                {brand.name}
                             </button>
                         </li>
                     ))}
