@@ -25,7 +25,6 @@ const CategoriesPage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [brands, setBrands] = useState<Brand[]>([]); // New state for brands
     const [selectedCategory, setSelectedCategory] = useState('');
-    const [selectedBrand, setSelectedBrand] = useState(''); // New state for selected brand
     const [searchQuery, setSearchQuery] = useState('');
     const [settings, setSettings] = useState<any>(null);
 
@@ -64,19 +63,14 @@ const CategoriesPage = () => {
         fetchData();
     }, []);
 
-    const handleFilter = (query: string, categoryId: string, brandId: string) => {
+    const handleFilter = (query: string, categoryId: string) => {
         setSearchQuery(query);
         setSelectedCategory(categoryId);
-        setSelectedBrand(brandId);
 
         let currentFilteredProducts = products;
 
         if (categoryId) {
             currentFilteredProducts = currentFilteredProducts.filter(product => product.category._id === categoryId);
-        }
-
-        if (brandId) {
-            currentFilteredProducts = currentFilteredProducts.filter(product => product.brand && product.brand._id === brandId);
         }
 
         if (query) {
@@ -93,13 +87,9 @@ const CategoriesPage = () => {
         handleFilter(searchQuery, categoryId, selectedBrand);
     };
 
-    const handleBrandChange = (brandId: string) => {
-        setSelectedBrand(brandId);
-        handleFilter(searchQuery, selectedCategory, brandId);
-    };
+
 
     const selectedCategoryName = selectedCategory ? categories.find(category => category._id === selectedCategory)?.name : '';
-    const selectedBrandName = selectedBrand ? brands.find(brand => brand._id === selectedBrand)?.name : '';
 
     return (
         <div className="font-sans">
@@ -110,7 +100,7 @@ const CategoriesPage = () => {
                 subheadingText={settings?.categoriesPageSubheading || "Browse products across various categories."}
                 category={selectedCategoryName}
                 categories={categories}
-                onSearch={(query, cat) => handleFilter(query, cat, selectedBrand)}
+                onSearch={(query, cat) => handleFilter(query, cat, '')}
                 onCategoryChange={handleCategoryChange}
             />
             <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
@@ -143,9 +133,7 @@ const CategoriesPage = () => {
                             selectedCategory={selectedCategoryName ?? null}
                             onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
                             brands={brands}
-                            selectedBrand={selectedBrandName ?? null}
-                            onSelectBrand={handleBrandChange}
-                            onSearch={(query) => handleFilter(query, selectedCategory, selectedBrand)}
+                            onSearch={(query) => handleFilter(query, selectedCategory, '')}
                             title="Categories"
                         />
                     </div>
