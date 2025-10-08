@@ -15,7 +15,6 @@ const ProductsByCategoryPage = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [brands, setBrands] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [originalProducts, setOriginalProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,10 +35,7 @@ const ProductsByCategoryPage = () => {
           setOriginalProducts(fetchedProducts);
 
           if (Array.isArray(fetchedCategories)) {
-            const categoriesWithProducts = fetchedCategories.filter(category => 
-              fetchedProducts.some(product => product.category._id === category._id)
-            );
-            setCategories(categoriesWithProducts);
+            setCategories(fetchedCategories);
           } else {
             setError('Failed to load categories.');
           }
@@ -64,19 +60,14 @@ const ProductsByCategoryPage = () => {
     fetchData();
   }, []);
 
-  const handleSearch = (query: string, category: string | null, brand: string | null) => {
+  const handleSearch = (query: string, category: string | null) => {
     setSearchQuery(query);
     setSelectedCategory(category);
-    setSelectedBrand(brand);
 
     let filtered = originalProducts;
 
     if (category) {
       filtered = filtered.filter(product => product.category._id === category);
-    }
-
-    if (brand) {
-      filtered = filtered.filter(product => product.brand && product.brand._id === brand);
     }
 
     if (query) {
@@ -89,23 +80,19 @@ const ProductsByCategoryPage = () => {
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategory(categoryId);
-    handleSearch(searchQuery, categoryId, selectedBrand);
+    handleSearch(searchQuery, categoryId);
   };
 
-  const handleBrandChange = (brandId: string) => {
-    setSelectedBrand(brandId);
-    handleSearch(searchQuery, selectedCategory, brandId);
-  };
+
 
   const selectedCategoryName = selectedCategory ? categories.find(cat => cat._id === selectedCategory)?.name : '';
-  const selectedBrandName = selectedBrand ? brands.find(brand => brand._id === selectedBrand)?.name : '';
 
   if (loading) {
     return (
       <div className="font-sans">
         <Header />
         <Navbar />
-        <ArchiveHeader title="Product Category" category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat, selectedBrand)} onCategoryChange={handleCategoryChange} />
+        <ArchiveHeader title="Product Category" category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat)} onCategoryChange={handleCategoryChange} />
         <main className="container mx-auto px-4 py-16 bg-gray-100">
           <div className="text-center">Loading categories and products...</div>
         </main>
@@ -143,21 +130,12 @@ const ProductsByCategoryPage = () => {
               selectedCategory={selectedCategoryName}
               onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
               brands={brands}
-              selectedBrand={selectedBrandName}
-              onSelectBrand={(brandName) => {
-                const brand = brands.find(b => b.name === brandName);
-                if (brand) {
-                  handleBrandChange(brand._id);
-                } else {
-                  handleBrandChange('');
-                }
-              }}
-              onSearch={(query) => handleSearch(query, selectedCategory, selectedBrand)}
+              onSearch={(query) => handleSearch(query, selectedCategory)}
             />
           </div>
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold mb-4">
-              {selectedCategoryName || selectedBrandName} Products
+              {selectedCategoryName} Products
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {products.length > 0 ? (
