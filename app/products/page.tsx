@@ -111,7 +111,7 @@ const ProductsPage = () => {
                         selectedCategory={selectedCategory}
                         onSelectCategory={handleCategoryChange}
                         brands={brands} // Pass brands to Sidebar
-                        onSearch={(query: string) => handleSearch(query, selectedCategory, selectedBrand)} // Pass search handler to Sidebar
+                        onSearch={(query: string) => handleSearch(query, selectedCategory)} // Pass search handler to Sidebar
                         title="Categories"
                     />
                 </div>
