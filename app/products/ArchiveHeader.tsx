@@ -32,7 +32,7 @@ const ArchiveHeader = ({ title, category, categories, onSearch, onCategoryChange
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">{title}</h1>
                 {subheadingText && <p className="text-lg sm:text-xl text-gray-200 mb-8">{subheadingText}</p>}
                 
-                <form onSubmit={handleSearch} className="max-w-3xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <div className="max-w-3xl mx-auto flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
                     <div className="relative flex-1">
                         <select 
                             className="w-full h-12 rounded-md border-0 bg-gray-800 text-white shadow-sm pr-10 focus:ring-2 focus:ring-orange-500"
@@ -53,16 +53,13 @@ const ArchiveHeader = ({ title, category, categories, onSearch, onCategoryChange
                             placeholder="Search..." 
                             className="w-full h-12 rounded-md border-0 bg-gray-800 text-white shadow-sm pl-4 pr-10 focus:ring-2 focus:ring-orange-500"
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onChange={(e) => {
+                                setSearchQuery(e.target.value);
+                                onSearch(e.target.value, category || '');
+                            }}
                         />
                     </div>
-                    <button 
-                        type="submit"
-                        className="w-full sm:w-auto px-8 py-3 bg-orange-500 text-white font-bold rounded-md shadow-md hover:bg-orange-600 transition-colors duration-300"
-                    >
-                        Search
-                    </button>
-                </form>
+                </div>
             </div>
         </section>
     );

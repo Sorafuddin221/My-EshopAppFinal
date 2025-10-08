@@ -14,9 +14,9 @@ import api from '../../utils/api';
 const ProductsByCategoryPage = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [brands, setBrands] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
-  const [originalProducts, setOriginalProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -32,7 +32,7 @@ const ProductsByCategoryPage = () => {
 
         if (Array.isArray(fetchedProducts)) {
           setProducts(fetchedProducts);
-          setOriginalProducts(fetchedProducts);
+          setFilteredProducts(fetchedProducts);
 
           if (Array.isArray(fetchedCategories)) {
             setCategories(fetchedCategories);
@@ -60,14 +60,14 @@ const ProductsByCategoryPage = () => {
     fetchData();
   }, []);
 
-  const handleSearch = (query: string, category: string | null) => {
+  const handleSearch = (query: string, category: string, allProducts: any[] = products) => {
     setSearchQuery(query);
     setSelectedCategory(category);
 
-    let filtered = originalProducts;
+    let filtered = products;
 
     if (category) {
-      filtered = filtered.filter(product => product.category._id === category);
+      filtered = filtered.filter(product => product.category.name === category);
     }
 
     if (query) {
@@ -75,12 +75,12 @@ const ProductsByCategoryPage = () => {
         product.name.toLowerCase().includes(query.toLowerCase())
       );
     }
-    setProducts(filtered);
+    setFilteredProducts(filtered);
   };
 
-  const handleCategoryChange = (categoryId: string) => {
-    setSelectedCategory(categoryId);
-    handleSearch(searchQuery, categoryId);
+  const handleCategoryChange = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+    handleSearch(searchQuery, categoryName);
   };
 
 
@@ -107,7 +107,7 @@ const ProductsByCategoryPage = () => {
       <div className="font-sans">
         <Header />
         <Navbar />
-        <ArchiveHeader title="Product Category " category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat, selectedBrand)} onCategoryChange={handleCategoryChange} />
+        <ArchiveHeader title="Product Category " category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat)} onCategoryChange={handleCategoryChange} />
         <main className="container mx-auto px-4 py-16 bg-gray-100">
           <div className="text-center text-red-500">Error: {error}</div>
         </main>
@@ -121,14 +121,14 @@ const ProductsByCategoryPage = () => {
     <div className="font-sans">
       <Header />
       <Navbar />
-      <ArchiveHeader title="Product Category" category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat, selectedBrand)} onCategoryChange={handleCategoryChange} />
+      <ArchiveHeader title="Product Category" category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat)} onCategoryChange={handleCategoryChange} />
       <main className="container mx-auto px-4 py-16 bg-gray-100">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-1">
             <Sidebar
               categories={categories}
               selectedCategory={selectedCategoryName}
-              onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
+              onSelectCategory={handleCategoryChange}
               brands={brands}
               onSearch={(query) => handleSearch(query, selectedCategory)}
             />
@@ -138,8 +138,8 @@ const ProductsByCategoryPage = () => {
               {selectedCategoryName} Products
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {products.length > 0 ? (
-                products.map((product) => (
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (
