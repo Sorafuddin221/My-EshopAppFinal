@@ -96,6 +96,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+// @route   GET /api/products/brand/:brandName
+// @desc    Get all products for a specific brand
+// @access  Public
+router.get('/brand/:brandName', async (req, res) => {
+  try {
+    const brand = await Brand.findOne({ name: { $regex: new RegExp(`^${req.params.brandName}$`, 'i') } });
+    if (!brand) {
+      return res.json([]);
+    }
+    const products = await Product.find({ brand: brand._id }).populate('brand').populate('category').sort({ createdAt: -1 });
+    res.json(products);
+  } catch (err) {
+    console.error('Error fetching products by brand:', err);
+    res.status(500).send('Server error');
+  }
+});
+
 // @route   GET /api/products/:id
 // @desc    Get product by ID
 // @access  Public

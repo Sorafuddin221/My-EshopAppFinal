@@ -12,8 +12,6 @@ interface SidebarProps {
   selectedCategory: string | null;
   onSelectCategory: (categoryId: string) => void;
   brands: any[]; // New prop for brands
-  selectedBrand: string | null; // New prop for selected brand
-  onSelectBrand: (brandName: string) => void; // New prop for brand selection handler
   onSearch: (query: string) => void; // New prop for search handler
   title?: string;
 }
@@ -33,7 +31,7 @@ interface Comment {
     blogPostId: string;
 }
 
-const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, selectedBrand, onSelectBrand, onSearch, title }: SidebarProps) => {
+const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSearch, title }: SidebarProps) => {
     console.log('Sidebar title:', title);
     const [recentPosts, setRecentPosts] = useState<any[]>([]);
     const [recentProducts, setRecentProducts] = useState<any[]>([]);
@@ -132,30 +130,38 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, selec
                     </button>
                 </div>
             </div>
-            {/* Categories */}
-            
-            
+            <div className="bg-white p-6 rounded-lg shadow-lg">
+    <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Categories</h3>
+    <select
+        value={selectedCategory || ''}
+        onChange={(e) => onSelectCategory(e.target.value)}
+        className="w-full py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+    >
+        <option value="">All Categories</option>
+        {Array.isArray(categories) && categories.map((category) => (
+            <option key={category._id} value={category._id}>
+                {category.name}
+            </option>
+        ))}
+    </select>
+</div>
 
             {/* Brands */}
             <div className="bg-white p-6 rounded-lg shadow-lg">
                 <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">Brands</h3>
                 <ul className="space-y-3">
                     <li>
-                        <button
-                            onClick={() => onSelectBrand('')}
-                            className={`block text-left w-full ${selectedBrand === '' ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
-                        >
+                        <a href="/products"
+                           className="block text-gray-600 hover:text-red-500 transition-colors duration-200">
                             All Products
-                        </button>
+                        </a>
                     </li>
                     {Array.isArray(brands) && brands.map((brand) => (
                         <li key={brand._id}>
-                            <button
-                                onClick={() => onSelectBrand(brand._id)}
-                                className={`block text-left w-full ${selectedBrand === brand.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
-                            >
+                            <a href={`/products/brand/${brand.name}`}
+                               className="block text-gray-600 hover:text-red-500 transition-colors duration-200">
                                 {brand.name}
-                            </button>
+                            </a>
                         </li>
                     ))}
                 </ul>

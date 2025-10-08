@@ -13,37 +13,45 @@ import api from '../../utils/api';
 
 const ProductsByCategoryPage = () => {
   const [categories, setCategories] = useState<any[]>([]);
-  const [brands, setBrands] = useState<any[]>([]); // New state for brands
+  const [brands, setBrands] = useState<any[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedBrand, setSelectedBrand] = useState<string | null>(null); // New state for selected brand
+  const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
   const [products, setProducts] = useState<any[]>([]);
   const [originalProducts, setOriginalProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState(''); // New state for search query
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetch categories and brands on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [fetchedCategories, fetchedBrands] = await Promise.all([
+        const [fetchedCategories, fetchedBrands, fetchedProducts] = await Promise.all([
           api.get('/categories'),
-          api.get('/brands') // Fetch brands
+          api.get('/brands'),
+          api.get('/products')
         ]);
 
-        if (Array.isArray(fetchedCategories)) {
-            setCategories(fetchedCategories);
-            if (fetchedCategories.length > 0) {
-              setSelectedCategory(fetchedCategories[0]._id); // Select the first category by default
-            }
-        } else {
+        if (Array.isArray(fetchedProducts)) {
+          setProducts(fetchedProducts);
+          setOriginalProducts(fetchedProducts);
+
+          if (Array.isArray(fetchedCategories)) {
+            const categoriesWithProducts = fetchedCategories.filter(category => 
+              fetchedProducts.some(product => product.category._id === category._id)
+            );
+            setCategories(categoriesWithProducts);
+          } else {
             setError('Failed to load categories.');
+          }
+
+        } else {
+          setError('Failed to load products.');
         }
 
         if (Array.isArray(fetchedBrands)) {
-            setBrands(fetchedBrands);
+          setBrands(fetchedBrands);
         } else {
-            setError('Failed to load brands.');
+          setError('Failed to load brands.');
         }
 
       } catch (err: any) {
@@ -56,74 +64,37 @@ const ProductsByCategoryPage = () => {
     fetchData();
   }, []);
 
-  // Fetch products when selectedCategory or selectedBrand changes
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (!selectedCategory) return;
-      setLoading(true);
-      try {
-        let url = `/products?category=${selectedCategory}`;
-        if (selectedBrand) {
-            url += `&brand=${selectedBrand}`;
-        }
-        const fetchedProducts = await api.get(url);
-        if(Array.isArray(fetchedProducts)) {
-            setProducts(fetchedProducts);
-            setOriginalProducts(fetchedProducts);
-            // Apply search query if present
-            handleSearch(searchQuery, selectedCategory, selectedBrand, fetchedProducts);
-        } else {
-            setError('Failed to load products for this category.');
-        }
-      } catch (err: any) {
-        console.error('Error fetching products by category:', err);
-        setError('Failed to load products for this category.');
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, [selectedCategory, selectedBrand]);
-
-  const handleSearch = (query: string, category: string | null, brand: string | null, allProducts: any[] = originalProducts) => {
+  const handleSearch = (query: string, category: string | null, brand: string | null) => {
     setSearchQuery(query);
     setSelectedCategory(category);
     setSelectedBrand(brand);
 
-    let filtered = allProducts;
+    let filtered = originalProducts;
 
     if (category) {
-        filtered = filtered.filter(product => product.category._id === category);
+      filtered = filtered.filter(product => product.category._id === category);
     }
 
     if (brand) {
-        filtered = filtered.filter(product => product.brand && product.brand._id === brand);
+      filtered = filtered.filter(product => product.brand && product.brand._id === brand);
     }
 
     if (query) {
-        filtered = filtered.filter(product =>
-            product.name.toLowerCase().includes(query.toLowerCase())
-        );
+      filtered = filtered.filter(product =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
     }
     setProducts(filtered);
   };
 
   const handleCategoryChange = (categoryId: string) => {
     setSelectedCategory(categoryId);
-    // When category changes, reset search query and brand filter
-    handleSearch('', categoryId, null);
+    handleSearch(searchQuery, categoryId, selectedBrand);
   };
 
-  const handleBrandChange = (brandName: string) => {
-    const brand = brands.find(b => b.name === brandName);
-    if (brand) {
-      setSelectedBrand(brand._id);
-      // When brand changes, reset search query and category filter
-      handleSearch('', selectedCategory, brand._id);
-    } else {
-      setSelectedBrand(null);
-      handleSearch('', selectedCategory, null);
-    }
+  const handleBrandChange = (brandId: string) => {
+    setSelectedBrand(brandId);
+    handleSearch(searchQuery, selectedCategory, brandId);
   };
 
   const selectedCategoryName = selectedCategory ? categories.find(cat => cat._id === selectedCategory)?.name : '';
@@ -173,13 +144,20 @@ const ProductsByCategoryPage = () => {
               onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
               brands={brands}
               selectedBrand={selectedBrandName}
-              onSelectBrand={handleBrandChange}
+              onSelectBrand={(brandName) => {
+                const brand = brands.find(b => b.name === brandName);
+                if (brand) {
+                  handleBrandChange(brand._id);
+                } else {
+                  handleBrandChange('');
+                }
+              }}
               onSearch={(query) => handleSearch(query, selectedCategory, selectedBrand)}
             />
           </div>
           <div className="lg:col-span-2">
             <h2 className="text-2xl font-bold mb-4">
-              {selectedCategoryName} Products
+              {selectedCategoryName || selectedBrandName} Products
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {products.length > 0 ? (
@@ -187,7 +165,7 @@ const ProductsByCategoryPage = () => {
                   <ProductCard key={product._id} product={product} />
                 ))
               ) : (
-                <p className="col-span-full text-gray-600">No products found for this category.</p>
+                <p className="col-span-full text-gray-600">No products found for this selection.</p>
               )}
             </div>
           </div>

@@ -1,29 +1,29 @@
 'use client';
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from 'next/navigation';
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import AuthModal from "../components/AuthModal";
-import BackToTopButton from "../components/BackToTopButton";
-import ArchiveHeader from "./ArchiveHeader";
-import ProductListing from "./ProductListing";
-import Sidebar from "./Sidebar";
-import api from "../../utils/api";
+import { usePathname } from 'next/navigation';
+import Header from "../../../components/Header";
+import Navbar from "../../../components/Navbar";
+import Footer from "../../../components/Footer";
+import AuthModal from "../../../components/AuthModal";
+import BackToTopButton from "../../../components/BackToTopButton";
+import ArchiveHeader from "../../ArchiveHeader";
+import ProductListing from "../../ProductListing";
+import Sidebar from "../../Sidebar";
+import api from "../../../../utils/api";
 
 import { Product } from "@/app/types/Product";
 import { Category } from "@/app/types/Category";
 
-const ProductsPage = () => {
-    const searchParams = useSearchParams();
-    const initialSearchQuery = searchParams.get('search') || '';
+const BrandProductsPage = () => {
+    const pathname = usePathname();
+    const brandName = pathname.split('/').pop();
 
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [brands, setBrands] = useState<any[]>([]); // New state for brands
-    const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
+    const [brands, setBrands] = useState<any[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [settings, setSettings] = useState<any>(null);
 
@@ -31,15 +31,15 @@ const ProductsPage = () => {
         const fetchData = async () => {
             try {
                 const [productsData, categoriesData, brandsData, settingsData] = await Promise.all([
-                    api.get('/products'),
+                    api.get(`/products/brand/${brandName}`),
                     api.get('/categories'),
-                    api.get('/brands'), // Fetch brands
+                    api.get('/brands'),
                     api.get('/settings')
                 ]);
 
                 if (Array.isArray(productsData)) {
                     setProducts(productsData);
-                    handleSearch(initialSearchQuery, selectedCategory, productsData);
+                    setFilteredProducts(productsData);
                 } else {
                     console.error("Failed to fetch products: data is not an array", productsData);
                 }
@@ -62,14 +62,16 @@ const ProductsPage = () => {
             }
         };
 
-        fetchData();
-    }, []);
+        if (brandName) {
+            fetchData();
+        }
+    }, [brandName]);
 
-    const handleSearch = (query: string, category: string, allProducts: Product[] = products) => {
+    const handleSearch = (query: string, category: string) => {
         setSearchQuery(query);
         setSelectedCategory(category);
 
-        let filtered = allProducts;
+        let filtered = products;
 
         if (category) {
             filtered = filtered.filter(product => product.category.name === category);
@@ -89,18 +91,16 @@ const ProductsPage = () => {
         handleSearch(searchQuery, category);
     }
 
-
-
     return (
         <div className="font-sans">
             <Header />
             <Navbar />
             <ArchiveHeader
-                title={settings?.productsPageHeading || "All Products"}
+                title={`Products by ${brandName}`}
                 subheadingText={settings?.productsPageSubheading || "Explore our wide range of high-quality products designed to meet your needs."}
                 category={selectedCategory}
                 categories={categories}
-                onSearch={(query: string, category: string) => handleSearch(query, category)}
+                onSearch={handleSearch}
                 onCategoryChange={handleCategoryChange}
             />
             <main className="container mx-auto px-4 py-16 bg-gray-100">
@@ -110,8 +110,8 @@ const ProductsPage = () => {
                         categories={categories}
                         selectedCategory={selectedCategory}
                         onSelectCategory={handleCategoryChange}
-                        brands={brands} // Pass brands to Sidebar
-                        onSearch={(query: string) => handleSearch(query, selectedCategory, selectedBrand)} // Pass search handler to Sidebar
+                        brands={brands}
+                        onSearch={handleSearch}
                         title="Categories"
                     />
                 </div>
@@ -122,4 +122,4 @@ const ProductsPage = () => {
     );
 };
 
-export default ProductsPage;
+export default BrandProductsPage;
