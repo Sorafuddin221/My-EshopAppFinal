@@ -98,8 +98,14 @@ const BrandsPage = () => {
                 subheadingText={settings?.brandsPageSubheading || "Discover products from your favorite brands."}
                 category={selectedBrandName}
                 categories={brands.map(brand => ({ _id: brand._id, name: brand.name }))} // Pass brands as categories for ArchiveHeader
-                onSearch={handleFilter}
-                onCategoryChange={handleBrandChange}
+                onSearch={(query, brandName) => {
+                    const brandId = brands.find(brand => brand.name === brandName)?._id || '';
+                    handleFilter(query, brandId);
+                }}
+                onCategoryChange={(brandName) => {
+                    const brandId = brands.find(brand => brand.name === brandName)?._id || '';
+                    handleBrandChange(brandId);
+                }}
             />
             <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Browse Brands</h2>
