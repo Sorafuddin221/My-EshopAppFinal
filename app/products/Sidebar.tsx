@@ -133,29 +133,8 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, selec
                 </div>
             </div>
             {/* Categories */}
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-                <h3 className="font-bold text-lg mb-4 border-b-2 border-red-500 pb-2 text-gray-800">{title || "Categories"}</h3>
-                <ul className="space-y-3">
-                    <li>
-                        <button
-                            onClick={() => onSelectCategory('')}
-                            className={`block text-left w-full ${selectedCategory === '' ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
-                        >
-                            All Products
-                        </button>
-                    </li>
-                    {Array.isArray(categories) && categories.map((cat) => (
-                        <li key={cat._id}>
-                            <button
-                                onClick={() => onSelectCategory(cat.name)}
-                                className={`block text-left w-full ${selectedCategory === cat.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
-                            >
-                                {cat.name}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            
+            
 
             {/* Brands */}
             <div className="bg-white p-6 rounded-lg shadow-lg">
@@ -166,13 +145,13 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, selec
                             onClick={() => onSelectBrand('')}
                             className={`block text-left w-full ${selectedBrand === '' ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
                         >
-                            All Brands
+                            All Products
                         </button>
                     </li>
                     {Array.isArray(brands) && brands.map((brand) => (
                         <li key={brand._id}>
                             <button
-                                onClick={() => onSelectBrand(brand.name)}
+                                onClick={() => onSelectBrand(brand._id)}
                                 className={`block text-left w-full ${selectedBrand === brand.name ? 'text-red-500 font-bold' : 'text-gray-600 hover:text-red-500'} transition-colors duration-200`}
                             >
                                 {brand.name}
