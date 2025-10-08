@@ -10,7 +10,7 @@ import api from '../../utils/api';
 interface SidebarProps {
   categories: any[];
   selectedCategory: string | null;
-  onSelectCategory: (categoryId: string) => void;
+  onSelectCategory: (categoryName: string) => void;
   brands: any[]; // New prop for brands
   onSearch: (query: string) => void; // New prop for search handler
   title?: string;
@@ -139,7 +139,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSea
     >
         <option value="">All Categories</option>
         {Array.isArray(categories) && categories.map((category) => (
-            <option key={category._id} value={category._id}>
+            <option key={category._id} value={category.name}>
                 {category.name}
             </option>
         ))}
