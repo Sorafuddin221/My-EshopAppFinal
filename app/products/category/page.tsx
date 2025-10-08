@@ -140,10 +140,10 @@ const CategoriesPage = () => {
                     <div className="lg:col-span-1">
                         <Sidebar
                             categories={categories}
-                            selectedCategory={selectedCategoryName}
+                            selectedCategory={selectedCategoryName ?? null}
                             onSelectCategory={(categoryName) => handleCategoryChange(categoryName === '' ? '' : categories.find(cat => cat.name === categoryName)?._id || '')}
                             brands={brands}
-                            selectedBrand={selectedBrandName}
+                            selectedBrand={selectedBrandName ?? null}
                             onSelectBrand={handleBrandChange}
                             onSearch={(query) => handleFilter(query, selectedCategory, selectedBrand)}
                             title="Categories"
