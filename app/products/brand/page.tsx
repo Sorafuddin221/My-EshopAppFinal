@@ -36,8 +36,12 @@ const BrandsPage = () => {
                 ]);
 
                 if (Array.isArray(productsData)) {
-                    setProducts(productsData);
-                    setFilteredProducts(productsData);
+                    const formattedProducts = productsData.map(product => ({
+                        ...product,
+                        brand: product.brand || { _id: null, name: '' } // Ensure brand object exists with _id
+                    }));
+                    setProducts(formattedProducts);
+                    setFilteredProducts(formattedProducts);
                 } else {
                     console.error("Failed to fetch products: data is not an array", productsData);
                 }
@@ -66,7 +70,7 @@ const BrandsPage = () => {
         let currentFilteredProducts = products;
 
         if (brandId) {
-            currentFilteredProducts = currentFilteredProducts.filter(product => product.brand._id === brandId);
+            currentFilteredProducts = currentFilteredProducts.filter(product => product.brand && product.brand._id === brandId);
         }
 
         if (query) {
