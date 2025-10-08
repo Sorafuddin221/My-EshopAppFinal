@@ -156,7 +156,7 @@ export default function Footer() {
           <ul className="space-y-4">
             {recentPosts.map((post) => (
               <li key={post._id} className="flex items-start space-x-4">
-                <img src={post.imageUrl ? `${process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api', '')}${post.imageUrl}` : "https://placehold.co/80x80/1e293b/FFFFFF?text=Blog+Post"} alt={post.title} className="w-16 h-16 rounded-md object-cover" style={{ display: 'block', width: '64px', height: '64px', opacity: '1' }} />
+                <img src={post.imageUrl && (post.imageUrl.startsWith('http') || post.imageUrl.startsWith('https')) ? post.imageUrl : `${process.env.NEXT_PUBLIC_API_BASE_URL?.replace('/api', '')}${post.imageUrl}`} alt={post.title} className="w-16 h-16 rounded-md object-cover" style={{ display: 'block', width: '64px', height: '64px', opacity: '1' }} />
                 <div>
                   <a href={`/single-blog/${post._id}`} className="font-semibold text-gray-100 hover:text-orange-500">{post.title}</a>
                   <div className="text-gray-500 text-sm mt-1">{new Date(post.createdAt).toLocaleDateString()}</div>
