@@ -3,6 +3,8 @@ const multer = require('multer');
 const path = require('path');
 const router = express.Router();
 const Product = require('../models/Product');
+const Category = require('../models/Category');
+const Brand = require('../models/Brand');
 const { auth, authorizeRoles } = require('../middleware/auth');
 const mongoose = require('mongoose'); // Import mongoose for ObjectId validation
 
@@ -67,16 +69,29 @@ router.get('/', async (req, res) => {
   try {
     const filter = {};
     if (req.query.brand) {
-      filter.brand = req.query.brand;
+      const brand = await Brand.findOne({ name: { $regex: new RegExp(`^${req.query.brand}$`, 'i') } });
+      if (brand) {
+        filter.brand = brand._id;
+      } else {
+        return res.json([]);
+      }
     }
     if (req.query.category) {
-      filter.category = req.query.category;
+      const category = await Category.findOne({ name: { $regex: new RegExp(`^${req.query.category}$`, 'i') } });
+      if (category) {
+        filter.category = category._id;
+      } else {
+        return res.json([]);
+      }
     }
 
+    console.log('Filter:', filter); // Log the filter object
+
     const products = await Product.find(filter).populate('brand').populate('category').sort({ createdAt: -1 });
+    console.log('Products found:', products.length); // Log the number of products found
     res.json(products);
   } catch (err) {
-    console.error(err.message);
+    console.error('Error fetching products:', err); // Log the full error
     res.status(500).send('Server error');
   }
 });
