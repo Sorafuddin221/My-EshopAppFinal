@@ -22,7 +22,6 @@ const BrandsPage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
     const [brands, setBrands] = useState<Brand[]>([]);
-    const [selectedBrand, setSelectedBrand] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [settings, setSettings] = useState<any>(null);
 
@@ -63,14 +62,13 @@ const BrandsPage = () => {
         fetchData();
     }, []);
 
-    const handleFilter = (query: string, brandId: string) => {
+    const handleFilter = (query: string, category: string) => {
         setSearchQuery(query);
-        setSelectedBrand(brandId);
 
         let currentFilteredProducts = products;
 
-        if (brandId) {
-            currentFilteredProducts = currentFilteredProducts.filter(product => product.brand && product.brand._id === brandId);
+        if (category) {
+            currentFilteredProducts = currentFilteredProducts.filter(product => product.category.name === category);
         }
 
         if (query) {
@@ -82,12 +80,7 @@ const BrandsPage = () => {
         setFilteredProducts(currentFilteredProducts);
     };
 
-    const handleBrandChange = (brandId: string) => {
-        setSelectedBrand(brandId);
-        handleFilter(searchQuery, brandId);
-    };
 
-    const selectedBrandName = selectedBrand ? brands.find(brand => brand._id === selectedBrand)?.name : '';
 
     return (
         <div className="font-sans">
@@ -96,36 +89,30 @@ const BrandsPage = () => {
             <ArchiveHeader
                 title={settings?.brandsPageHeading || "Products by Brand"}
                 subheadingText={settings?.brandsPageSubheading || "Discover products from your favorite brands."}
-                category={selectedBrandName}
-                categories={brands.map(brand => ({ _id: brand._id, name: brand.name }))} // Pass brands as categories for ArchiveHeader
-                onSearch={(query, brandName) => {
-                    const brandId = brands.find(brand => brand.name === brandName)?._id || '';
-                    handleFilter(query, brandId);
-                }}
-                onCategoryChange={(brandName) => {
-                    const brandId = brands.find(brand => brand.name === brandName)?._id || '';
-                    handleBrandChange(brandId);
-                }}
+                category={''}
+                categories={[]}
+                onSearch={(query) => handleFilter(query, '')}
+                onCategoryChange={(category) => handleFilter('', category)}
             />
             <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Browse Brands</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                    <button
-                        onClick={() => handleBrandChange('')}
+                    <Link
+                        href="/products"
                         className={`p-4 border rounded-lg text-center transition-all duration-200
-                            ${selectedBrand === '' ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                            ${'' === '' ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                     >
                         All Products
-                    </button>
+                    </Link>
                     {brands.map((brand) => (
-                        <button
+                        <Link
                             key={brand._id}
-                            onClick={() => handleBrandChange(brand._id)}
+                            href={`/products/brand/${brand.name}`}
                             className={`p-4 border rounded-lg text-center transition-all duration-200
-                                ${selectedBrand === brand._id ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
+                                ${'' === brand._id ? 'bg-orange-500 text-white shadow-lg' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                         >
                             {brand.name}
-                        </button>
+                        </Link>
                     ))}
                 </div>
             </div>
@@ -137,9 +124,7 @@ const BrandsPage = () => {
                             selectedCategory={null} // No categories needed for brand page sidebar
                             onSelectCategory={() => {}} // No categories needed for brand page sidebar
                             brands={brands}
-                            selectedBrand={selectedBrand}
-                            onSelectBrand={handleBrandChange}
-                            onSearch={(query) => handleFilter(query, selectedBrand)}
+                            onSearch={(query) => handleFilter(query, '')}
                             title="Brands"
                         />
                     </div>
