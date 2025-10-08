@@ -130,7 +130,7 @@ const BrandsPage = () => {
                     </div>
                     <div className="lg:col-span-3">
                         <h2 className="text-2xl font-bold mb-4">
-                            {selectedBrandName ? `${selectedBrandName} Products` : 'All Products'}
+                            All Products
                         </h2>
                         <ProductListing products={filteredProducts} />
                     </div>
