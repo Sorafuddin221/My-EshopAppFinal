@@ -40,6 +40,8 @@ const LegalPagesSection: React.FC = () => {
       toast.error('Authentication required to save content.');
       return;
     }
+    console.log(`Attempting to save for slug: ${slug}`);
+    console.log(`Content being sent:`, content);
     try {
       const response = await api.put(`/pages/${slug}`, { content }, token); // Use api.put
 
