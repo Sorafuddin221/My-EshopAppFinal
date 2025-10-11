@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -16,6 +17,7 @@ import ContactInfoSection from './ContactInfoSection';
 import AddressSettingsSection from './AddressSettingsSection';
 import ProductHeadingSectionCustomize from './ProductHeadingSectionCustomize';
 import FooterMenuCustomize from './FooterMenuCustomize';
+import LegalPagesSection from './LegalPagesSection';
 
 const DashboardClient = () => {
     const [activeSection, setActiveSection] = useState('dashboard'); // Default active section
@@ -129,17 +131,24 @@ const DashboardClient = () => {
                             </a>
                         </li>
                         <li className="px-4 py-2">
-                            <a className={`flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer ${activeSection === 'settings' ? 'bg-gray-200 text-blue-600' : ''}`}
-                                onClick={() => setActiveSection('settings')}>
-                                <i className="bi bi-gear-fill mr-2"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                        <li className="px-4 py-2">
                             <a className={`flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer ${activeSection === 'footer-menu-customize' ? 'bg-gray-200 text-blue-600' : ''}`}
                                 onClick={() => setActiveSection('footer-menu-customize')}>
                                 <i className="bi bi-palette-fill mr-2"></i>
                                 <span>Footer Menu Customize</span>
+                            </a>
+                        </li>
+                        <li className="px-4 py-2">
+                            <a className={`flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer ${activeSection === 'legal-pages' ? 'bg-gray-200 text-blue-600' : ''}`}
+                                onClick={() => setActiveSection('legal-pages')}>
+                                <i className="bi bi-file-earmark-text mr-2"></i>
+                                <span>Manage Legal Pages</span>
+                            </a>
+                        </li>
+                        <li className="px-4 py-2">
+                            <a className={`flex items-center text-gray-700 hover:bg-gray-200 hover:text-blue-600 rounded-lg p-2 cursor-pointer ${activeSection === 'settings' ? 'bg-gray-200 text-blue-600' : ''}`}
+                                onClick={() => setActiveSection('settings')}>
+                                <i className="bi bi-gear-fill mr-2"></i>
+                                <span>Settings</span>
                             </a>
                         </li>
                         <li className="px-4 py-2">
@@ -327,6 +336,10 @@ const DashboardClient = () => {
 
                     {activeSection === 'footer-menu-customize' && (
                         <FooterMenuCustomize />
+                    )}
+
+                    {activeSection === 'legal-pages' && (
+                        <LegalPagesSection />
                     )}
 
                     {/* Settings Section (Hidden by default) */}

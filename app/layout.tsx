@@ -1,4 +1,6 @@
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from '../context/AuthContext';
@@ -31,6 +33,7 @@ export default function RootLayout({
       <body className="flex flex-col min-h-screen">
         <AuthProvider>
             <main className="flex-grow">{children}</main>
+            <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         </AuthProvider>
       </body>
     </html>
