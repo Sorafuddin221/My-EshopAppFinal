@@ -18,11 +18,16 @@ export async function GET(request: Request, { params }: { params: { slug: string
   const { slug } = params;
   const filePath = getFilePath(slug);
 
+  console.log(`[API] GET request for slug: ${slug}`);
+  console.log(`[API] Checking file path: ${filePath}`);
+
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8');
     const data = JSON.parse(fileContent);
+    console.log(`[API] File found for ${slug}. Returning content.`);
     return NextResponse.json(data);
   } catch (error) {
+    console.error(`[API] Error reading file for ${slug}:`, error);
     // Return default content if file not found or error
     let defaultContent = '';
     if (slug === 'terms') {
@@ -32,6 +37,7 @@ export async function GET(request: Request, { params }: { params: { slug: string
     } else if (slug === 'disclosure') {
       defaultContent = '<h2>Disclosure</h2><p>This is our disclosure statement.</p>';
     }
+    console.log(`[API] File not found or error for ${slug}. Returning default content.`);
     return NextResponse.json({ content: defaultContent });
   }
 }
