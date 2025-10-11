@@ -50,6 +50,6 @@ export async function PUT(request: Request, { params }: { params: { slug: string
       errorMessage = error.message;
     }
     console.error(error);
-    return NextResponse.json({ message: 'Failed to update content', error: error.message }, { status: 500 });
+    return NextResponse.json({ message: 'Failed to update content', error: errorMessage }, { status: 500 });
   }
 }
