@@ -3,6 +3,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import api from '../../utils/api'; // Import the API utility
+import { useAuth } from '../../context/AuthContext'; // Import useAuth
 
 interface LegalPageContent {
   content: string;
@@ -13,16 +15,16 @@ const LegalPagesSection: React.FC = () => {
   const [privacyContent, setPrivacyContent] = useState<string>('');
   const [disclosureContent, setDisclosureContent] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const { token } = useAuth(); // Get the authentication token
 
   useEffect(() => {
     const fetchPageContent = async (slug: string, setContent: React.Dispatch<React.SetStateAction<string>>) => {
       try {
-        const response = await fetch(`/api/pages/${slug}`);
-        const data: LegalPageContent = await response.json();
+        const data: LegalPageContent = await api.get(`/pages/${slug}`); // Use api.get
         setContent(data.content);
-      } catch (error) {
+      } catch (error: any) {
         console.error(`Failed to fetch ${slug} content:`, error);
-        toast.error(`Failed to fetch ${slug} content.`);
+        toast.error(`Failed to fetch ${slug} content: ${error.message || 'Server error'}`);
       }
     };
 
@@ -34,24 +36,19 @@ const LegalPagesSection: React.FC = () => {
   }, []);
 
   const handleSave = async (slug: string, content: string) => {
+    if (!token) {
+      toast.error('Authentication required to save content.');
+      return;
+    }
     try {
-      const response = await fetch(`/api/pages/${slug}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ content }),
-      });
+      const response = await api.put(`/pages/${slug}`, { content }, token); // Use api.put
 
-      if (response.ok) {
+      if (response) { // api.put already handles response.ok and throws error for !ok
         toast.success(`${slug} content updated successfully!`);
-      } else {
-        const errorData = await response.json();
-        toast.error(`Failed to update ${slug} content: ${errorData.message}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Failed to save ${slug} content:`, error);
-      toast.error(`Failed to save ${slug} content.`);
+      toast.error(`Failed to save ${slug} content: ${error.message || 'Server error'}`);
     }
   };
 
