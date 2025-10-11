@@ -4,8 +4,23 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const PrivacyPolicyPage = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/pages/privacy-policy`, { cache: 'no-store' });
-  const data = await response.json();
+  let data = { content: '<p>Failed to load privacy policy. Please try again later.</p>' }; // Default error content
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/pages/privacy-policy`, { cache: 'no-store' });
+
+    if (!response.ok) {
+      // If the response is not OK, it might still be JSON, or it might be HTML.
+      // Try to parse as text to avoid SyntaxError if it's HTML.
+      const errorText = await response.text();
+      console.error('API response not OK:', response.status, errorText);
+      throw new Error(`Failed to fetch privacy policy: ${response.status} ${response.statusText}`);
+    }
+
+    data = await response.json();
+  } catch (error) {
+    console.error('Error fetching privacy policy:', error);
+    // data will remain the default error content
+  }
 
   return (
     <div>
