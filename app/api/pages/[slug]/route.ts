@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = path.join(process.cwd(), 'server', 'data');
 
 // Ensure the data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -44,7 +44,12 @@ export async function PUT(request: Request, { params }: { params: { slug: string
   try {
     fs.writeFileSync(filePath, JSON.stringify({ content }), 'utf-8');
     return NextResponse.json({ message: 'Content updated successfully' });
-  } catch (error) {
+  } catch (error: unknown) {
+    let errorMessage = 'Failed to update content';
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    console.error(error);
     return NextResponse.json({ message: 'Failed to update content', error: error.message }, { status: 500 });
   }
 }
