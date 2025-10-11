@@ -26,6 +26,7 @@ const navMenuRoutes = require('./routes/navMenus');
 const subMenuRoutes = require('./routes/subMenus');
 const contactRoutes = require('./routes/contact');
 const addressSettingsRoutes = require('./routes/addressSettings');
+const pagesRoutes = require('./routes/pagesRoutes');
 
 // Middleware
 app.use(cors({
@@ -89,6 +90,7 @@ app.use('/api/nav-menus', navMenuRoutes);
 app.use('/api/sub-menus', subMenuRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/address-settings', addressSettingsRoutes);
+app.use('/api/pages', pagesRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
