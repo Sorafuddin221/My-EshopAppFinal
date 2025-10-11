@@ -2,10 +2,16 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import api from '../../utils/api'; // Import the api utility
 
 const DisclosurePage = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/pages/disclosure`, { cache: 'no-store' });
-  const data = await response.json();
+  let data = { content: '<p>Failed to load disclosure. Please try again later.</p>' }; // Default error content
+  try {
+    data = await api.get('/pages/disclosure'); // Use the api utility
+  } catch (error) {
+    console.error('Error fetching disclosure:', error);
+    // data will remain the default error content
+  }
 
   return (
     <div>
