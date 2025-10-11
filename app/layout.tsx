@@ -5,8 +5,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from '../context/AuthContext';
 import api from '../utils/api';
-import Header from './components/Header'; // Import Header
-import Navbar from './components/Navbar'; // Import Navbar
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001/api'}/settings`, { cache: 'no-store' });
@@ -34,8 +33,7 @@ export default function RootLayout({
       </head>
       <body className="flex flex-col min-h-screen">
         <AuthProvider>
-            <Header /> {/* Render Header */}
-            <Navbar /> {/* Render Navbar */}
+           
             <main className="flex-grow">{children}</main>
             <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
         </AuthProvider>
