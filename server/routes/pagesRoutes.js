@@ -36,14 +36,20 @@ router.get('/:slug', async (req, res) => {
 // PUT route to update page content
 router.put('/:slug', async (req, res) => {
   const { slug } = req.params;
-  const { content } = req.body;
+  const { content, title } = req.body; // Destructure title from req.body
 
   console.log(`[Backend API] PUT request for slug: ${slug}`);
 
   try {
+    let pageTitle = title;
+    if (!pageTitle) {
+      // Generate title from slug if not provided
+      pageTitle = slug.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
     const page = await Page.findOneAndUpdate(
       { slug },
-      { content },
+      { content, title: pageTitle }, // Include title in the update/upsert
       { new: true, upsert: true } // Create if not exists, return new document
     );
     console.log(`[Backend API] Content for ${slug} updated successfully.`);
