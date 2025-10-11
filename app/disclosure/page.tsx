@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const DisclosurePage = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/pages/disclosure`, { cache: 'no-store' });
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/pages/disclosure`, { cache: 'no-store' });
   const data = await response.json();
 
   return (
