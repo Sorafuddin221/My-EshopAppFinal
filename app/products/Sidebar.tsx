@@ -31,9 +31,16 @@ interface Comment {
     blogPostId: string;
 }
 
+interface BlogPost {
+    _id: string;
+    title: string;
+    imageUrl: string;
+    createdAt: string;
+}
+
 const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSearch, title }: SidebarProps) => {
     console.log('Sidebar title:', title);
-    const [recentPosts, setRecentPosts] = useState<any[]>([]);
+    const [recentPosts, setRecentPosts] = useState<BlogPost[]>([]);
     const [recentProducts, setRecentProducts] = useState<any[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [archives, setArchives] = useState<Archive[]>([]);
@@ -44,7 +51,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSea
             try {
                 const posts = await api.get('/blogposts');
                 if (Array.isArray(posts)) {
-                    const sortedPosts = posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                    const sortedPosts = posts.sort((a: BlogPost, b: BlogPost) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
                     setRecentPosts(sortedPosts.slice(0, 5)); // Get latest 5 posts
                 }
             } catch (error: any) {

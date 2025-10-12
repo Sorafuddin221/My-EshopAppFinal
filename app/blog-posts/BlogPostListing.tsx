@@ -43,7 +43,7 @@ const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps
                 const data = await api.get('/blogposts');
                 if (Array.isArray(data)) {
                     // Sort by latest by default
-                    const sortedData = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                    const sortedData = data.sort((a: BlogPost, b: BlogPost) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
                     setBlogPosts(sortedData);
                 } else {
                     setError(data.msg || 'Failed to fetch blog posts.');
@@ -61,9 +61,9 @@ const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps
         setSortOrder(e.target.value);
         let sortedPosts = [...blogPosts];
         if (e.target.value === 'latest') {
-            sortedPosts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+            sortedPosts.sort((a: BlogPost, b: BlogPost) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         } else if (e.target.value === 'oldest') {
-            sortedPosts.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+            sortedPosts.sort((a: BlogPost, b: BlogPost) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
         }
         setBlogPosts(sortedPosts);
     };
