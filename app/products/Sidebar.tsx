@@ -44,7 +44,7 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSea
             try {
                 const posts = await api.get('/blogposts');
                 if (Array.isArray(posts)) {
-                    const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    const sortedPosts = posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
                     setRecentPosts(sortedPosts.slice(0, 5)); // Get latest 5 posts
                 }
             } catch (error: any) {

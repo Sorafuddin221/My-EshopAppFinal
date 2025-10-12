@@ -77,7 +77,7 @@ export default function Footer() {
     const fetchRecentPosts = async () => {
       try {
         const posts = await api.get('/blogposts');
-        const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedPosts = posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         setRecentPosts(sortedPosts.slice(0, 2)); // Get top 2 recent posts
       } catch (error) {
         console.error('Error fetching recent posts:', error);
