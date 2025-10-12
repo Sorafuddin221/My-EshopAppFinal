@@ -44,7 +44,8 @@ const Sidebar = ({ categories, selectedCategory, onSelectCategory, brands, onSea
             try {
                 const posts = await api.get('/blogposts');
                 if (Array.isArray(posts)) {
-                    setRecentPosts(posts.slice(0, 5)); // Get latest 5 posts
+                    const sortedPosts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setRecentPosts(sortedPosts.slice(0, 5)); // Get latest 5 posts
                 }
             } catch (error: any) {
                 console.error("Failed to fetch recent posts", error);

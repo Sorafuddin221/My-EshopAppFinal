@@ -34,7 +34,8 @@ const BlogSidebar = ({ selectedCategory, setSelectedCategory }: BlogSidebarProps
                 // Fetch recent posts
                 const postsData = await api.get('/blogposts');
                 if (Array.isArray(postsData)) {
-                    setRecentPosts(postsData.slice(0, 3)); // Get top 3 recent posts
+                    const sortedPosts = postsData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                    setRecentPosts(sortedPosts.slice(0, 3)); // Get top 3 recent posts
                 }
 
                 // Fetch categories

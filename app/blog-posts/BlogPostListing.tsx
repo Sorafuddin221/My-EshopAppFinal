@@ -18,7 +18,7 @@ const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps
     const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [sortOrder, setSortOrder] = useState('default');
+    const [sortOrder, setSortOrder] = useState('latest');
     const [filteredBlogPosts, setFilteredBlogPosts] = useState<BlogPost[]>([]);
 
     useEffect(() => {
@@ -42,7 +42,9 @@ const BlogPostListing = ({ searchQuery, selectedCategory }: BlogPostListingProps
             try {
                 const data = await api.get('/blogposts');
                 if (Array.isArray(data)) {
-                    setBlogPosts(data);
+                    // Sort by latest by default
+                    const sortedData = data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+                    setBlogPosts(sortedData);
                 } else {
                     setError(data.msg || 'Failed to fetch blog posts.');
                 }
