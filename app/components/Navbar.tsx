@@ -139,7 +139,7 @@ export default function Navbar() {
             </Link>
           </div>
           {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center ml-5">
             <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 hover:text-orange-500 focus:outline-none">
               <FontAwesomeIcon icon={faBars} className="text-xl" />
             </button>
