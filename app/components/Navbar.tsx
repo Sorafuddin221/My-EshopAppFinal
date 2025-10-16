@@ -104,19 +104,19 @@ export default function Navbar() {
 
   return (
     <nav className={`bg-white shadow-md pt-0 ${isSticky ? 'fixed top-0 w-full z-50' : ''}`}>
-      {!isSticky && (
-      <div className="container mx-auto px-5 py-3 flex justify-between items-center">        
+      <div className="container mx-auto px-5 py-3 flex justify-between items-center">
+        <div className="flex items-center space-x-2">
           <Link href="/">
             <div className="flex items-center space-x-2">
-              <img src={navbarLogoUrl} alt={`${navbarLogoText} Logo`} className="h-20" />
-              {isLogoTextVisible && <span className="text-3xl font-bold text-orange-500">{navbarLogoText}</span>}
+              <img src={navbarLogoUrl} alt={`${navbarLogoText} Logo`} className={`${isSticky ? 'h-12' : 'h-20'} transition-height duration-300`} />
+              {isLogoTextVisible && !isSticky && <span className="text-3xl font-bold text-orange-500">{navbarLogoText}</span>}
             </div>
           </Link>
-        
+        </div>
 
         {/* Search Bar */}
-        
-          <form onSubmit={handleSearchSubmit} className="flex-grow mx-10 max-w-lg relative">
+        <div className={`flex-grow mx-10 max-w-lg relative ${isSticky ? 'hidden md:block' : ''}`}>
+          <form onSubmit={handleSearchSubmit}>
             <input
               type="text"
               placeholder="Search..."
@@ -128,25 +128,23 @@ export default function Navbar() {
               <FontAwesomeIcon icon={faSearch} />
             </button>
           </form>
-        
-        
+        </div>
 
-        {/* Icons */}
-        
-          <div className="flex items-center space-x-6 text-gray-700">
-              <Link href="#" className="relative hover:text-orange-500">
-                <FontAwesomeIcon icon={faShoppingCart} className="text-xl" />
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
-              </Link>
+        {/* Icons & Mobile Menu Button */}
+        <div className="flex items-center space-x-6 text-gray-700">
+          <div className="hidden md:flex items-center space-x-6">
+            <Link href="#" className="relative hover:text-orange-500">
+              <FontAwesomeIcon icon={faShoppingCart} className="text-xl" />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
+            </Link>
           </div>
-        
-    </div>
-    )}
-      {/* Mobile Menu */}
-      <div className="md:hidden flex items-center">
-        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 hover:text-orange-500 focus:outline-none">
-          <FontAwesomeIcon icon={faBars} className="text-xl" />
-        </button>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center">
+            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 hover:text-orange-500 focus:outline-none">
+              <FontAwesomeIcon icon={faBars} className="text-xl" />
+            </button>
+          </div>
+        </div>
       </div>
 
       {isMobileMenuOpen && (
