@@ -43,6 +43,8 @@ export default function Navbar() {
   const router = useRouter();
   const [isSticky, setIsSticky] = useState(false); // New state for sticky behavior
   const { user, token } = useAuth(); // Get user and token from AuthContext
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeMobileSubMenu, setActiveMobileSubMenu] = useState<string | null>(null);
 
   // Fetch brands and settings on component mount
   useEffect(() => {
@@ -140,13 +142,66 @@ export default function Navbar() {
         
     </div>
     )}
+      {/* Mobile Menu */}
+      <div className="md:hidden flex items-center">
+        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-gray-700 hover:text-orange-500 focus:outline-none">
+          <FontAwesomeIcon icon={faBars} className="text-xl" />
+        </button>
+      </div>
+
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-white absolute top-0 left-0 w-full h-full z-50">
+          <div className="container mx-auto px-4 py-5">
+            <div className="flex justify-between items-center mb-5">
+              <Link href="/">
+                <div className="flex items-center space-x-2">
+                  <img src={navbarLogoUrl} alt={`${navbarLogoText} Logo`} className="h-10" />
+                  {isLogoTextVisible && <span className="text-xl font-bold text-orange-500">{navbarLogoText}</span>}
+                </div>
+              </Link>
+              <button onClick={() => setIsMobileMenuOpen(false)} className="text-gray-700 hover:text-orange-500 focus:outline-none">
+                <span className="text-2xl">&times;</span>
+              </button>
+            </div>
+            <ul>
+              {navMenus.map((menu) => (
+                <li key={menu._id} className="border-b border-gray-200">
+                  <div className="flex justify-between items-center py-3">
+                    <Link href={menu.url} className="flex-grow hover:text-orange-500">
+                      {menu.title}
+                    </Link>
+                    {menu.subMenus && menu.subMenus.length > 0 && (
+                      <button
+                        onClick={() => setActiveMobileSubMenu(activeMobileSubMenu === menu._id ? null : menu._id)}
+                        className="px-3 py-1 text-gray-500"
+                      >
+                        <FontAwesomeIcon icon={activeMobileSubMenu === menu._id ? faChevronDown : faChevronRight} />
+                      </button>
+                    )}
+                  </div>
+                  {menu.subMenus && menu.subMenus.length > 0 && activeMobileSubMenu === menu._id && (
+                    <ul className="pl-4 pb-3">
+                      {menu.subMenus.map((subMenu) => (
+                        <li key={subMenu._id} className="py-1">
+                          <Link href={subMenu.url} className="block hover:text-orange-500">
+                            {subMenu.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       {/* Secondary Menu Bar */}
-      <div className="bg-white shadow-sm border-b border-gray-200">
-        <div className="container mx-auto px-4 py-5 flex justify-between items-center text-m font-semibold text-gray-700">
-          <div className="relative group" onMouseEnter={() => setIsMegaMenuOpen(true)} onMouseLeave={() => setIsMegaMenuOpen(false)}>
+      <div className="hidden md:flex bg-white shadow-sm border-b border-gray-200">
+        <div className="hidden md:flex container mx-auto px-4 py-5 justify-between items-center text-m font-semibold text-gray-700">
+          <div className="hidden md:relative md:group" onMouseEnter={() => setIsMegaMenuOpen(true)} onMouseLeave={() => setIsMegaMenuOpen(false)}>
             <button className="flex items-center space-x-2 pt-1.5 pb-1.5 pr-3 pl-3 hover:text-orange-500 border-b border-gray-400">
-              <FontAwesomeIcon icon={faBars} />
               <span>ALL DEPARTMENT</span>
             </button>
             {isMegaMenuOpen && (
