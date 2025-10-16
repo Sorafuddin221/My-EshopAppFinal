@@ -165,7 +165,7 @@ export default function Navbar() {
               {navMenus.map((menu) => (
                 <li key={menu._id} className="border-b border-gray-200">
                   <div className="flex justify-between items-center py-3">
-                    <Link href={menu.url} className="flex-grow hover:text-orange-500">
+                    <Link href={menu.url} className="flex-grow hover:text-orange-500 text-black">
                       {menu.title}
                     </Link>
                     {menu.subMenus && menu.subMenus.length > 0 && (
@@ -181,7 +181,7 @@ export default function Navbar() {
                     <ul className="pl-4 pb-3">
                       {menu.subMenus.map((subMenu) => (
                         <li key={subMenu._id} className="py-1">
-                          <Link href={subMenu.url} className="block hover:text-orange-500">
+                          <Link href={subMenu.url} className="block hover:text-orange-500 text-black">
                             {subMenu.title}
                           </Link>
                         </li>
