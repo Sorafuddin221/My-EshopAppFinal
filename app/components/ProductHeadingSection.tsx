@@ -9,9 +9,9 @@ const ProductHeadingSection: React.FC<ProductHeadingSectionProps> = ({ title, su
   return (
     <section className="bg-gray-100 pt-16 pb-1">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold text-center text-black-600 mb-8">
+        <h2 className="text-3xl font-bold text-center text-gray-600 mb-8">
           {title.split(' ').map((word, index) => (
-            <span key={index} className={index === 0 ? 'text-red-600' : ''}>
+            <span key={index} className={index === 1 ? 'text-black' : 'text-red-600'}>
               {word}{index < title.split(' ').length - 1 && ' '}
             </span>
           ))}

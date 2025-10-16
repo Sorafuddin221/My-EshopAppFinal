@@ -150,7 +150,7 @@ const ProductDetailsContent = ({ product }: ProductDetailsContentProps) => {
                     <div className="flex items-center justify-between py-4 px-6 border-b border-gray-200">
                         <span className="w-1/3 flex items-center">
                             <span className="font-bold text-red-500 mr-2">BEST</span>
-                            <span className="font-bold text-lg">Export</span>
+                            <span className="font-bold text-lg text-black">Export</span>
                         </span>
                         <span className="w-1/3 text-center text-gray-800 font-semibold">${product.price.toFixed(2)}</span>
                         <div className="w-1/3 flex justify-end items-center space-x-4">
@@ -167,7 +167,7 @@ const ProductDetailsContent = ({ product }: ProductDetailsContentProps) => {
                     </div>
                     {/* Vendor 2 */}
                     <div className="flex items-center justify-between py-4 px-6 border-b border-gray-200">
-                        <span className="w-1/3 font-bold text-lg">Natural</span>
+                        <span className="w-1/3 font-bold text-lg text-black">Natural</span>
                         <span className="w-1/3 text-center text-gray-800 font-semibold">${(product.price * 1.1).toFixed(2)}</span> {/* Example: 10% higher */}
                         <div className="w-1/3 flex justify-end items-center space-x-4">
                             <span className="text-green-500 font-semibold hidden md:block">In Stock</span>
