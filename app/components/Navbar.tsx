@@ -150,8 +150,8 @@ export default function Navbar() {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white absolute top-0 left-0 w-full h-full z-50">
-          <div className="container mx-auto px-4 py-5">
+        <div className="md:hidden bg-gray-800 bg-opacity-75 absolute top-0 left-0 w-full h-screen z-50">
+          <div className="bg-white w-4/5 h-screen p-5">
             <div className="flex justify-between items-center mb-5">
               <Link href="/">
                 <div className="flex items-center space-x-2">
