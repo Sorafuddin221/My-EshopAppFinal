@@ -93,7 +93,7 @@ router.get('/', async (req, res) => {
     console.log('Filter:', filter); // Log the filter object
     console.log('Sort:', sort); // Log the sort object
 
-    const products = await Product.find(filter).populate('brand').populate('category').sort(sort);
+    const products = await Product.find(filter).populate('brand').populate('category').sort(sort).limit(parseInt(req.query.limit));
     console.log('Products found:', products.length); // Log the number of products found
     res.json(products);
   } catch (err) {
