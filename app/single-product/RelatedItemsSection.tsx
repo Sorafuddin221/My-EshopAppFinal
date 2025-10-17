@@ -21,20 +21,26 @@ const RelatedItemsSection = ({ productId, categoryId, brandId }: RelatedItemsSec
     const fetchRelatedProducts = async () => {
       try {
         let fetchedProducts = [];
+        console.log('RelatedItemsSection: productId, categoryId, brandId', productId, categoryId, brandId);
 
         if (categoryId) {
             const categoryUrl = `/products?limit=4&category=${categoryId}&sortBy=createdAt&order=desc`;
+            console.log('RelatedItemsSection: Fetching by category URL:', categoryUrl);
             fetchedProducts = await api.get(categoryUrl);
+            console.log('RelatedItemsSection: Fetched by category:', fetchedProducts);
         }
 
         // If no products found by category, try by brand
         if (fetchedProducts.length === 0 && brandId) {
             const brandUrl = `/products?limit=4&brand=${brandId}&sortBy=createdAt&order=desc`;
+            console.log('RelatedItemsSection: Fetching by brand URL (category returned no results):', brandUrl);
             fetchedProducts = await api.get(brandUrl);
+            console.log('RelatedItemsSection: Fetched by brand:', fetchedProducts);
         }
 
         // Filter out the current product if it's included
         const filteredProducts = fetchedProducts.filter((p: any) => p._id !== productId);
+        console.log('RelatedItemsSection: Filtered products (excluding current):', filteredProducts);
         setRelatedProducts(filteredProducts);
         setLoading(false);
       } catch (err: any) {
