@@ -112,7 +112,7 @@ const SingleBlogPostContent = ({ blogPost }: SingleBlogPostContentProps) => {
                             {blogPost.buttons.map((button, index) => (
                                 <div key={index} className="border rounded-lg p-4 flex items-center justify-between">
                                     <div>
-                                        <p className="font-bold text-lg">{button.buttonText}</p>
+                                        <p className="font-bold text-lg text-black">{button.buttonText}</p>
                                         <p className="text-gray-500">
                                             <span className="line-through mr-2">${button.regularPrice}</span>
                                             <span className="text-red-500 font-bold">${button.salePrice}</span>
