@@ -103,7 +103,7 @@ const ProductsPage = () => {
                 onSearch={(query: string, category: string) => handleSearch(query, category)}
                 onCategoryChange={handleCategoryChange}
             />
-            <main className="container mx-auto px-4 py-16 bg-gray-100">
+            <main className="container-fluid  mx-auto px-4 py-16 bg-gray-100">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <ProductListing products={filteredProducts} />
                     <Sidebar

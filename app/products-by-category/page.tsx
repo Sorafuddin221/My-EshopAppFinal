@@ -108,7 +108,7 @@ const ProductsByCategoryPage = () => {
         <Header />
         <Navbar />
         <ArchiveHeader title="Product Category " category={selectedCategoryName} categories={categories} onSearch={(query, cat) => handleSearch(query, cat)} onCategoryChange={handleCategoryChange} />
-        <main className="container mx-auto px-4 py-16 bg-gray-100">
+        <main className="container-fluid  mx-auto px-4 py-16 bg-gray-100">
           <div className="text-center text-red-500">Error: {error}</div>
         </main>
         <Footer />

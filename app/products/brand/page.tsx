@@ -94,7 +94,7 @@ const BrandsPage = () => {
                 onSearch={(query) => handleFilter(query, '')}
                 onCategoryChange={(category) => handleFilter('', category)}
             />
-            <div className="container mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
+            <div className="container-fluid  mx-auto px-4 py-8 bg-white shadow-md rounded-lg mb-8">
                 <h2 className="text-2xl font-bold text-gray-800 mb-4">Browse Brands</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
                     <Link
@@ -116,7 +116,7 @@ const BrandsPage = () => {
                     ))}
                 </div>
             </div>
-            <main className="container mx-auto px-4 py-16 bg-gray-100">
+            <main className="container-fluid  mx-auto px-4 py-16 bg-gray-100">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
                     <div className="lg:col-span-1">
                         <Sidebar
