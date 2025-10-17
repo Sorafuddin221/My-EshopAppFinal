@@ -85,9 +85,19 @@ router.get('/', async (req, res) => {
       }
     }
 
-    console.log('Filter:', filter); // Log the filter object
+    const { sortBy, order } = req.query;
+    const sort = {};
 
-    const products = await Product.find(filter).populate('brand').populate('category').sort({ createdAt: -1 });
+    if (sortBy) {
+      sort[sortBy] = order === 'asc' ? 1 : -1;
+    } else {
+      sort.createdAt = -1; // Default sort by latest
+    }
+
+    console.log('Filter:', filter); // Log the filter object
+    console.log('Sort:', sort); // Log the sort object
+
+    const products = await Product.find(filter).populate('brand').populate('category').sort(sort);
     console.log('Products found:', products.length); // Log the number of products found
     res.json(products);
   } catch (err) {
