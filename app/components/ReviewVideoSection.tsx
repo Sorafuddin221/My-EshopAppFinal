@@ -73,7 +73,7 @@ export default function ReviewVideoSection() {
   }
 
   return (
-    <section className="container mx-auto px-4 py-16 bg-gray-100">
+    <section className="container-fluid  mx-auto px-4 py-16 bg-gray-100">
       {/* Section Header */}
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold text-gray-800">

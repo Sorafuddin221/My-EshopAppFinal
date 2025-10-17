@@ -3,7 +3,7 @@ import { faStar, faCheckCircle, faStore, faSmile } from '@fortawesome/free-solid
 
 export default function WorkflowSection() {
   return (
-    <section className="container mx-auto px-4 py-16">
+    <section className="container-fluid  mx-auto px-4 py-16">
       <div className="flex flex-col md:flex-row justify-center items-center gap-0">
         {/* Step 1: Lets Compare */}
         <div className="relative flex-1 p-6 bg-gray-100 rounded-l-lg text-center md:text-left divider-slant">

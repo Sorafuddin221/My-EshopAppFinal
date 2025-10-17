@@ -1,6 +1,6 @@
 export default function FeatureSection() {
   return (
-    <section className="container mx-auto px-4 py-16 bg-white">
+    <section className="container-fluid  mx-auto px-4 py-16 bg-white">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
         {/* Social Business Card */}

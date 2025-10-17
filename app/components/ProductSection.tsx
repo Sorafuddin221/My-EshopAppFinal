@@ -12,7 +12,7 @@ interface ProductSectionProps {
 export default function ProductSection({ title, themeColor, products }: ProductSectionProps) {
 
   return (
-    <section className="container mx-auto px-4 py-10 bg-gray-100">
+    <section className="container-fluid  mx-auto px-4 py-10 bg-gray-100">
       {/* Section Header */}
       <div className="flex justify-between items-end mb-5">
         <div className="relative">
