@@ -21,15 +21,8 @@ export default function ProductSection({ title, themeColor, products }: ProductS
           </h2>
           <div className={`absolute bottom-0 left-0 w-full h-1 bg-${themeColor}-500 rounded-full`}></div>
         </div>
-        {/* Navigation Arrows */}
-        <div className="flex space-x-4 text-gray-500">
-          <button className={`bg-white p-2 rounded-full shadow-md hover:bg-${themeColor}-500 hover:text-white transition-colors duration-300`}>
-            <FontAwesomeIcon icon={faArrowLeft} />
-          </button>
-          <button className={`bg-white p-2 rounded-full shadow-md hover:bg-${themeColor}-500 hover:text-white transition-colors duration-300`}>
-            <FontAwesomeIcon icon={faArrowRight} />
-          </button>
-        </div>
+        
+        
       </div>
 
       {/* Product Grid */}

@@ -20,14 +20,19 @@ const RelatedItemsSection = ({ productId, categoryId, brandId }: RelatedItemsSec
   useEffect(() => {
     const fetchRelatedProducts = async () => {
       try {
-        let url = '/products?limit=4'; // Fetch up to 4 related products
+        let fetchedProducts = [];
+
         if (categoryId) {
-          url += `&category=${categoryId}`;
-        } else if (brandId) {
-          url += `&brand=${brandId}`;
+            const categoryUrl = `/products?limit=4&category=${categoryId}`;
+            fetchedProducts = await api.get(categoryUrl);
         }
 
-        const fetchedProducts = await api.get(url);
+        // If no products found by category, try by brand
+        if (fetchedProducts.length === 0 && brandId) {
+            const brandUrl = `/products?limit=4&brand=${brandId}`;
+            fetchedProducts = await api.get(brandUrl);
+        }
+
         // Filter out the current product if it's included
         const filteredProducts = fetchedProducts.filter((p: any) => p._id !== productId);
         setRelatedProducts(filteredProducts);
