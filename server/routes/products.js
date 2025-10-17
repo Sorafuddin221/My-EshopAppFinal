@@ -69,20 +69,16 @@ router.get('/', async (req, res) => {
   try {
     const filter = {};
     if (req.query.brand) {
-      const brand = await Brand.findOne({ name: { $regex: new RegExp(`^${req.query.brand}$`, 'i') } });
-      if (brand) {
-        filter.brand = brand._id;
-      } else {
-        return res.json([]);
+      if (!mongoose.Types.ObjectId.isValid(req.query.brand)) {
+        return res.status(400).json({ msg: 'Invalid Brand ID' });
       }
+      filter.brand = req.query.brand;
     }
     if (req.query.category) {
-      const category = await Category.findOne({ name: { $regex: new RegExp(`^${req.query.category}$`, 'i') } });
-      if (category) {
-        filter.category = category._id;
-      } else {
-        return res.json([]);
+      if (!mongoose.Types.ObjectId.isValid(req.query.category)) {
+        return res.status(400).json({ msg: 'Invalid Category ID' });
       }
+      filter.category = req.query.category;
     }
 
     const { sortBy, order } = req.query;
